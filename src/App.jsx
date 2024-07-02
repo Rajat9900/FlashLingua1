@@ -2,9 +2,13 @@
 // import Learn from './Pages/Learn/Learn'
 // import Tech from './Pages/Tech/Tech'
 // import Pay from './Pages/Pay/Pay'
-import Phrase from './Pages/phrase/Phrase'
+// import MainPage from './Pages/MainPage/MainPage'
+// import Phrase from './Pages/phrase/Phrase'
 // import Topics from './Pages/Topics/Topics'
-import Header from './components/Header'
+// import Header from './components/Header'
+
+import LanguageToLearn from "./Pages/LanguageToLearn/LanguageToLearn"
+// import Languages from "./components/Languages"
 
 function App() {
 
@@ -12,12 +16,15 @@ function App() {
     <>
       <div className='ml-8 mr-8 '>
       </div>
-<Header/>
+{/* <Header/> */}
 {/* <Learn/> */}
       {/* <Tech/> */}
       {/* <Topics/> */}
       {/* <Pay/> */}
-      <Phrase/>
+      {/* <Phrase/>*/}
+      {/* <MainPage/> */}
+      {/* <Languages/> */}
+      <LanguageToLearn/>
       </>
   )
 }
