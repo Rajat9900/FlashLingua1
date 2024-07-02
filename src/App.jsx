@@ -10,7 +10,8 @@ function App() {
       <div className=' bg-black text-white'>
         Hello
         <p>
-          paragraph
+          para
+          
         </p>
        </div>
     </>
