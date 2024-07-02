@@ -1,3 +1,4 @@
+import Languages from "../../components/Languages"
 
 
 const MainPage = () => {
@@ -7,15 +8,8 @@ const MainPage = () => {
         <h3 className="text-[#E6E6E6]">Welcome!</h3>
         <p>Our goal is to make learning a language fun,simple and intuitive.Lovingly created by teachers who are language enthusiats</p>
         <p className="text-[#4CAF50]">Which language would you like to learn?</p>
-        <button></button>
-        <button></button>
-        <button></button>
-        <button></button>
-        <button></button>
-        <button></button>
-        <button></button>
-        <button></button>
-        <button></button>
+        <Languages/>
+        
         <div><span>All language</span><input type="text"/></div>
         <div>
             <button>Back</button>
