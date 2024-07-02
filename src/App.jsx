@@ -9,6 +9,9 @@
 
 import LanguageToLearn from "./Pages/LanguageToLearn/LanguageToLearn"
 // import Languages from "./components/Languages"
+import Header from './component/Header'
+import { Route,Routes } from 'react-router-dom'
+import Footer from './component/Footer/footer'
 
 function App() {
 
@@ -25,7 +28,16 @@ function App() {
       {/* <MainPage/> */}
       {/* <Languages/> */}
       <LanguageToLearn/>
-      </>
+    
+    <Routes>
+      <Route path='/' element={<Header/>}></Route>
+      <Route path='/' element={<Header/>}></Route>
+
+
+    </Routes>
+     <header/>
+     <Footer/>
+    </>
   )
 }
 
