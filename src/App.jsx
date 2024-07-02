@@ -9,6 +9,9 @@ function App() {
     <>
       <div className=' bg-black text-white'>
         Hello
+        <p>
+          flash-lingua
+        </p>
        </div>
     </>
   )
