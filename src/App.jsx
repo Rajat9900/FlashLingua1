@@ -1,19 +1,23 @@
 
 
 import './App.css'
+import Header from './component/Header'
+import { Route,Routes } from 'react-router-dom'
+import Footer from './component/Footer/footer'
 
 function App() {
  
 
   return (
     <>
-      <div className=' bg-black text-white'>
-        Hello
-        <p>
-          para
-          
-        </p>
-       </div>
+    <Routes>
+      <Route path='/' element={<Header/>}></Route>
+      <Route path='/' element={<Header/>}></Route>
+
+
+    </Routes>
+     <header/>
+     <Footer/>
     </>
   )
 }

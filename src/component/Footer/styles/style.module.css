@@ -1,0 +1,26 @@
+.footerText{
+    margin: 10px 20px;
+}
+
+.dfb{
+    display:flex;
+}
+
+
+@media (max-width:576px){
+
+    .dfb{
+        display: block;
+    }
+    .subcribeBtn{
+        margin-top: 30px;
+        margin-left: 0px !important;
+    }
+    .stayText{
+        margin-top: 20px !important;
+    }
+}
+
+*{
+    border:1px solid red;
+}
