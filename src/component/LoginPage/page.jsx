@@ -30,6 +30,11 @@ const Login = () => {
   </div>
   <Link to='/mainPage'><button className="mt-4 btn" style={{width:"100%",background:"#4CAF50",border:"none",height:"43px",color:"white"}} type="submit" >Login</button></Link>
 </form>
+      <div className="position-relative">
+        <hr className='mt-5' style={{width:"80%",margin:"auto"}}/>
+        <p style={{background:"white",width:"fit-content",position:"absolute",top:"-13px",left:"43%",padding:"0 20px",fontWeight:"500",color:"#AFAFAF"}}>or login with</p>
+      </div>
+
         <div className='mt-4' style={{width:"80%",display:"flex",margin:"auto",textAlign:"center", border:"1px solid #E6E6E6",borderRadius:"10px",cursor:"pointer"}}>
           <div style={{width:"fit-content",margin:"auto",display:"flex",height:"43px",alignItems:"center"}}>
         <img src={Google} style={{width:"27px",height:"26px"}}  alt="" />

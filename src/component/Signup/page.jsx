@@ -4,10 +4,13 @@ import { Link } from "react-router-dom"
 
 const Signup = () => {
   return (
+
+    
     <>
     <div className="container">
         <div className="row">
             <div className="col-md-6 m-auto py-5 mt-4 mb-4" style={{border:"1px solid #E6E6E6",borderRadius:"20px"}} >
+              <h2 className='mb-5' style={{fontSize: "34px",fontWeight: "700",marginLeft: "66px"}}>Sign Up</h2>
     <form style={{width:"80%",margin:"auto"}}>
     <div className="mt-4">
     <label htmlFor="exampleInputPassword3"  style={{fontWeight:"600"}} className="form-label">Enter Your Name</label>
