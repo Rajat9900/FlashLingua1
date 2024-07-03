@@ -16,7 +16,7 @@ const Footer = () => {
 
   return (
     <>
-<div className="container border">
+<div className="container border mt-20" >
     <div className="row  p-5">
         <div className="col-lg-9">
         <img src={logo} alt="not loading"  />
