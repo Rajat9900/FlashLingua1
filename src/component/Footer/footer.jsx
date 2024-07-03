@@ -5,12 +5,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from "../../assets/main-logo.svg"
 import styles from "./styles/style.module.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
 const Footer = () => {
-
-
     const fontWeight600={
         fontWeight:"600"
     }
