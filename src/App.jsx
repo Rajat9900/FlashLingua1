@@ -5,40 +5,34 @@
 import MainPage from './Pages/MainPage/MainPage'
 // import Phrase from './Pages/phrase/Phrase'
 // import Topics from './Pages/Topics/Topics'
-// import Header from './components/Header'
-
 // import LanguageToLearn from "./Pages/LanguageToLearn/LanguageToLearn"
-// import Languages from "./components/Languages"
 import Header from './component/Header'
-// import { Route,Routes } from 'react-router-dom'
+import {BrowserRouter as  Router,Route,Routes } from 'react-router-dom'
 import Footer from './component/Footer/footer'
+
+// import ViewPage from './Pages/ViewPages/ViewPage'
 
 function App() {
 
   return (
     <>
+    <Router>
     <Header/>
+    <Routes>
+      {/* <Route path='/' element={<Learn/>}></Route>  */}
+        {/* <Route path='/tech' element={<Tech/>}></Route> */}
+       {/* <Route path='/topics' element={<Topics/>}></Route>
+      <Route path='/pay' element={<Pay/>}></Route>
+      <Route path='/' element={<Phrase/>}></Route> */}
+    <Route path='/' element={<MainPage/>}></Route>   
+       {/* <Route path='languagetoLearn' element={<LanguageToLearn/>}></Route>  */}
+      {/* <Route path='/' element={<ViewPage/>}></Route>   */}
+      
      
-    
-    {/* <Routes>
-      <Route path='/' element={<Header/>}></Route>
-      <Route path='/' element={<Header/>}></Route>
-      <header/>
-      <div className='ml-8 mr-8 '>
-      </div> */}
-{/* <Header/> */}
-{/* <Learn/> */}
-      {/* <Tech/> */}
-      {/* <Topics/> */}
-      {/* <Pay/> */}
-      {/* <Phrase/>*/}
-      <MainPage/>
-      {/* <Languages/> */}
-      {/* <LanguageToLearn/> */}
-
-    {/* </Routes> */}
+   </Routes>
      
      <Footer/>
+     </Router>
     </>
   )
 }

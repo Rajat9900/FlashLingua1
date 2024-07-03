@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom"
 
 const Pay = () => {
   return (
@@ -7,7 +7,7 @@ const Pay = () => {
      <p className="text-[#4CAF50]">You made in through 25 words!!</p>
      <p className="">Enjoying the content? For the price of a latte,you can access even more cards! the teachers who create these cards receive 80% of the revenue.</p>
      <p>Support them to keep producing amazing material.</p>
-     <button className="bg-[#4CAF50] w-full text-center text-white pt-3 pb-3 rounded-xl">Pay $4.99</button>
+     <Link to='/topics' className="bg-[#4CAF50] w-full text-center text-white pt-3 pb-3 rounded-xl">Pay $4.99</Link>
      <p>We use Stripe, o it is super easy!</p>
       </div>
     </div>
