@@ -14,7 +14,6 @@ import RunningBoy from './component/RunningBoy/page'
 
 function App() {
  
-
   return (
     <>
      <Header/>
@@ -25,13 +24,6 @@ function App() {
       <Route path='/language' element={<Language/>}></Route>
       <Route path='/language2' element={<Language2/>}></Route>
       <Route path='/runningboy' element={<RunningBoy/>}></Route>
-
-
-
-
-
-
-
 
     </Routes>
      <Footer/>
