@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from "../../assets/main-logo.svg"
 import styles from "./styles/style.module.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -21,7 +22,7 @@ const Footer = () => {
         <div className="col-lg-9">
         <img src={logo} alt="not loading"  />
         <div className={styles.dfb} style={{marginTop:"18px"}}>
-            <Nav.Link style={fontWeight600} className={styles.footerText} href="#home">Home</Nav.Link>
+            <Nav.Link style={fontWeight600} className={styles.footerText} href="mainPage">Home</Nav.Link>
             <Nav.Link  style={fontWeight600} className={styles.footerText} href="#link">Add Flashcards</Nav.Link>
             <Nav.Link  style={fontWeight600} className={styles.footerText} href="#home">Add cards</Nav.Link>
             <Nav.Link  style={fontWeight600} className={styles.footerText} href="#link">Rank</Nav.Link>
