@@ -23,7 +23,7 @@ const LanguageToLearn = () => {
         <p className="text-gray-400">Perfect! You want to learn</p>
         <h2 className="text-2xl text-[#4CAF50]">English</h2>
         <p className="">What is your native language?</p>
-        <div className="flex gap-3 flex-wrap">  
+        <div className="flex gap-3 ">  
         {
         buttonss.map((name)=>{
           return(
@@ -36,7 +36,7 @@ const LanguageToLearn = () => {
       
         </div>
         <div className=" flex gap-3  w-[60%]  ">
-      <div className=" text-right w-full  p-2">All languages</div>
+      <div className=" text-right w-full  p-2 ">All languages</div>
     <select className=" flex  justify-between  w-full rounded-xl border-gray-200 border-2 pl-3 pr-3  items-center" >
 <option value="Turkish">Turkish</option>
 <option value="English">English</option>

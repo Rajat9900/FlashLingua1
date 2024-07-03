@@ -30,7 +30,7 @@ const MainPage = () => {
         buttonss.map((name)=>{
           return(
             <>
-            <Link to='/languagetoLearn'  className=" border-2 pl-14 pr-14 p-2 w-[200px] hover:bg-[#4CAF50] hover:text-white hover:border-none rounded-xl" >{name.names}</Link>
+            <Link to='/languagetoLearn'  className=" border-2 pl-14 pr-14 p-2 w-[200px] hover:bg-[#4CAF50] hover:text-white text-center hover:border-none rounded-xl" >{name.names}</Link>
             </>
           ) 
         })
