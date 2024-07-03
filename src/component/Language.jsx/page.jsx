@@ -7,7 +7,7 @@ const Language = () => {
     const waveformRef = useRef(null);
     const wavesurferRef = useRef(null);
     const [file, setFile] = useState(null);
-  
+    
     useEffect(() => {
       if (waveformRef.current) {
         wavesurferRef.current = WaveSurfer.create({
@@ -79,7 +79,7 @@ const Language = () => {
                         <div className="mt-3" id="waveform" ref={waveformRef} style={{ width: '400px', height: '100px',margin:"auto" }}></div>
                         <button type="button" style={{width:"150px",height:"40px",borderRadius:"10px",marginLeft:"30px",border:"1px solid #E6E6E6"}}>Back</button>  
                         <button type="button" style={{background:"#4CAF50",width:"150px",height:"40px",borderRadius:"10px",marginLeft:"30px",color:"white"}}>Next</button>  
-                        <p style={{fontWeight:"700",fontSize:"20px",color:"#4CAF50",cursor:"pointer"}} className="mt-3 mb-5"> swap languages</p>
+                       <p style={{fontWeight:"700",fontSize:"20px",color:"#4CAF50",cursor:"pointer"}} className="mt-3 mb-5"> swap languages</p>
                 </div>
             </div>
         </div>

@@ -1,32 +1,33 @@
 import { Link } from "react-router-dom"
 
+
+
 const Signup = () => {
   return (
     <>
     <div className="container">
         <div className="row">
-            <div className="col-md-6 m-auto">
-
-    <form  style={{width:"80%"}} >
+            <div className="col-md-6 m-auto py-5 mt-4 mb-4" style={{border:"1px solid #E6E6E6",borderRadius:"20px"}} >
+    <form style={{width:"80%",margin:"auto"}}>
     <div className="mt-4">
-    <label for="exampleInputPassword3"  style={{fontWeight:"600"}} className="form-label">Enter Your Name</label>
+    <label htmlFor="exampleInputPassword3"  style={{fontWeight:"600"}} className="form-label">Enter Your Name</label>
     <input type="name"  style={{border:"1px solid #E6E6E6",height:"52px"}}  className="form-control" id="exampleInputPassword3"/>
   </div>
   <div className="mt-4">
-    <label for="exampleInputPassword4"  style={{fontWeight:"600"}} className="form-label">Enter Your username</label>
+    <label htmlFor="exampleInputPassword4"  style={{fontWeight:"600"}} className="form-label">Enter Your username</label>
     <input type="name"  style={{border:"1px solid #E6E6E6",height:"52px"}}  className="form-control" id="exampleInputPassword4"/>
   </div>
     <div className="mt-4">
-    <label for="exampleInputEmail1"  style={{fontWeight:"600"}} className="form-label">Email address</label>
+    <label htmlFor="exampleInputEmail1"  style={{fontWeight:"600"}} className="form-label">Email address</label>
     <input type="email" style={{border:"1px solid #E6E6E6",height:"52px"}} className="form-control" id="exampleInputEmail1" placeholder='Figma design@gmail.com' aria-describedby="emailHelp"/>
   </div>
   <div className="mt-4">
-    <label for="exampleInputPassword2"  style={{fontWeight:"600"}} className="form-label">Password</label>
+    <label htmlFor="exampleInputPassword2"  style={{fontWeight:"600"}} className="form-label">Password</label>
     <input type="password"  style={{border:"1px solid #E6E6E6",height:"52px"}}  className="form-control" id="exampleInputPassword2"/>
   </div>
 
   <div className="mt-4">
-    <label for="exampleInputPassword5"  style={{fontWeight:"600"}} className="form-label">Confirm Password</label>
+    <label htmlFor="exampleInputPassword5"  style={{fontWeight:"600"}} className="form-label">Confirm Password</label>
     <input type="password"  style={{border:"1px solid #E6E6E6",height:"52px"}}  className="form-control" id="exampleInputPassword5"/>
   </div>
 
@@ -34,7 +35,6 @@ const Signup = () => {
 
 
     </form>
-    
     </div>
     </div>
     </div>

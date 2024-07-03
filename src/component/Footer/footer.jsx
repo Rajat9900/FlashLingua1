@@ -27,9 +27,7 @@ const Footer = () => {
             <Nav.Link  style={fontWeight600} className={styles.footerText} href="#home">Add cards</Nav.Link>
             <Nav.Link  style={fontWeight600} className={styles.footerText} href="#link">Rank</Nav.Link>
         </div>
-
         </div>
-
             <div className="col-lg-3">
            <p className={styles.stayText}>Stay up to date</p> 
           
@@ -41,6 +39,23 @@ const Footer = () => {
 </div>
 
  </div>
+        <div className="col-lg-9 mt-5">
+            <p>	&copy; starfish aaps.All right reserved</p>
+
+
+            </div>
+            <div className="col-lg-3 mt-5">
+            <ul className='d-flex '>
+    <li>About</li>
+    <li style={{marginLeft:"15px"}}>Terms</li>
+    <li style={{marginLeft:"15px"}}>Privacy</li>
+    <li style={{marginLeft:"15px"}}>cookies</li>
+    </ul>
+
+            </div>
+   
+
+       
     </div>
 </div> 
           

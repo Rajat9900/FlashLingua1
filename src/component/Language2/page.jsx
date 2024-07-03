@@ -1,5 +1,5 @@
-import manImg from "../../assets/English man image.png"
-import React, { useEffect, useRef,useState } from 'react';
+
+import { useEffect, useRef,useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 import man from "../../assets/englishReadingMAn.png"
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ const Language2 = () => {
     const waveformRef = useRef(null);
     const wavesurferRef = useRef(null);
     const [file, setFile] = useState(null);
+    const [isPlaying] = useState(false);
   
     useEffect(() => {
       if (waveformRef.current) {
@@ -68,6 +69,13 @@ const Language2 = () => {
       }
     };
   
+
+    const handlePlayPause = () => {
+        if (wavesurferRef.current) {
+          wavesurferRef.current.playPause();
+        }
+      };
+
   
   return (
     <>
@@ -85,6 +93,9 @@ const Language2 = () => {
                        <Link to='/languagetoLearn'><button type="button" style={{width:"150px",height:"40px",borderRadius:"10px",marginLeft:"30px",border:"1px solid #E6E6E6"}}>Back</button>  </Link> 
                        <Link to='/runningboy'> <button type="button" style={{background:"#4CAF50",width:"150px",height:"40px",borderRadius:"10px",marginLeft:"30px",color:"white"}}>Next</button>  </Link>
                         <p style={{fontWeight:"700",fontSize:"20px",color:"#4CAF50",cursor:"pointer"}} className="mt-3 mb-5"> swap language2s</p>
+                        <button onClick={handlePlayPause}>
+        {isPlaying ? 'Pause' : 'Play'}
+      </button>
                 </div>
             </div>
         </div>
