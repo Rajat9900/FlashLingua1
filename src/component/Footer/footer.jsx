@@ -9,8 +9,6 @@ import styles from "./styles/style.module.css"
 
 
 const Footer = () => {
-
-
     const fontWeight600={
         fontWeight:"600"
     }
