@@ -29,7 +29,7 @@ const RoutesDeclare = () => {
       <Route path='/pay' element={<Pay/>}></Route>
       <Route path='/phrase' element={<Phrase/>}></Route>
     <Route path='/mainPage' element={<MainPage/>}></Route>   
-       <Route path='languagetoLearn' element={<LanguageToLearn/>}></Route> 
+       <Route path='/languagetoLearn' element={<LanguageToLearn/>}></Route> 
        <Route path='/' element={<Login/>}></Route> 
        <Route path='/signup' element={<Signup/>}></Route> 
        <Route path='/language' element={<Language/>}></Route>
@@ -38,7 +38,6 @@ const RoutesDeclare = () => {
       <Route path='/images' element={<Images/>}></Route>
       <Route path='/newCard' element={<NewCard/>}></Route>
       {/* <Route path='/' element={<ViewPage/>}></Route>   */}
-      
      
    </Routes>
      
