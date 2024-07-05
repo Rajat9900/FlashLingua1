@@ -1,5 +1,6 @@
 
 
+import { useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
@@ -26,6 +27,12 @@ const navigate = useNavigate()
   function BacktoLanguageNaext(){
     navigate('/language2')
   }
+
+  const [activeIndex, setActiveIndex] = useState(null);
+
+    const handleButtons = (index) => {
+      setActiveIndex(index);
+    };
   return (
     <div className=" flex justify-center ">
       <div className="flex  flex-col gap-4  w-[60%] justify-center items-center h-[100vh] ">
@@ -33,15 +40,17 @@ const navigate = useNavigate()
         <h2 className="text-2xl text-[#4CAF50]">English</h2>
         <p className="">What is your native language?</p>
         <div className="flex gap-3 flex-wrap">
-          {buttonss.map((name) => {
+          {buttonss.map((name,index) => {
+            const isActive = activeIndex===index
             return (
               <>
-                <Link
-                  to="/languagetoLearn"
-                  className=" border-2 pl-14 pr-14 p-2 w-[200px] hover:bg-[#4CAF50] hover:text-white text-center hover:border-none rounded-xl"
+                <button
+                  
+                  onClick={()=>handleButtons(index)}
+                  className={`border-2 pl-14 pr-14 p-2 w-[200px]  text-center ${isActive?"Active-btn":''} rounded-xl`}
                 >
                   {name.names}
-                </Link>
+                </button>
               </>
             );
           })}

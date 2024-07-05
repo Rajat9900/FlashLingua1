@@ -1,17 +1,23 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { UserSignup } from "../../../services";
 
 
 const Signup = () => {
-  const { register, handleSubmit, formState:{errors}} = useForm({
-    defaultValues: {
-      name : "",
-      email: "",
-      password: "",
-      
-    },
-  });
-  const onSubmit = (data) => console.log(data.data)
+  const { register, handleSubmit, formState: { errors },reset } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+    delete data['confirmPassword']
+    UserSignup(data).then(res=>{
+      if(res.status==201){
+        alert("User Created Successfully")
+        reset()
+      }
+    }
+    ).catch((err)=>{
+      console.log(err);
+    })
+  }
 
   return (
     <>
@@ -45,12 +51,12 @@ const Signup = () => {
                   style={{ border: "1px solid #E6E6E6", height: "52px" }}
                   className="form-control"
                   id="exampleInputPassword3"
-                  {...register("firstName", { required: true })}
-                  aria-invalid={errors.firstName ? "true" : "false"}
+                  {...register("name", { required: true })}
+                  aria-invalid={errors.name ? "true" : "false"}
                 />
-                {errors.firstName?.type === "required" && (
-        <p role="alert"> name is required</p>
-      )}
+                {errors.name?.type === "required" && (
+                  <p role="alert"> name is required</p>
+                )}
               </div>
               <div className="mt-4">
                 <label
@@ -67,10 +73,10 @@ const Signup = () => {
                   id="exampleInputEmail1"
                   placeholder="Figma design@gmail.com"
                   aria-describedby="emailHelp"
-                  {...register("mail", { required: "Email Address is required" })}
-                  aria-invalid={errors.mail ? "true" : "false"}
+                  {...register("email", { required: "Email Address is required" })}
+                  aria-invalid={errors.email ? "true" : "false"}
                 />
-                {errors.mail && <p role="alert">{errors.mail.message}</p>}
+                {errors.email && <p role="alert">{errors.email.message}</p>}
               </div>
               <div className="mt-4">
                 <label
@@ -86,11 +92,11 @@ const Signup = () => {
                   className="form-control"
                   id="exampleInputPassword2"
                   maxLength={12} minLength={8}
-                  {...register('password' , {required: true})}
+                  {...register('password', { required: true })}
                 />
-                  {errors.password?.type === "required" && (
-                <p role="alert">Password is required</p>
-      )}
+                {errors.password?.type === "required" && (
+                  <p role="alert">Password is required</p>
+                )}
               </div>
 
               <div className="mt-4">
@@ -106,27 +112,31 @@ const Signup = () => {
                   style={{ border: "1px solid #E6E6E6", height: "52px" }}
                   className="form-control"
                   id="exampleInputPassword5"
+                  {...register('confirmPassword', { required: true })}
                 />
+                {errors.confirmPassword?.type === "required" && (
+                  <p role="alert">Password is required</p>
+                )}
               </div>
 
-              <Link to="/">
-                <button
-                  className="mb-5 btn m-auto mt-4"
-                  style={{
-                    width: "100%",
-                    color: "#4CAF50",
-                    border: "1px solid #4CAF50",
-                    height: "43px",
-                    fontWeight: "700",
-                    display: "block",
-                    textAlign: "center",
-                  }}
-                  type="submit"
-                  
-                >
-                  Create Acount
-                </button>
-              </Link>
+
+              <button
+                className="mb-5 btn m-auto mt-4"
+                style={{
+                  width: "100%",
+                  color: "#4CAF50",
+                  border: "1px solid #4CAF50",
+                  height: "43px",
+                  fontWeight: "700",
+                  display: "block",
+                  textAlign: "center",
+                }}
+                type="submit"
+
+              >
+                Create Acount
+              </button>
+
             </form>
           </div>
         </div>
