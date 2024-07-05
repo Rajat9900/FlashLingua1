@@ -67,7 +67,7 @@ const Images = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="container">
+      <div className="main-cointainer">
         <div className="text-center">
           <h1>Images</h1>
         </div>
