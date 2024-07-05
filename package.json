@@ -14,10 +14,11 @@
     "flowbite": "^2.4.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.4",
+    "react-card-flip": "^1.2.3",
     "react-dom": "^18.3.1",
-    
     "react-icons": "^5.2.1",
-    "react-router-dom": "^6.24.0"
+    "react-router-dom": "^6.24.0",
+    "wavesurfer.js": "^7.8.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

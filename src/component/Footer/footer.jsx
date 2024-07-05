@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from "../../assets/main-logo.svg"
 import styles from "./styles/style.module.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -21,14 +22,12 @@ const Footer = () => {
         <div className="col-lg-9">
         <img src={logo} alt="not loading"  />
         <div className={styles.dfb} style={{marginTop:"18px"}}>
-            <Nav.Link style={fontWeight600} className={styles.footerText} href="#home">Home</Nav.Link>
+            <Nav.Link style={fontWeight600} className={styles.footerText} href="mainPage">Home</Nav.Link>
             <Nav.Link  style={fontWeight600} className={styles.footerText} href="#link">Add Flashcards</Nav.Link>
             <Nav.Link  style={fontWeight600} className={styles.footerText} href="#home">Add cards</Nav.Link>
             <Nav.Link  style={fontWeight600} className={styles.footerText} href="#link">Rank</Nav.Link>
         </div>
-
         </div>
-
             <div className="col-lg-3">
            <p className={styles.stayText}>Stay up to date</p> 
           
@@ -40,6 +39,23 @@ const Footer = () => {
 </div>
 
  </div>
+        <div className="col-lg-9 mt-5">
+            <p>	&copy; starfish aaps.All right reserved</p>
+
+
+            </div>
+            <div className="col-lg-3 mt-5">
+            <ul className='d-flex '>
+    <li>About</li>
+    <li style={{marginLeft:"15px"}}>Terms</li>
+    <li style={{marginLeft:"15px"}}>Privacy</li>
+    <li style={{marginLeft:"15px"}}>cookies</li>
+    </ul>
+
+            </div>
+   
+
+       
     </div>
 </div> 
           
