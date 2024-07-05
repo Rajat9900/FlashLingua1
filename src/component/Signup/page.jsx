@@ -4,8 +4,6 @@ import { Link } from "react-router-dom"
 
 const Signup = () => {
   return (
-
-    
     <>
     <div className="container">
         <div className="row">
@@ -41,8 +39,6 @@ const Signup = () => {
     </div>
     </div>
     </div>
-    
-    
     </>
   )
 }
