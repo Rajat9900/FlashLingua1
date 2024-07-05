@@ -1,30 +1,37 @@
 import Google from "../../assets/google.png";
 import { FaArrowRight } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {DevTool} from '@hookform/devtools'
-import {URL} from '../api/config.jsx'
-import axios from 'axios'
+// import {URL} from '../api/config.jsx'
+// import axios from 'axios'
+import { userLogin} from "../../../services";
+
 // import { useState } from "react";
 
 const Login = () => {
 
-  const { register,control, handleSubmit, formState:{errors}} = useForm({
+  const { register,control, handleSubmit, formState:{errors} , reset} = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-// const[email , setEmail] = useState('')
-// const[password , setPassword] = useState('')
-
+const navigate = useNavigate()
     const login = async(data)=>{
-   const apilogin =  await axios.post(`${URL}/users/login`,data)
-    .then((res)=> console.log(res))
-    
-
-     console.log("login api hit",data)
+      console.log(data);
+      delete data['confirmPassword']
+      userLogin(data).then(res=>{
+        if(res.status==200){
+          alert("User Login Successfully")
+          reset()
+          navigate('/mainPage')
+        }
+      }
+      ).catch((err)=>{
+        console.log(err);
+      })
     }
 
   return (
