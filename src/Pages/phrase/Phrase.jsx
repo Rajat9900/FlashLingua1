@@ -71,7 +71,7 @@ const Phrase = () => {
                 progressColor: '#4CAF50',
                 cursorColor: '#4CAF50',
                 cursorWidth: 2,
-                barWidth: 3,
+                barWidth: 2,
                 barHeight: 1,
                 barGap: 2,
                 height: 30,
@@ -164,11 +164,11 @@ const Phrase = () => {
                     </div>
                 </div>
                 {audioURL ? (
-                    <div style={{ width: "fit-content", margin: "auto", display: "flex",borderRadius:"15px",border:"1px solid #E6E6E6",alignItems:"center",padding:"20px 30px" }}>
+                    <div style={{ width: "", margin: "auto", display: "flex",borderRadius:"15px",border:"1px solid #E6E6E6",alignItems:"center",padding:"20px 30px" }}>
                         <button style={{ marginRight: "20px", padding: "10px 20px", display: "block", width: "fit-content" }} onClick={runWave}>
                             {isPlaying ? <IoPauseSharp style={{color:"#4CAF50"}} /> : <FaPlay  style={{color:"#4CAF50"}} />}
                         </button>
-                        <div style={{ width: "300px",marginRight:"20px"}} id="waveform" ref={waveformRef}></div>
+                        <div style={{ width: "170px",marginRight:"20px"}} id="waveform" ref={waveformRef}></div>
                         <div style={{ width: "fit-content", marginTop:"6px" }}>
                         <p style={{fontWeight:"600"}}> {audioURL && waveSurferRef.current && <div>{formatReverseTime(waveSurferRef.current.getDuration(), playbackTime)}</div>}</p> 
                         </div>

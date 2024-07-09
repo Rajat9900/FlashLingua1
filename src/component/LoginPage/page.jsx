@@ -1,10 +1,7 @@
-
+import React, { useEffect } from 'react';
 import Google from "../../assets/google.png";
 import { FaArrowRight } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import {DevTool} from '@hookform/devtools'
-import { userLogin} from "../../../services";
+import { Link } from 'react-router-dom';
 
 
 const Login = () => {
@@ -16,7 +13,7 @@ const Login = () => {
       });
       google.accounts.id.renderButton(
         document.getElementById('signInDiv'),
-        { theme: 'outline', size: 'large' } 
+        { width: 500}
       );
     };
 
@@ -51,6 +48,22 @@ const Login = () => {
 
     // Handle the sign-in process (e.g., send the token to your server)
   };
+
+  const handleSocialLogin = async (token) => {
+    try {
+      const response = await axios.post('https://your-backend.com/api/social-login', {
+        token: token,
+      });
+  
+      console.log('Login successful', response.data);
+      // Handle successful login, e.g., save token, redirect user, etc.
+    } catch (error) {
+      console.error('Login failed', error);
+      // Handle login failure
+    }
+  };
+
+
 
   return (
     <div className="container">
