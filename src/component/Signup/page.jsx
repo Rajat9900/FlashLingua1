@@ -28,7 +28,7 @@ const Signup = () => {
       <div className="container">
         <div className="row">
           <div
-            className="col-md-6 m-auto py-5 mt-4 mb-4"
+            className="col-md-4 m-auto py-5 mt-4 mb-4"
             style={{ border: "1px solid #E6E6E6", borderRadius: "20px" }}
           >
             <h2
@@ -42,7 +42,7 @@ const Signup = () => {
               Sign Up
             </h2>
             <form style={{ width: "80%", margin: "auto" }} onSubmit={handleSubmit(onSubmit)} >
-              <div className="mt-4">
+              <div className="mt-3">
                 <label
                   htmlFor="exampleInputPassword3"
                   style={{ fontWeight: "600" }}
@@ -62,7 +62,7 @@ const Signup = () => {
                   <p role="alert"> name is required</p>
                 )}
               </div>
-              <div className="mt-4">
+              <div className="mt-3">
                 <label
                   htmlFor="exampleInputEmail1"
                   style={{ fontWeight: "600" }}
@@ -82,7 +82,7 @@ const Signup = () => {
                 />
                 {errors.email && <p role="alert">{errors.email.message}</p>}
               </div>
-              <div className="mt-4">
+              <div className="mt-3">
                 <label
                   htmlFor="exampleInputPassword2"
                   style={{ fontWeight: "600" }}
@@ -103,7 +103,7 @@ const Signup = () => {
                 )}
               </div>
 
-              <div className="mt-4">
+              <div className="mt-3">
                 <label
                   htmlFor="exampleInputPassword5"
                   style={{ fontWeight: "600" }}

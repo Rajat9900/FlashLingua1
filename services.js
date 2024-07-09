@@ -12,7 +12,7 @@ export const userLogin = (payload)=>{
 }
 
 export const SocialLogin = (payload)=>{
-    return axios.post(`${api_uri}/users/social-login`,payload)
+    return axios.post(`${api_url}/users/social-login`,payload)
 }
 
 
