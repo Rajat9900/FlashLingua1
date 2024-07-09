@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { HiArrowNarrowRight } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const LanguageToLearn = () => {
   const buttonss = [

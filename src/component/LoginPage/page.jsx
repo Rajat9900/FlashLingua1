@@ -59,7 +59,7 @@ const Login = () => {
         <div className="col-md-6 m-auto border mt-5 mb-5" style={{ borderRadius: "20px" }}>
           <h1 className='text-center mt-5' style={{ fontWeight: "600", color: "#4CAF50" }}>You made it through 25 words</h1>
           <h1 className='text-center mt-4' style={{ fontWeight: "600" }}>Loving it? Register and Login now to enjoy more awesome<br /> features!</h1>
-          <form className='m-auto' style={{ width: "80%" }}>
+          <form className='m-auto' style={{ width: "80%" }} >
             <div className="mt-4">
               <label htmlFor="exampleInputEmail2" style={{ fontWeight: "600" }} className="form-label">Email address</label>
               <input type="email" style={{ border: "1px solid #E6E6E6", height: "52px" }} className="form-control" id="exampleInputEmail2" placeholder='Figma design@gmail.com' aria-describedby="emailHelp" />
@@ -102,7 +102,7 @@ const Login = () => {
               <p style={{ fontWeight: "700", marginLeft: "20px" }}>Google</p>
             </div>
           </div>
-          <p className='text-center mt-4' style={{ fontWeight: "700" }}>Don't have a Google account? No worries</p>
+          <p className='text-center mt-4' style={{ fontWeight: "700" }}> Don&apos;t have a Google account? No worries</p>
           <Link to="/signup"><button className="mb-5 btn m-auto mt-4" style={{ color: "#4CAF50", border: "1px solid #4CAF50", height: "43px", fontWeight: "700", width: "80%", display: "block", textAlign: "center" }} type="submit"><span>Create Account</span> <span><FaArrowRight style={{ marginLeft: "62%", marginTop: "-18px" }} className='d-flex' /></span>
           </button></Link>
         </div>

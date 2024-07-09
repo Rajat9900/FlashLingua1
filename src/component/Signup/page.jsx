@@ -1,10 +1,13 @@
 
 import { useForm } from "react-hook-form";
 import { UserSignup } from "../../../services";
+import { useNavigate } from "react-router-dom";
 
 
 const Signup = () => {
+   
   const { register, handleSubmit, formState: { errors },reset } = useForm();
+ const navigate  = useNavigate()
   const onSubmit = (data) => {
     console.log(data);
     delete data['confirmPassword']
@@ -12,6 +15,7 @@ const Signup = () => {
       if(res.status==201){
         alert("User Created Successfully")
         reset()
+      navigate('/')
       }
     }
     ).catch((err)=>{
