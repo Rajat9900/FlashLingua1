@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState  , useRef} from "react";
 import pic1 from "../../assets/pic1.png";
 import pic2 from "../../assets/pic2.png";
 import pic3 from "../../assets/pic3.png";
@@ -27,7 +27,7 @@ import pic25 from "../../assets/pic25.png";
 import './Styles/ImagesCSS.css';
 
 const Images = () => {
-  const Pictures = [
+  const [people , setPeople] = useState([
     { name: "Idea", pic: pic },
     { name: "Reading a journal", pic: pic1 },
     { name: "Having fun", pic: pic2 },
@@ -53,9 +53,17 @@ const Images = () => {
     { name: "Wild Life", pic: pic24 },
     { name: "Stepping out", pic: pic25 },
     { name: "Creativity", pic: pic14 },
-  ];
-
-  const [flipped, setFlipped] = useState(Array(Pictures.length).fill(false));
+  ]);
+const dragPerson = useRef(0)
+const  draggedOverPerson = useRef (0)  
+function handleSort(){
+const peopleClone = [...people]
+const temp = peopleClone[dragPerson.current];
+peopleClone[dragPerson.current] = peopleClone[draggedOverPerson.current]
+peopleClone[draggedOverPerson.current] = temp
+setPeople(peopleClone)
+}
+  const [flipped, setFlipped] = useState(Array(people.length).fill(false));
 
   const flipCard = (index) => {
     setFlipped((prevFlipped) => {
@@ -65,6 +73,9 @@ const Images = () => {
     });
   };
 
+
+
+
   return (
     <div className="flex justify-center">
       <div className="main-cointainer">
@@ -72,8 +83,14 @@ const Images = () => {
           <h1>Images</h1>
         </div>
         <div className="flex flex-wrap justify-between items-center w-full">
-          {Pictures.map((picture, index) => (
-            <div key={index} className="group h-240 w-240 mt-4 perspective-1000">
+          {people.map((picture, index) => (
+            <div key={index} className="group h-240 w-240 mt-4 perspective-1000" 
+            draggable
+            onDragStart={() => (dragPerson.current = index)}
+            onDragEnter={() => (draggedOverPerson.current = index)}
+            onDragEnd={handleSort}
+            onDragOver={(e) => e.preventDefault()}
+            >
               <div
                 className={`flip ${flipped[index] ? 'rotateY-180' : ''}`}
                 onClick={() => flipCard(index)}

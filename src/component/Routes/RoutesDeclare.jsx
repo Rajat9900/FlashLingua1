@@ -14,6 +14,7 @@ import RunningBoy from '../RunningBoy/page'
 import Phrase from '../../Pages/phrase/Phrase'
 import Images from '../../Pages/Images/Images'
 import NewCard from '../../Pages/NewCard/NewCard'
+import DragDrop from '../../Pages/DragDrop/DragDrop'
 // import ImagesStyle from '../../Pages/Images/StylesImages/ImagesStyle'
 
 const RoutesDeclare = () => {
@@ -37,6 +38,7 @@ const RoutesDeclare = () => {
       <Route path='/runningboy' element={<RunningBoy/>}></Route>
       <Route path='/images' element={<Images/>}></Route>
       <Route path='/newCard' element={<NewCard/>}></Route>
+      <Route path='/dragDrop' element={<DragDrop/>}></Route>
       {/* <Route path='/' element={<ViewPage/>}></Route>   */}
      
    </Routes>
