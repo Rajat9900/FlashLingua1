@@ -10,3 +10,12 @@ export const UserSignup=(payload)=>{
 export const userLogin = (payload)=>{
     return axios.post(`${api_url}/users/login`,payload)
 }
+
+export const SocialLogin = (payload)=>{
+    return axios.post(`${api_uri}/users/social-login`,payload)
+}
+
+
+
+
+
