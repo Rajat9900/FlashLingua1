@@ -24,20 +24,36 @@ const navigate = useNavigate()
   function BacktoPrev(){
     navigate('/mainPage')
   }
-  function BacktoLanguageNaext(){
-    navigate('/language2')
-  }
-
+ 
   const [activeIndex, setActiveIndex] = useState(null);
+
+    
 
     const handleButtons = (index) => {
       setActiveIndex(index);
+      const selectedSecondLanguage = buttonss[index].names;
+      localStorage.setItem("selectedSecondLanguage", selectedSecondLanguage);
     };
+    const getItemFromLoal = localStorage.getItem("selectedLanguage")
+
+    const BacktoLanguage = () => {
+      const selectedLanguage = localStorage.getItem("selectedLanguage");
+      console.log("Selected Language:", selectedLanguage);
+      navigate('/languagetoLearn');
+    };
+
+    function BacktoLanguageNaext(){
+      const selectedLanguage = localStorage.getItem("selectedSecondLanguage");
+        console.log("Selected Language:", selectedLanguage);
+      navigate('/newCard')
+    }
+  
+
   return (
     <div className=" flex justify-center ">
       <div className="flex  flex-col gap-4  w-[60%] justify-center items-center h-[100vh] ">
         <p className="text-gray-400">Perfect! You want to learn</p>
-        <h2 className="text-2xl text-[#4CAF50]">English</h2>
+        <h2 className="text-2xl text-[#4CAF50]">{getItemFromLoal}</h2>
         <p className="">What is your native language?</p>
         <div className="flex gap-3 flex-wrap">
           {buttonss.map((name,index) => {
