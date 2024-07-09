@@ -267,6 +267,7 @@ const NewCard = () => {
         <button className="bg-[#4CAF50] w-full p-2 rounded-xl text-white">Create card</button>
       </div>
     </div>
+    </div>
   );
 };
 
