@@ -134,7 +134,7 @@ const Signup = () => {
                 type="submit"
 
               >
-                Create Acount
+                Create Account
               </button>
 
             </form>

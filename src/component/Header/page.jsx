@@ -36,7 +36,7 @@ const Header = () => {
         ) : (
           <>
             <Nav.Link  style={fontWeight600} href="#link">Add Flashcards</Nav.Link>
-          <Nav.Link  style={fontWeight600} href="#home">Add cards</Nav.Link>
+          <Nav.Link  style={fontWeight600} href="newCard">Add cards</Nav.Link>
           <Nav.Link  style={fontWeight600} href="#link">Rank</Nav.Link>    
           </>
         )

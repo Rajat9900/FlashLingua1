@@ -123,7 +123,7 @@ const navigate = useNavigate()
                     cursor: "pointer",
                   }}
                 >
-                  Forget Passward?
+                  Forgot Password?
                 </p>
               </div>
               
@@ -193,7 +193,7 @@ const navigate = useNavigate()
               </div>
             </div>
             <p className="text-center mt-4" style={{ fontWeight: "700" }}>
-              Dont have a google acount no worries
+              Dont have a google account no worries
             </p>
             <Link to="/signup">
               <button
@@ -210,10 +210,10 @@ const navigate = useNavigate()
                 type="submit"
                 
               >
-                <span>Create Acount</span>
+                <span>Create Account</span>
                 <span>
                   <FaArrowRight
-                    style={{ marginLeft: "62%", marginTop: "-18px" }}
+                    style={{ marginLeft: "65%", marginTop: "-18px" }}
                     className="d-flex"
                   />
                 </span>
