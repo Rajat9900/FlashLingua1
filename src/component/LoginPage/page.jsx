@@ -3,11 +3,8 @@ import { FaArrowRight } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {DevTool} from '@hookform/devtools'
-// import {URL} from '../api/config.jsx'
-// import axios from 'axios'
 import { userLogin} from "../../../services";
 
-// import { useState } from "react";
 
 const Login = () => {
 
