@@ -3,6 +3,7 @@ import Icon from '../../assets/Icon.png';
 
 const NewCard = () => {
   const [profilePic, setProfilePic] = useState(Icon);
+
   const handleInput = (event) => {
     setProfilePic(URL.createObjectURL(event.target.files[0]));
   };
@@ -11,11 +12,11 @@ const NewCard = () => {
     <div className="flex justify-center">
       <div className="flex flex-col gap-4 w-[40%] items-center mb-5 mt-20">
         <p>Create a new card</p>
-        <div className="h-[220px] flex flex-col justify-center items-center w-full bg-[#FAFAFA] rounded-2xl border-dashed border-[[#FAFAFA]] border-2">
+        <div className="h-[220px] flex flex-col justify-center items-center w-full bg-[#FAFAFA] rounded-2xl border-dashed border-[#FAFAFA] border-2">
           <img
             src={profilePic}
-            className={`h-[36px] w-[36px]  ${
-              profilePic !== Icon ? 'h-[150px] w-[150px]' : ''
+            className={`${
+              profilePic !== Icon ? 'h-[150px] w-[150px]' : 'h-[36px] w-[36px]'
             }`}
             id="profile-pic"
             alt="Profile"
@@ -26,7 +27,6 @@ const NewCard = () => {
             accept="image/png, image/jpeg, image/jpg"
             id="input-file"
             className="hidden"
-            // ref={(el) => { inputFile = el; }}
             onChange={handleInput}
           />
         </div>
@@ -57,4 +57,3 @@ const NewCard = () => {
 };
 
 export default NewCard;
-
