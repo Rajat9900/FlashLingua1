@@ -20,7 +20,9 @@ const Phrase = () => {
     const waveSurferRef = useRef(null);
     const recordingIntervalRef = useRef(null);
 
+
     useEffect(() => {
+        
         const setAudio = async () => {
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 try {
@@ -45,51 +47,11 @@ const Phrase = () => {
                 chunksRef.current = [];
                 const audioURL = window.URL.createObjectURL(blob);
                 setAudioURL(audioURL);
-                if (waveSurferRef.current) {
-                    waveSurferRef.current.load(audioURL);
-                }
             };
             setCanRecord(true);
         };
 
         setAudio();
-
-        waveSurferRef.current = WaveSurfer.create({
-            container: waveformRef.current,
-            waveColor: '#4CAF50',
-            progressColor: '#4CAF50',
-            cursorColor: '#4CAF50',
-            cursorWidth: 2,
-            barWidth: 3,
-            barHeight: 1,
-            barGap: 2,
-            height: 30,
-            responsive: true,
-            scrollParent: true,
-            normalize: true,
-            hideScrollbar: true,
-            partialRender: true,
-            minPxPerSec: 50,
-            pixelRatio: 1,
-            interact: true,
-            splitChannels: false,
-            forceDecode: false,
-            backgroundColor: 'grey',
-            plugins: []
-        });
-
-        waveSurferRef.current.on('ready', () => {
-            setIsWaveformReady(true);
-        });
-
-        waveSurferRef.current.on('audioprocess', () => {
-            setPlaybackTime(waveSurferRef.current.getCurrentTime());
-        });
-
-        waveSurferRef.current.on('finish', () => {
-            setPlaybackTime(0);
-            setIsPlaying(false);
-        });
 
         return () => {
             if (waveSurferRef.current) {
@@ -100,6 +62,49 @@ const Phrase = () => {
             }
         };
     }, []);
+
+    useEffect(() => {
+        if (audioURL && waveformRef.current && !waveSurferRef.current) {
+            waveSurferRef.current = WaveSurfer.create({
+                container: waveformRef.current,
+                waveColor: '#4CAF50',
+                progressColor: '#4CAF50',
+                cursorColor: '#4CAF50',
+                cursorWidth: 2,
+                barWidth: 3,
+                barHeight: 1,
+                barGap: 2,
+                height: 30,
+                responsive: true,
+                scrollParent: true,
+                normalize: true,
+                hideScrollbar: true,
+                partialRender: true,
+                minPxPerSec: 50,
+                pixelRatio: 1,
+                interact: true,
+                splitChannels: false,
+                forceDecode: false,
+                backgroundColor: 'grey',
+                plugins: []
+            });
+
+            waveSurferRef.current.on('ready', () => {
+                setIsWaveformReady(true);
+            });
+
+            waveSurferRef.current.on('audioprocess', () => {
+                setPlaybackTime(waveSurferRef.current.getCurrentTime());
+            });
+
+            waveSurferRef.current.on('finish', () => {
+                setPlaybackTime(0);
+                setIsPlaying(false);
+            });
+
+            waveSurferRef.current.load(audioURL);
+        }
+    }, [audioURL,waveformRef]);
 
     const toggleMic = () => {
         if (!canRecord) return;
@@ -139,10 +144,6 @@ const Phrase = () => {
         return formatTime(remainingTime);
     };
 
-    console.log(waveSurferRef)
-
-    console.log(audioURL);
-
     return (
         <>
             <div style={{ marginBottom: "10px" }} className="flex justify-center flex-col items-center mb-(100px)">
@@ -162,24 +163,20 @@ const Phrase = () => {
                         {isRecording && <div> {formatTime(recordingTime)}</div>}
                     </div>
                 </div>
-                <div className="d-flex " style={{alignItems:"center"}}>
                 {audioURL ? (
-                    <div style={{ width: "fit-content", margin: "auto", display: "flex",borderRadius:"15px" }}>
-                    {/* {isWaveformReady ? ( */}
-                        <button className='border' style={{ marginRight: "20px", padding: "10px 20px", marginTop:"45px",borderRadius: "20px", display: "block", width: "fit-content" }} onClick={runWave}>
-                            {isPlaying ? <IoPauseSharp /> : <FaPlay />}
+                    <div style={{ width: "fit-content", margin: "auto", display: "flex",borderRadius:"15px",border:"1px solid #E6E6E6",alignItems:"center",padding:"20px 30px" }}>
+                        <button style={{ marginRight: "20px", padding: "10px 20px", display: "block", width: "fit-content" }} onClick={runWave}>
+                            {isPlaying ? <IoPauseSharp style={{color:"#4CAF50"}} /> : <FaPlay  style={{color:"#4CAF50"}} />}
                         </button>
-                    {/* ):null} */}
-                    <div style={{ width: "fit-content", marginTop: "6px" }}>
+                        <div style={{ width: "300px",marginRight:"20px"}} id="waveform" ref={waveformRef}></div>
+                        <div style={{ width: "fit-content", marginTop:"6px" }}>
+                        <p style={{fontWeight:"600"}}> {audioURL && waveSurferRef.current && <div>{formatReverseTime(waveSurferRef.current.getDuration(), playbackTime)}</div>}</p> 
+                        </div>
                     </div>
-                </div>
                 ):null}
-                <div className='mt-5' style={{ width: "300px", marginRight: "20px",marginTop:"-10px"}} id="waveform" ref={waveformRef}></div>
-              <p style={{marginTop:"45px"}}> {audioURL && <div>{formatReverseTime(waveSurferRef.current.getDuration(), playbackTime)}</div>}</p> 
-                </div>
             </div>
         </>
     );
-};  
+};
 
 export default Phrase;

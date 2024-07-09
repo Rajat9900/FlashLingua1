@@ -115,7 +115,7 @@ const Language = () => {
                             </div>
                             <div id="waveform" style={{width:"300px",marginRight:"8px"}} ref={waveformRef}></div>
                       
-                            {duration > 0 && <p> {formatTime(duration - currentTime)}</p>}
+                            {duration > 0 && <p style={{fontWeight:"600"}}> {formatTime(duration - currentTime)}</p>}
                         </div>
 
                        ):null}
