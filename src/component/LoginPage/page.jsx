@@ -14,7 +14,8 @@ const Login = () => {
   useEffect(() => {
     const initializeGoogleSignIn = () => {
       google.accounts.id.initialize({
-        client_id: '320095015258-gnjp46r8ca05hofucgdqp9pks7kk0rmi.apps.googleusercontent.com', // Replace with your actual Client ID
+        // client_id: '320095015258-gnjp46r8ca05hofucgdqp9pks7kk0rmi.apps.googleusercontent.com', // Replace with your actual Client ID
+        client_id: '995931197559-2j4knhg95qbapup7gde5l8quba96jon7.apps.googleusercontent.com', // Replace with your actual Client ID
         callback: handleCredentialResponse,
       });
       google.accounts.id.renderButton(
