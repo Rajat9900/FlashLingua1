@@ -127,7 +127,7 @@ const Language2 = () => {
                         
                         <Link to='/languagetoLearn'><button type="button" className='mt-5' style={{ width: "150px", height: "40px", borderRadius: "10px", marginLeft: "30px", border: "1px solid #E6E6E6" }}>Back</button>  </Link>
                         <Link to='/runningboy'> <button type="button" style={{ background: "#4CAF50", width: "150px", height: "40px", borderRadius: "10px", marginLeft: "30px", color: "white" }}>Next</button>  </Link>
-                        <p style={{ fontWeight: "700", fontSize: "20px", color: "#4CAF50", cursor: "pointer" }} className="mt-3 mb-5"> swap languages</p>
+                        <p style={{ fontWeight: "600", fontSize: "20px", color: "#4CAF50", cursor: "pointer" }} className="mt-3 mb-5"> swap languages</p>
                     </div>
                 </div>
             </div>
