@@ -6,14 +6,42 @@ import styles from "./styles/style.module.css"
 // import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const Header = () => {
+
+  const [token, setToken] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    
+    setToken(storedToken);
+
+  }, []);
+
+  console.log(token);
   
  const fontWeight600={
       fontWeight:"600"
   }
 
   let authenticator = false
+
+
+const LogoutFunctionality=()=>{
+
+  navigate('/');
+
+ setToken(null)
+
+console.log("after logout",token);
+}
+
+// console.log(token);
 
   return (
      <>
@@ -42,7 +70,7 @@ const Header = () => {
         )
        }
            
-         <Link to="/"><button className={styles.logoBtn} type="button" >Login</button></Link>
+         <Link to="/"><button className={styles.logoBtn} type="button" >{token !==null ? (<h1 onClick={LogoutFunctionality}>Logout</h1>)  :  "Login"}</button></Link>
       </Nav>
     </Navbar.Collapse>
   </div>
