@@ -90,19 +90,7 @@ const Language = () => {
         return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
 
-
-
-
-
-
-
-
-
-
-
-
-
-    
+   
     return (
         <>
             <div className="container">
@@ -116,7 +104,7 @@ const Language = () => {
                         <input type="file" accept="audio/*" onChange={handleFileChange} className="form-control m-auto mt-4" style={{ width: '400px' }} />
                        
                         {file ? (
-             <div className="d-flex mt-5 mb-5" style={{ margin: "auto", width: "fit-content", height: "fit-content", display: "flex", alignItems: "center", border:"1px solid #E6E6E6",padding:"17px 30px",borderRadius:"15px" }}>
+                  <div className="d-flex mt-5 mb-5" style={{ margin: "auto", width: "fit-content", height: "fit-content", display: "flex", alignItems: "center", border:"1px solid #E6E6E6",padding:"17px 30px",borderRadius:"15px" }}>
                             <div style={{width:"40px",height:"30px"}}>
                             {/* {wavesurferRef.current ? ( */}
                              { isPlaying ? (

@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { HiArrowNarrowRight } from "react-icons/hi";
@@ -36,15 +34,20 @@ const navigate = useNavigate()
     };
     const getItemFromLoal = localStorage.getItem("selectedLanguage")
 
-   
+    const BacktoLanguage = () => {
+      const selectedLanguage = localStorage.getItem("selectedLanguage");
+      console.log("Selected Language:", selectedLanguage);
+      localStorage.setItem(selectedLanguage);
+      navigate('/languagetoLearn');
+    };
 
     function BacktoLanguageNaext(){
       const selectedLanguage = localStorage.getItem("selectedSecondLanguage");
         console.log("Selected Language:", selectedLanguage);
       navigate('/newCard')
     }
+    // localStorage.setItem(selectedLanguage);
   
-
   return (
     <div className=" flex justify-center ">
       <div className="flex  flex-col gap-4  w-[60%] justify-center items-center h-[100vh] ">
@@ -83,7 +86,7 @@ const navigate = useNavigate()
     <div className=" w-[60%]  flex justify-evenly gap-3">
           <button onClick={BacktoPrev} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[[#E6E6E6] border-2 hover:border-none gap-2 justify-center"><span className="mt-1" ><HiOutlineArrowNarrowLeft /></span>Back</button>
           <button onClick={BacktoLanguageNaext} className="hover:bg-[#4CAF50] hover:text-white w-full  flex pt-2 pb-2 rounded-xl border-[[#E6E6E6] border-2 hover:border-none  gap-2 justify-center">Next <span className="mt-1" ><HiArrowNarrowRight/></span></button>
-        </div>
+      </div>
         
       </div>
     </div>

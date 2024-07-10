@@ -11,9 +11,7 @@ export const userLogin = (payload)=>{
     return axios.post(`${api_url}/users/login`,payload)
 }
 
-export const SocialLogin = (payload)=>{
-    return axios.post(`${api_url}/users/social-login`,payload)
-}
+
 
 export const addSet = (payload,token)=> {
 return axios.post(`${api_url}/set/add`,payload,{
