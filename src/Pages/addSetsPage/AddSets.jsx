@@ -1,9 +1,10 @@
 import { addGetSet } from "../../../services";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../../context/appContext";
 
 const AddSets = () => {
   const [characters, setCharacters] = useState([]);
-
+  const context = useContext(AppContext)
   const getAPiToken = localStorage.getItem("token");
 
   useEffect(() => {
@@ -13,13 +14,13 @@ const AddSets = () => {
     }).catch(err => {
       console.error("Error fetching data:", err); 
     });
-  }, []); 
+  }, [context.cardAdded]); 
 
   return (
     <div className="flex justify-center">
       <div className="main-container mt-4">
         <div className="text-center">
-          <h1 className="text-lg font-bold">Cards</h1>
+          <h1 className="text-lg font-bold">Sets</h1>
         </div>
         <div className=" flex justify-center">
         <div className="flex flex-wrap gap-2 justify-between items-center w-[80%] ">

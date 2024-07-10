@@ -16,6 +16,7 @@ import Images from '../../Pages/Images/Images'
 import NewCard from '../../Pages/NewCard/NewCard'
 import DragDrop from '../../Pages/DragDrop/DragDrop'
 import AddSets from '../../Pages/addSetsPage/AddSets'
+import Cards from '../cards/cards'
 // import ImagesStyle from '../../Pages/Images/StylesImages/ImagesStyle'
 
 const RoutesDeclare = () => {
@@ -41,6 +42,7 @@ const RoutesDeclare = () => {
       <Route path='/newCard' element={<NewCard/>}></Route>
       <Route path='/setsPage' element={<AddSets/>}></Route>
       <Route path='/dragDrop' element={<DragDrop/>}></Route>
+      <Route path='/cards' element={<Cards/>}></Route>
       {/* <Route path='/' element={<ViewPage/>}></Route>   */}
      
    </Routes>

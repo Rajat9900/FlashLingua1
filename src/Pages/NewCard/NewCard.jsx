@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { IoPauseSharp } from 'react-icons/io5';
 import { FaPlay } from 'react-icons/fa';
 import Icon from '../../assets/Icon.png';
@@ -6,6 +6,9 @@ import WaveSurfer from 'wavesurfer.js';
 import RecordButtonImg from "../../assets/recordButton.png"
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
+import { AppContext } from '../../context/appContext';
+import { AddCard } from '../../../services';
+import { useNavigate } from 'react-router-dom';
 
 
 const NewCard = () => {
@@ -128,7 +131,7 @@ const NewCard = () => {
           progressColor: '#4CAF50',
           cursorColor: '#4CAF50',
           cursorWidth: 2,
-          barWidth: 3,
+          barWidth: 2,
           barHeight: 1,
           barGap: 2,
           height: 30,
@@ -257,41 +260,27 @@ const NewCard = () => {
   const getFirstItem = localStorage.getItem("selectedLanguage")
   const getSecondItem = localStorage.getItem("selectedSecondLanguage")
   
+const navigate= useNavigate()
 
-
-
+const context = useContext(AppContext)
  
     const submitData = () => {
-      const auth = {
-        access_token: token
-      };
-       const formData = {
-        // sourceLang:,
-        targetLang:language1,
-        sourceText: englishWord,
-        targetText: Spanish,
-        sourceAudio:audioURLEnglish,
-        targetAudio:audioURLSpanish
-      };
-  
-      axios.post('https://flashlingua.cards/api/v1/cards/add-card', formData, {
-        headers: {
-          Authorization: `Bearer ${auth.access_token}`, 
-          // 'Content-Type': 'application/json' 
+      const formData = new FormData()
+      formData.append('sourceLang',context.nativeLanguage)
+      formData.append('targetLang',context.languageToLearn)
+      formData.append('sourceText',englishWord),
+      formData.append('targetText',Spanish),
+      formData.append('sourceAudio',audioURLEnglish),
+      formData.append('targetAudio',audioURLSpanish)
+
+      AddCard(formData,context.token).then(res=>{
+        if(res.status==201){
+          alert('card added successfully.')
+          navigate('/cards')
         }
+      }).catch(err=>{
+        alert(err.response.data.message)
       })
-      .then(response => {
-
-        console.log('Response:', response.data);
-
-        setUploadResponse(response.data);
-      })
-      .catch(error => {
-
-        console.error('Error:', error);
-   
-        setError(error.message);
-      });
     }
 
 
@@ -327,25 +316,25 @@ const NewCard = () => {
         </div>
         </div>
         <div className="flex justify-between w-full gap-3">
+          
           <div>
-            <h1 className="mb-3">Word in {getFirstItem}</h1>
-            <input type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" />
-            <h1 className="mb-3">Word in English</h1>
+           
+            <h1 className="mb-3">Word in {getSecondItem}</h1>
             <input onChange={(e) => setEnglishWord(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" required/>
           </div>
           <div>
-            <h1 className="mb-3">Word in {getSecondItem}</h1>
+            <h1 className="mb-3">Word in {getFirstItem}</h1>
             <input  onChange={(e) => setSpanish(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl"  required/>
           </div>
         </div>
         <div className="flex justify-between w-full gap-3 mt-4">
-          <div>
+          <div className='w-full'>
             <h1 onClick={() => toggleMic('english')} style={{ cursor: "pointer" }} className="mb-3">
-              {isRecordingEnglish ? 'Stop' : 'Record'} voice in {getFirstItem}
+              {isRecordingEnglish ? 'Stop' : 'Record'} voice in {getSecondItem}
             </h1>
             <p>Recording Time: {formatTime(recordingTimeEnglish)}</p>
             {/* <div className='border' style={{}}> */}
-            <div className='mt-3' style={{ width: '300px',height:"50px", margin: 'auto', display: 'flex', borderRadius: '15px', border: '1px solid #E6E6E6', alignItems: 'center', padding: '7px 13px'}}>
+            <div className='mt-3' style={{ width: '100%',height:"50px", margin: 'auto', display: 'flex', borderRadius: '15px', border: '1px solid #E6E6E6', alignItems: 'center', padding: '7px 13px'}}>
             
             {audioURLEnglish ? (
               <div className='d-flex'>
@@ -365,12 +354,12 @@ const NewCard = () => {
               </div>
             {/* </div> */}
           </div>
-          <div>
+          <div className='w-full'>
             <h1 onClick={() => toggleMic('spanish')} style={{ cursor: "pointer" }} className="mb-3">
-              {isRecordingSpanish ? 'Stop' : 'Record'} voice in {getSecondItem}
+              {isRecordingSpanish ? 'Stop' : 'Record'} voice in {getFirstItem}
             </h1>
             <p>Recording Time: {formatTime(recordingTimeSpanish)}</p>
-            <div className='mt-3' style={{ width: '300px',height:"50px", margin: 'auto', display: 'flex', borderRadius: '15px', border: '1px solid #E6E6E6', alignItems: 'center', padding: '7px 13px' }}>
+            <div className='mt-3' style={{ width: '100%',height:"50px", margin: 'auto', display: 'flex', borderRadius: '15px', border: '1px solid #E6E6E6', alignItems: 'center', padding: '7px 13px' }}>
             {audioURLSpanish ? (
               <div className="d-flex">
                 <button style={{ marginRight: '18px', display: 'block', width: 'fit-content' }} onClick={() => runWave('spanish')}>

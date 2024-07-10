@@ -1,10 +1,11 @@
-import  { useEffect, useState } from 'react';
+import  { useContext, useEffect, useState } from 'react';
 import { Navbar, Nav, Modal, Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from "../../assets/main-logo.svg";
 import styles from "./styles/style.module.css";
 import { Link, useNavigate } from 'react-router-dom';
 import { addSet } from '../../../services';
+import { AppContext } from '../../context/appContext';
 
 const Header = () => {
   const fontWeight600 = {
@@ -15,7 +16,7 @@ const Header = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
-
+  const context= useContext(AppContext)
   const toggleModal = () => setShowModal(!showModal);
 
   const navigate = useNavigate();
@@ -23,14 +24,16 @@ const Header = () => {
 
   useEffect(() => {
     // Any useEffect logic if needed
-  }, []);
+    console.log(context.token)
+  }, [context]);
 
   const addSetApi = (data) => {
     console.log(data);
     addSet(data, getToken).then(res => {
       if (res.status === 201) {
         navigate('/setsPage');
-        alert("Name added successfully");
+        alert("Set added successfully.");
+        context.setCardAdded(!context.cardAdded)
         setShowModal(false);
       }
     }).catch(err => {
@@ -38,6 +41,11 @@ const Header = () => {
     });
   };
 
+  const handleLogout = ()=>{
+    localStorage.clear()
+    context.setToken(null)
+    navigate('/')
+  }
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary relative">
@@ -59,10 +67,11 @@ const Header = () => {
                   <Nav.Link style={fontWeight600} href="#link">Add Flashcards</Nav.Link>
                   <Nav.Link style={fontWeight600} href="newCard">Add Cards</Nav.Link>
                   <Nav.Link style={fontWeight600} href="#link">Rank</Nav.Link>
-                  <Nav.Link style={fontWeight600} onClick={toggleModal} className={styles.btnModal}>Add Sets</Nav.Link>
+                  <Nav.Link style={fontWeight600} href="/setsPage">sets</Nav.Link>
+                  <Nav.Link style={fontWeight600} onClick={toggleModal} >Add Sets</Nav.Link>
                 </>
               )}
-              <Link to="/"><button className={styles.logoBtn} type="button">Login</button></Link>
+              <Link to="/">{(context.token!==null &&context.token!==undefined) ?<button className={styles.logoBtn} type="button" onClick={handleLogout}>Logout</button>:<button className={styles.logoBtn} type="button">Login</button>}</Link>
             </Nav>
           </Navbar.Collapse>
         </div>

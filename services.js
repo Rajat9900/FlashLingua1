@@ -11,7 +11,17 @@ export const userLogin = (payload)=>{
     return axios.post(`${api_url}/users/login`,payload)
 }
 
+export const SocialLogin = (payload)=>{
+    return axios.post(`${api_url}/users/social-login`,payload)
+}
 
+export const AddCard = (payload,token)=>{
+    return axios.post(`${api_url}/cards/add-card`,payload,{
+        headers:{
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
 
 export const addSet = (payload,token)=> {
 return axios.post(`${api_url}/set/add`,payload,{

@@ -28,7 +28,7 @@ const Signup = () => {
       <div className="container">
         <div className="row">
           <div
-            className="col-md-4 m-auto py-5 mt-4 mb-4"
+            className="col-md-5 m-auto py-5 mt-4 mb-4"
             style={{ border: "1px solid #E6E6E6", borderRadius: "20px" }}
           >
             <h2
