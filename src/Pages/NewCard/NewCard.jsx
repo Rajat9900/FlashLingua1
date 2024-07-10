@@ -194,6 +194,8 @@ const NewCard = () => {
     const remainingTime = totalTime - currentTime;
     return formatTime(remainingTime);
   };
+  const getFirstItem = localStorage.getItem("selectedLanguage")
+  const getSecondItem = localStorage.getItem("selectedSecondLanguage")
 
   return (
     <div className="flex justify-center">
@@ -220,18 +222,18 @@ const NewCard = () => {
         </div>
         <div className="flex justify-between w-full gap-3">
           <div>
-            <h1 className="mb-3">Word in English</h1>
+            <h1 className="mb-3">Word in {getFirstItem}</h1>
             <input type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" />
           </div>
           <div>
-            <h1 className="mb-3">Word in Spanish</h1>
+            <h1 className="mb-3">Word in {getSecondItem}</h1>
             <input type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" />
           </div>
         </div>
         <div className="flex justify-between w-full gap-3">
           <div>
             <h1 onClick={() => toggleMic('english')} style={{ cursor: "pointer" }} className="mb-3">
-              {isRecordingEnglish ? 'Stop' : 'Record'} voice in English
+              {isRecordingEnglish ? 'Stop' : 'Record'} voice in {getFirstItem}
             </h1>
             <p>Recording Time: {formatTime(recordingTimeEnglish)}</p>
             {audioURLEnglish ? (
@@ -248,7 +250,7 @@ const NewCard = () => {
           </div>
           <div>
             <h1 onClick={() => toggleMic('spanish')} style={{ cursor: "pointer" }} className="mb-3">
-              {isRecordingSpanish ? 'Stop' : 'Record'} voice in Spanish
+              {isRecordingSpanish ? 'Stop' : 'Record'} voice in {getSecondItem}
             </h1>
             <p>Recording Time: {formatTime(recordingTimeSpanish)}</p>
             {audioURLSpanish ? (

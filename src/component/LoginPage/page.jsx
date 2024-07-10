@@ -61,7 +61,9 @@ const Login = () => {
       console.log('data',data)
       userLogin(data).then(res=>{
         if(res.status==200){
+          localStorage.setItem("token" , res.data.token)
           navigate('/mainPage')
+
         }
       }).catch(err=>{
         console.log(err)
@@ -145,10 +147,10 @@ const Login = () => {
             </p>
           </div>
 
-          <div className='mt-4' style={{ width: "80%", display: "flex", margin: "auto", textAlign: "center", border: "1px solid #E6E6E6", borderRadius: "10px", cursor: "pointer" }}>
-            <div id="signInDiv" style={{ width: "fit-content", margin: "auto", display: "flex", height: "43px", alignItems: "center" }}>
+          <div className='mt-4' style={{  display: "flex", margin: "auto", textAlign: "center",cursor: "pointer" }}>
+            <div id="signInDiv" style={{  background:"white", margin: "auto", display: "flex", height: "43px", alignItems: "center" }}>
               <img src={Google} style={{ width: "27px", height: "26px" }} alt="" />
-              <p style={{ fontWeight: "700", marginLeft: "20px" }}>Google</p>
+              <p style={{ fontWeight: "700", marginLeft: "20px" }}></p>
             </div>
           </div>
           <p className='text-center mt-4' style={{ fontWeight: "700" }}> Don&apos;t have a Google account? No worries</p>

@@ -36,11 +36,7 @@ const navigate = useNavigate()
     };
     const getItemFromLoal = localStorage.getItem("selectedLanguage")
 
-    const BacktoLanguage = () => {
-      const selectedLanguage = localStorage.getItem("selectedLanguage");
-      console.log("Selected Language:", selectedLanguage);
-      navigate('/languagetoLearn');
-    };
+   
 
     function BacktoLanguageNaext(){
       const selectedLanguage = localStorage.getItem("selectedSecondLanguage");
