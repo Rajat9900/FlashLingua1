@@ -319,18 +319,18 @@ const context = useContext(AppContext)
           
           <div>
            
-            <h1 className="mb-3">Word in {getSecondItem}</h1>
+            <h1 className="mb-3">Word in {getFirstItem}</h1>
             <input onChange={(e) => setEnglishWord(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" required/>
           </div>
           <div>
-            <h1 className="mb-3">Word in {getFirstItem}</h1>
+            <h1 className="mb-3">Word in {getSecondItem}</h1>
             <input  onChange={(e) => setSpanish(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl"  required/>
           </div>
         </div>
         <div className="flex justify-between w-full gap-3 mt-4">
           <div className='w-full'>
             <h1 onClick={() => toggleMic('english')} style={{ cursor: "pointer" }} className="mb-3">
-              {isRecordingEnglish ? 'Stop' : 'Record'} voice in {getSecondItem}
+              {isRecordingEnglish ? 'Stop' : 'Record'} voice in {getFirstItem}
             </h1>
             <p>Recording Time: {formatTime(recordingTimeEnglish)}</p>
             {/* <div className='border' style={{}}> */}
@@ -356,7 +356,7 @@ const context = useContext(AppContext)
           </div>
           <div className='w-full'>
             <h1 onClick={() => toggleMic('spanish')} style={{ cursor: "pointer" }} className="mb-3">
-              {isRecordingSpanish ? 'Stop' : 'Record'} voice in {getFirstItem}
+              {isRecordingSpanish ? 'Stop' : 'Record'} voice in {getSecondItem}
             </h1>
             <p>Recording Time: {formatTime(recordingTimeSpanish)}</p>
             <div className='mt-3' style={{ width: '100%',height:"50px", margin: 'auto', display: 'flex', borderRadius: '15px', border: '1px solid #E6E6E6', alignItems: 'center', padding: '7px 13px' }}>
