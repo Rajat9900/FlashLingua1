@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 const NewCard = () => {
   
   const [profilePic, setProfilePic] = useState(Icon);
+  const [image, setImage] = useState(null);
   const [token, setToken] = useState(null);
   const [language1, setLanguage1] = useState(null);
 
@@ -29,6 +30,7 @@ const NewCard = () => {
   console.log("Himanshu",language1);
 
   const handleInput = (event) => {
+    setImage(event.target.files[0])
     setProfilePic(URL.createObjectURL(event.target.files[0]));
   };
 
@@ -266,12 +268,14 @@ const context = useContext(AppContext)
  
     const submitData = () => {
       const formData = new FormData()
+      formData.append('image',image)
       formData.append('sourceLang',context.nativeLanguage)
       formData.append('targetLang',context.languageToLearn)
       formData.append('sourceText',englishWord),
       formData.append('targetText',Spanish),
       formData.append('sourceAudio',audioURLEnglish),
       formData.append('targetAudio',audioURLSpanish)
+      
 
       AddCard(formData,context.token).then(res=>{
         if(res.status==201){
@@ -301,7 +305,7 @@ const context = useContext(AppContext)
             }`}
             id="profile-pic"
             alt="Profile"
-            onChange={(e) => setImg(e.target.value)} 
+             
           />
           <label htmlFor="input-file" className="cursor-pointer mt-2">Select image</label>
           <input
