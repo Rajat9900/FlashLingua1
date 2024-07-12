@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { HiOutlineArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../../context/appContext";
 
 const MainPage = () => {
   const buttonss = [
@@ -19,11 +20,14 @@ const MainPage = () => {
   const navigate = useNavigate();
 
   const [activeIndex, setActiveIndex] = useState(null);
+  const context = useContext(AppContext)
 
   const handleButtons = (index) => {
     setActiveIndex(index);
     const selectedLanguage = buttonss[index].names;
     localStorage.setItem("selectedLanguage", selectedLanguage);
+    context.setLanguageToLearn(selectedLanguage)
+    
   };
 
   const BacktoMain = () => {

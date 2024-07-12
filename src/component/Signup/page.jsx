@@ -28,7 +28,7 @@ const Signup = () => {
       <div className="container">
         <div className="row">
           <div
-            className="col-md-4 m-auto py-5 mt-4 mb-4"
+            className="col-md-5 m-auto py-5 mt-4 mb-4"
             style={{ border: "1px solid #E6E6E6", borderRadius: "20px" }}
           >
             <h2
@@ -59,7 +59,7 @@ const Signup = () => {
                   aria-invalid={errors.name ? "true" : "false"}
                 />
                 {errors.name?.type === "required" && (
-                  <p role="alert"> name is required</p>
+                  <p role="alert" className="text-red-500">  name is required</p>
                 )}
               </div>
               <div className="mt-3">
@@ -80,7 +80,7 @@ const Signup = () => {
                   {...register("email", { required: "Email Address is required" })}
                   aria-invalid={errors.email ? "true" : "false"}
                 />
-                {errors.email && <p role="alert">{errors.email.message}</p>}
+                {errors.email && <p role="alert" className=" text-red-500">{errors.email.message}</p>}
               </div>
               <div className="mt-3">
                 <label
@@ -99,7 +99,7 @@ const Signup = () => {
                   {...register('password', { required: true })}
                 />
                 {errors.password?.type === "required" && (
-                  <p role="alert">Password is required</p>
+                  <p role="alert" className=" text-red-500">Password is required</p>
                 )}
               </div>
 
@@ -119,7 +119,7 @@ const Signup = () => {
                   {...register('confirmPassword', { required: true })}
                 />
                 {errors.confirmPassword?.type === "required" && (
-                  <p role="alert">Password is required</p>
+                  <p role="alert" className=" text-red-400">Password is required</p>
                 )}
               </div>
 

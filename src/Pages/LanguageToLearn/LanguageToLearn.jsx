@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import {  useNavigate } from "react-router-dom";
+import { AppContext } from "../../context/appContext";
 
 const LanguageToLearn = () => {
   const buttonss = [
@@ -25,12 +26,13 @@ const navigate = useNavigate()
  
   const [activeIndex, setActiveIndex] = useState(null);
 
-    
+    const context = useContext(AppContext)
 
     const handleButtons = (index) => {
       setActiveIndex(index);
       const selectedSecondLanguage = buttonss[index].names;
       localStorage.setItem("selectedSecondLanguage", selectedSecondLanguage);
+      context.setNativeLanguage(selectedSecondLanguage)
     };
     const getItemFromLoal = localStorage.getItem("selectedLanguage")
 
@@ -44,7 +46,7 @@ const navigate = useNavigate()
     function BacktoLanguageNaext(){
       const selectedLanguage = localStorage.getItem("selectedSecondLanguage");
         console.log("Selected Language:", selectedLanguage);
-      navigate('/newCard')
+      navigate('/cards')
     }
     // localStorage.setItem(selectedLanguage);
   

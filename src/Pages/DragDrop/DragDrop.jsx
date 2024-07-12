@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const grid = 8;
@@ -6,7 +6,7 @@ const grid = 8;
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
-  padding: grid * 2,
+  padding: grid * 8,
   margin: `0 0 ${grid}px 0`,
   // change background colour if dragging
   background: isDragging ? "lightgreen" : "grey",
@@ -14,12 +14,13 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle,
 });
 
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
+const getListStyle = isDraggingOver => ({
+  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  display: 'flex',
   padding: grid,
-  width: 250,
+  width:'100%',
+  flexWrap:'wrap'
 });
-
 const getItems = (count) =>
   Array.from({ length: count }, (v, k) => k).map((k) => ({
     id: `item-${k}`,
@@ -55,7 +56,7 @@ const DragDrop = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="droppable">
+      <Droppable droppableId="droppable" direction="horizontal">
         {(provided, snapshot) => (
           <div
             {...provided.droppableProps}
