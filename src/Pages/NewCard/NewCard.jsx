@@ -273,8 +273,8 @@ const context = useContext(AppContext)
       formData.append('targetLang',context.languageToLearn)
       formData.append('sourceText',englishWord),
       formData.append('targetText',Spanish),
-      formData.append('sourceAudio',audioURLEnglish),
-      formData.append('targetAudio',audioURLSpanish)
+      formData.append('sourceAudio',new File([audioURLEnglish],`audio${new Date()}`)),
+      formData.append('targetAudio',new File([audioURLSpanish],`audio${new Date()}`))
       
 
       AddCard(formData,context.token).then(res=>{
