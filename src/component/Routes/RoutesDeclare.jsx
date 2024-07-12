@@ -31,9 +31,9 @@ const RoutesDeclare = () => {
        <Route path='/topics' element={<Topics/>}></Route>
       <Route path='/pay' element={<Pay/>}></Route>
       <Route path='/phrase' element={<Phrase/>}></Route>
-    <Route path='/mainPage' element={<MainPage/>}></Route>   
+    <Route path='/' element={<MainPage/>}></Route>   
        <Route path='/languagetoLearn' element={<LanguageToLearn/>}></Route> 
-       <Route path='/' element={<Login/>}></Route> 
+       <Route path='/login' element={<Login/>}></Route> 
        <Route path='/signup' element={<Signup/>}></Route> 
        <Route path='/language' element={<Language/>}></Route>
       <Route path='/language2' element={<Language2/>}></Route>

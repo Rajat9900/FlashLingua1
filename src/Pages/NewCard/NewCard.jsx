@@ -7,7 +7,7 @@ import RecordButtonImg from "../../assets/recordButton.png"
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
 import { AppContext } from '../../context/appContext';
-import { AddCard } from '../../../services';
+import { AddCard,getSets } from '../../../services';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -66,6 +66,8 @@ const NewCard = () => {
 
   const [uploadResponse, setUploadResponse] = useState(null);
   const [error, setError] = useState(null);
+   const [sets, setSets] = useState([]);
+    const [selectedItem, setSelectedItem] = useState(null);
   
 
   console.log(englishWord);
@@ -81,6 +83,15 @@ const NewCard = () => {
         }
       }
     };
+
+     const getAPiToken = localStorage.getItem("token");
+    getSets(getAPiToken).then(res => {
+      console.log(res.data, "data"); 
+      setSets(res.data);
+      
+    }).catch(err => {
+      console.error("Error fetching data:", err); 
+    });
 
     const setupStream = (stream, language) => {
       const recorderRef = language === 'english' ? recorderRefEnglish : recorderRefSpanish;
@@ -236,6 +247,10 @@ const NewCard = () => {
     }
 
   }
+
+  const setSelectedItemCal = (event) => {
+    setSelectedItem(event.target.value)
+  }
   
 
   const runWave = (language) => {
@@ -267,20 +282,27 @@ const navigate= useNavigate()
 const context = useContext(AppContext)
  
     const submitData = () => {
+
+      if(selectedItem == null){
+        alert('Please select Set');
+        return
+      }
       const formData = new FormData()
       formData.append('image',image)
       formData.append('sourceLang',context.nativeLanguage)
       formData.append('targetLang',context.languageToLearn)
       formData.append('sourceText',englishWord),
       formData.append('targetText',Spanish),
+      formData.append('sourceAudio',audioURLEnglish),
       formData.append('sourceAudio',new File([audioURLEnglish],`audio${new Date()}`)),
-      formData.append('targetAudio',new File([audioURLSpanish],`audio${new Date()}`))
-      
+      formData.append('targetAudio',new File([audioURLSpanish],`audio${new Date()}`)),
+
+      formData.append('setId',selectedItem)
 
       AddCard(formData,context.token).then(res=>{
         if(res.status==201){
           alert('card added successfully.')
-          navigate('/cards')
+          navigate('/setsPage')
         }
       }).catch(err=>{
         alert(err.response.data.message)
@@ -379,6 +401,23 @@ const context = useContext(AppContext)
               (<img style={{cursor:"pointer"}} onClick={() => toggleMic('spanish')} src={RecordButtonImg} alt='img not loading'/>)
               }
               </div>
+          </div>
+        </div>
+         <div className="flex justify-between w-full gap-3">
+          
+          <div>
+           
+            <h1 className="mb-3">Asign Set</h1>
+             <select className="pl-3 pt-3 pb-3 w-[600px] border-gray-200 border-2 rounded-xl" onChange={e => setSelectedItem(e.target.value)} required>
+             <option value="">Please Select Set</option>
+      {sets.map((itemm, indexx) => (
+        <option key={itemm._id}  value={itemm._id}>
+          {itemm.name}
+        </option>
+      ))}
+
+      
+    </select>
           </div>
         </div>
         <button onClick={submitData} className="bg-[#4CAF50] w-full p-2 rounded-xl text-white mt-5">Create card</button>

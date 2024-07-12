@@ -46,7 +46,7 @@ const navigate = useNavigate()
     function BacktoLanguageNaext(){
       const selectedLanguage = localStorage.getItem("selectedSecondLanguage");
         console.log("Selected Language:", selectedLanguage);
-      navigate('/newCard')
+      navigate('/cards')
     }
     // localStorage.setItem(selectedLanguage);
   

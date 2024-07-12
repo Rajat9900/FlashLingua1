@@ -50,7 +50,7 @@ const Header = () => {
     <>
       <Navbar expand="lg" className="bg-body-tertiary relative">
         <div className="container">
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/">
             <img src={logo} className={styles.imgMargin} alt="Logo" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
