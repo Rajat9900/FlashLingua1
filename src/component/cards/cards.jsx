@@ -4,6 +4,7 @@ import { getallCards,getCard } from "../../../services";
 import './ImagesCSS.css';
  import defaultImg from './pic25.png';
  import Waveform from "./Waveform";
+ import audio from "../../assets/quothello-therequot-158832.mp3"
  import { HiOutlineArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 
 
@@ -114,7 +115,7 @@ const Cards = () => {
 
       {fileurl != null && 
       <div className="flex flex-col gap-1 w-[70%] items-center mb-2 mt-2">
-      <Waveform url={fileurl} />  
+      <Waveform url={audio} />  
 
        <div className="w-[60%] flex justify-evenly gap-3 mt-3">
           <button onClick={() => showCard(prevcard) }   disabled={prevcard == null} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center">
