@@ -84,5 +84,9 @@ return axios.get(`${api_url}/set/view-cards/`+id,{
 }
 
 
+export const getFilteredCards=(payload)=>{
+    return axios.post(`${api_url}/cards/get-filtered-card`,payload)
+}
+
 
 

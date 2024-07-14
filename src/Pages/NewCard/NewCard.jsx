@@ -37,6 +37,9 @@ const NewCard = () => {
   const [canRecordEnglish, setCanRecordEnglish] = useState(false);
   const [isRecordingEnglish, setIsRecordingEnglish] = useState(false);
   const [audioURLEnglish, setAudioURLEnglish] = useState(null);
+  const [audioURLSpanish, setAudioURLSpanish] = useState(null);
+  const [audioBlobEnglish, setAudioBlobEnglish] = useState(null);
+  const [audioBlobSpanish, setAudioBlobSpanish] = useState(null);
   const [recordingTimeEnglish, setRecordingTimeEnglish] = useState(0);
   const [playbackTimeEnglish, setPlaybackTimeEnglish] = useState(0);
   const [isPlayingEnglish, setIsPlayingEnglish] = useState(false);
@@ -49,7 +52,6 @@ const NewCard = () => {
 
   const [canRecordSpanish, setCanRecordSpanish] = useState(false);
   const [isRecordingSpanish, setIsRecordingSpanish] = useState(false);
-  const [audioURLSpanish, setAudioURLSpanish] = useState(null);
   const [recordingTimeSpanish, setRecordingTimeSpanish] = useState(0);
   const [playbackTimeSpanish, setPlaybackTimeSpanish] = useState(0);
   const [isPlayingSpanish, setIsPlayingSpanish] = useState(false);
@@ -108,9 +110,13 @@ const NewCard = () => {
       recorderRef.current.onstop = () => {
         const chunksRef = language === 'english' ? chunksRefEnglish : chunksRefSpanish;
         const setAudioURL = language === 'english' ? setAudioURLEnglish : setAudioURLSpanish;
+        const setAudioBlob = language === 'english' ? setAudioBlobEnglish : setAudioBlobSpanish;
         const blob = new Blob(chunksRef.current, { type: 'audio/ogg; codecs=opus' });
         chunksRef.current = [];
+        console.log(blob)
         const audioURL = window.URL.createObjectURL(blob);
+        // console.log(audioURL)
+        setAudioBlob(blob);
         setAudioURL(audioURL);
       };
       setCanRecord(true);
@@ -282,22 +288,25 @@ const navigate= useNavigate()
 const context = useContext(AppContext)
  
     const submitData = () => {
+      // console.log(audioBlobEnglish)
+      // console.log(audioBlobSpanish)
+      const sourceAudioFile=new File([audioURLEnglish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
+    
+      console.log(sourceAudioFile)
+      const targetAudioFile=new File([audioBlobSpanish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
+      console.log(targetAudioFile)
 
-      if(selectedItem == null){
-        alert('Please select Set');
-        return
-      }
       const formData = new FormData()
       formData.append('image',image)
       formData.append('sourceLang',context.nativeLanguage)
       formData.append('targetLang',context.languageToLearn)
       formData.append('sourceText',englishWord),
       formData.append('targetText',Spanish),
-      formData.append('sourceAudio',audioURLEnglish),
-      formData.append('sourceAudio',new File([audioURLEnglish],`audio${new Date()}`)),
-      formData.append('targetAudio',new File([audioURLSpanish],`audio${new Date()}`)),
+      // formData.append('sourceAudio',audioURLEnglish),
+      formData.append('sourceAudio',sourceAudioFile),
+      formData.append('targetAudio',targetAudioFile),
 
-      formData.append('setId',selectedItem)
+      // formData.append('setId',selectedItem)
 
       AddCard(formData,context.token).then(res=>{
         if(res.status==201){
@@ -405,7 +414,7 @@ const context = useContext(AppContext)
         </div>
          <div className="flex justify-between w-full gap-3">
           
-          <div>
+          {/* <div>
            
             <h1 className="mb-3">Asign Set</h1>
              <select className="pl-3 pt-3 pb-3 w-[600px] border-gray-200 border-2 rounded-xl" onChange={e => setSelectedItem(e.target.value)} required>
@@ -418,7 +427,7 @@ const context = useContext(AppContext)
 
       
     </select>
-          </div>
+          </div> */}
         </div>
         <button onClick={submitData} className="bg-[#4CAF50] w-full p-2 rounded-xl text-white mt-5">Create card</button>
       {/* </div> */}

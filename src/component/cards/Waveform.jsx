@@ -6,13 +6,13 @@ import { FaPlay } from 'react-icons/fa';
 const formWaveSurferOptions = ref => ({
   container: ref,
   waveColor: "#eee",
-   progressColor: '#4CAF50',
-          cursorColor: '#4CAF50',
+  progressColor: '#4CAF50',
+  cursorColor: '#4CAF50',
   barWidth: 3,
   barRadius: 3,
   responsive: true,
   height: 30,
-  width:130,
+  width: 130,
   // If true, normalize by the maximum peak instead of 1.0.
   normalize: true,
   // Use the PeakCache to improve rendering speed of large waveforms.
@@ -25,20 +25,20 @@ export default function Waveform({ url }) {
   const [playing, setPlay] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [remainingtime, setRemainingtime] = useState(0);
-const formatTime = (seconds) => [seconds / 60, seconds % 60].map((v) => `0${Math.floor(v)}`.slice(-2)).join(':')
+  const formatTime = (seconds) => [seconds / 60, seconds % 60].map((v) => `0${Math.floor(v)}`.slice(-2)).join(':')
   // create new WaveSurfer instance
   // On component mount and when url changes
   useEffect(() => {
     setPlay(false);
-    
+
 
 
     const options = formWaveSurferOptions(waveformRef.current);
     wavesurfer.current = WaveSurfer.create(options);
-
+    console.log(url)
     wavesurfer.current.load(url);
 
-    wavesurfer.current.on("ready", function() {
+    wavesurfer.current.on("ready", function () {
       // https://wavesurfer-js.org/docs/methods.html
       // wavesurfer.current.play();
       // setPlay(true);
@@ -47,28 +47,32 @@ const formatTime = (seconds) => [seconds / 60, seconds % 60].map((v) => `0${Math
       if (wavesurfer.current) {
         wavesurfer.current.setVolume(volume);
         setVolume(volume);
-        
 
 
-        
+
+
       }
 
-      wavesurfer.current.on('audioprocess', function() {
-          if (wavesurfer.current.isPlaying()) {
-            var totalTime = wavesurfer.current.getDuration(),
-                currentTime = wavesurfer.current.getCurrentTime(),
-                remainingTime = totalTime - currentTime;
-                
-           setRemainingtime(remainingTime);
-          };
+      wavesurfer.current.on('audioprocess', function () {
+        if (wavesurfer.current.isPlaying()) {
+          var totalTime = wavesurfer.current.getDuration(),
+            currentTime = wavesurfer.current.getCurrentTime(),
+            remainingTime = totalTime - currentTime;
+
+          setRemainingtime(remainingTime);
+        };
       })
 
 
-   
-    
 
-   
-});
+
+
+
+    });
+    wavesurfer.current.on("error", function (e) {
+      console.error('WaveSurfer error:', e);
+    });
+
 
     // Removes events, elements and disconnects Web Audio nodes.
     // when component unmount
@@ -93,19 +97,19 @@ const formatTime = (seconds) => [seconds / 60, seconds % 60].map((v) => `0${Math
 
   return (
     <div>
-     
-      <div className="flex">
-        
-        <button style={{ marginRight: '18px', display: 'block', width: 'fit-content' }} onClick={handlePlayPause}>
-                  {playing ? <IoPauseSharp style={{ color: '#4CAF50' }} /> : <FaPlay style={{ color: '#4CAF50' }} />}
-                </button>
 
-                 <div id="waveform" ref={waveformRef} />
-                 <div style={{ width: 'fit-content', marginTop: '6px' }}>
-                  <p style={{ fontWeight: '600',color:"rgb(76 175 80)" }}>{formatTime(remainingtime)}</p>
-                {/* <button onClick={()=>deleteAudio('english')}>cancel</button> */}
-                </div>
-        
+      <div className="flex">
+
+        <button style={{ marginRight: '18px', display: 'block', width: 'fit-content' }} onClick={handlePlayPause}>
+          {playing ? <IoPauseSharp style={{ color: '#4CAF50' }} /> : <FaPlay style={{ color: '#4CAF50' }} />}
+        </button>
+
+        <div id="waveform" ref={waveformRef} />
+        <div style={{ width: 'fit-content', marginTop: '6px' }}>
+          <p style={{ fontWeight: '600', color: "rgb(76 175 80)" }}>{formatTime(remainingtime)}</p>
+          {/* <button onClick={()=>deleteAudio('english')}>cancel</button> */}
+        </div>
+
       </div>
     </div>
   );
