@@ -117,7 +117,7 @@ const Cards = () => {
         }else{
 
            localStorage.setItem('cardsLimit',id+'_'+index);
-        }
+        } 
       }
     }).catch(err => {
       console.error("Error fetching data:", err);
