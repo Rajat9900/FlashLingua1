@@ -306,7 +306,7 @@ const context = useContext(AppContext)
       formData.append('sourceAudio',sourceAudioFile),
       formData.append('targetAudio',targetAudioFile),
 
-      // formData.append('setId',selectedItem)
+      formData.append('setId',selectedItem)
 
       AddCard(formData,context.token).then(res=>{
         if(res.status==201){
@@ -414,7 +414,7 @@ const context = useContext(AppContext)
         </div>
          <div className="flex justify-between w-full gap-3">
           
-          {/* <div>
+          <div>
            
             <h1 className="mb-3">Asign Set</h1>
              <select className="pl-3 pt-3 pb-3 w-[600px] border-gray-200 border-2 rounded-xl" onChange={e => setSelectedItem(e.target.value)} required>
@@ -427,7 +427,7 @@ const context = useContext(AppContext)
 
       
     </select>
-          </div> */}
+          </div> 
         </div>
         <button onClick={submitData} className="bg-[#4CAF50] w-full p-2 rounded-xl text-white mt-5">Create card</button>
       {/* </div> */}

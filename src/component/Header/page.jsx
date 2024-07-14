@@ -56,22 +56,29 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto" style={{ marginRight: "6%" }}>
-              <Nav.Link style={fontWeight600} href="mainPage">Home</Nav.Link>
-              {authenticator ? (
+              <Nav.Link style={fontWeight600} href="/">Home</Nav.Link>
+              {context.token !==null && context.token!==undefined ? (
                 <>
-                  <Nav.Link style={fontWeight600} href="#link">Teach</Nav.Link>
-                  <Nav.Link style={fontWeight600} href="#home">Profile</Nav.Link>
-                </>
-              ) : (
-                <>
-                  <Nav.Link style={fontWeight600} href="#link">Add Flashcards</Nav.Link>
+                  {/* <Nav.Link style={fontWeight600} href="#link">Teach</Nav.Link>
+                  <Nav.Link style={fontWeight600} href="#home">Profile</Nav.Link> */}
+                 <Nav.Link style={fontWeight600} href="#link">Add Flashcards</Nav.Link>
                   <Nav.Link style={fontWeight600} href="newCard">Add Cards</Nav.Link>
                   <Nav.Link style={fontWeight600} href="#link">Rank</Nav.Link>
                   <Nav.Link style={fontWeight600} href="/setsPage">sets</Nav.Link>
                   <Nav.Link style={fontWeight600} onClick={toggleModal} >Add Sets</Nav.Link>
+                    <Link to="/login"><button className={styles.logoBtn} type="button" onClick={handleLogout}>Logout</button></Link>
+
+                </>
+              ) : (
+                <>
+                 
+               
+  <Link to="/login"><button className={styles.logoBtn} type="button">Login</button></Link>
+             
                 </>
               )}
-              <Link to="/">{(context.token!==null &&context.token!==undefined) ?<button className={styles.logoBtn} type="button" onClick={handleLogout}>Logout</button>:<button className={styles.logoBtn} type="button">Login</button>}</Link>
+              
+              
             </Nav>
           </Navbar.Collapse>
         </div>

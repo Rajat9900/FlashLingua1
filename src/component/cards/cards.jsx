@@ -81,7 +81,7 @@ const Cards = () => {
       setPrevcard(res.data.prev);
       setIshowcard(true);
 
-      // setFileurl(res.data.cards.targetAudio);
+      setFileurl(res.data.cards.targetAudio);
 
 
 
@@ -106,18 +106,19 @@ const Cards = () => {
           </div>
         </div>
       </div>}
-      {isshowcard && <div className="flex flex-col gap-1 w-[70%] items-center mb-2 mt-2">
-        <p>Hello! Welcome</p>
-        <p>In {showcard.sourceLang}</p>
-        <p>{showcard.sourceText}</p>
+      {isshowcard && <div className="flex flex-col gap-1 w-[70%] items-center mb-2 mt-3 main-cont">
+
+        <h2 className="p-2">Hello! Welcome</h2>
+        <h3 className="m-2 greencolor">In {showcard.sourceLang}</h3>
+        <p className="p-2">{showcard.sourceText}</p>
         {showcard.illustration != null &&
           <img src={showcard.illustration} className="crd_img" />
         }
         {showcard.illustration == null &&
           <img src={defaultImg} className="crd_img" />
         }
-        <p>In {showcard.targetLang}</p>
-        <p>{showcard.targetText}</p>
+        <h3 className="m-2 greencolor">In {showcard.targetLang}</h3>
+        <p className="p-2"> {showcard.targetText}</p>
 
         {fileurl != null &&
           <div className="flex flex-col gap-1 w-[70%] items-center mb-2 mt-2">

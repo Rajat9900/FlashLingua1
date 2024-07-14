@@ -5,25 +5,31 @@ import { getViewCards } from "../../../services";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import './ImagesCSS.css';
  import defaultImg from './pic25.png';
-const grid = 8;
+const grid = 4;
  const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
-  padding: grid * 8,
-  margin: `0 0 ${grid}px 0`,
+  padding:0,
   // change background colour if dragging
   background: isDragging ? "lightgreen" : "white",
-  border: '5px solid lightgreen', // it is not work.
+   border: '2px solid #e5e7eb', /* border-gray-200 */
+   margin: 4,
+    borderRadius: '1rem', /* rounded-xl */
   // styles we need to apply on draggables
+   boxShadow: '0px 10px 15px rgba(0, 0, 0, 0.1)', /* shadow-xl */
   ...draggableStyle,
 });
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  background: "white",
+   border: '2px solid #e5e7eb', /* border-gray-200 */
+    borderRadius: '1rem', /* rounded-xl */
   display: 'flex',
   padding: grid,
   width:'100%',
-  flexWrap:'wrap'
+  padding:10,
+  flexWrap:'wrap',
+
 });
 
 
@@ -42,7 +48,7 @@ const AddSets = () => {
       newFlipped[index] = !newFlipped[index];
       return newFlipped;
     });
-  };
+  }; 
 
   
 
@@ -102,12 +108,10 @@ const AddSets = () => {
   };
 
   return (
-    <div className="flex justify-center">
-     {!isShowcars && <div className="main-container mt-4">
-        <div className="text-center">
-          <h1 className="text-lg font-bold">Sets</h1>
-        </div>
-        <div className=" flex justify-center">
+    <div className="flex">
+     {!isShowcars && <div className="main-container w-[80%]">
+        <div className="container"><h2 className="text-lg font-bold">Sets</h2></div>
+        <div className=" flex justify-center ">
         <div className="flex flex-wrap gap-2 justify-between items-center w-[80%] ">
           {characters?.map((picture, index) => (
             <div key={index} className="group mt-4 h-[240px] w-[240px]  perspective-1000 bg-gray-200 flex justify-center items-center  rounded-lg">
@@ -124,7 +128,23 @@ const AddSets = () => {
 
       {isShowcars &&
         <div className="container"><h2>View Cards</h2>
-<button onClick={e => getback()} className=" bg-[#4CAF50] py-2 px-3 mt-5 rounded-lg text-white">Back</button>
+
+        {items.length == 0 && 
+          <div className="flex">
+          <div className="main-container mt-4">
+           <button onClick={e => getback()} className=" bg-[#4CAF50] py-2 px-3 mt-5 mb-2  rounded-lg text-white">Back</button>
+           </div>
+          <div className="flex flex-col gap-1 w-[80%] text-center items-center mb-2 mt-2">
+           
+            <h3 className="text-center">No Records</h3>
+          </div>
+          </div>
+        }
+
+        {items.length > 0 && 
+          <div>
+            
+            <button onClick={e => getback()} className=" bg-[#4CAF50] py-2 px-3  mb-2 rounded-lg text-white">Back</button>
         <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable" direction="horizontal">
         {(provided, snapshot) => (
@@ -151,29 +171,23 @@ const AddSets = () => {
                   >
                 <div className="flip-card-inner">
                         <div className="flip-card-front">
-                            <div className="card-content">
-                            {item?.flashcard?.illustration != null &&
-                            <img src={item.flashcard.illustration} className="crd_img" />
+                           {item?.flashcard?.illustration != null &&
+                            <img className="h-150 w-auto rounded-xl" src={item.flashcard.illustration} />
                              }
-                             {item.illustration == null &&
-                            <img src={defaultImg} className="crd_img" />
+                             {item.flashcard.illustration == null &&
+                            <img className="h-150 w-auto rounded-xl" src={defaultImg} />
                              }
-                                
-                                <h3>{item?.flashcard?.sourceText}</h3>
-                            </div>
+                          <h1 className="text-center mt-3">{item?.flashcard?.sourceText}</h1>
                             
                         </div>
                         <div className="flip-card-back">
-                            <div className="card-content">
                             {item?.flashcard?.illustration != null &&
-                            <img src={item.flashcard.illustration} className="crd_img" />
+                            <img className="h-150 w-auto rounded-xl" src={item.flashcard.illustration} />
                              }
-                             {item.illustration == null &&
-                            <img src={defaultImg} className="crd_img" />
+                             {item.flashcard.illustration == null &&
+                            <img className="h-150 w-auto rounded-xl" src={defaultImg}  />
                              }
-                               <h3> {item.flashcard.targetText}</h3>
-                            </div>
-                            
+                          <h1 className="text-center mt-3">{item?.flashcard?.targetText}</h1>
                         </div>
                     </div>
                    
@@ -185,7 +199,10 @@ const AddSets = () => {
           </div>
         )}
       </Droppable>
-    </DragDropContext></div>
+    </DragDropContext>
+          </div>
+        }
+        </div>
       }
     </div>
   );

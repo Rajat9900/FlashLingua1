@@ -234,7 +234,7 @@ const Images = () => {
                         )}
                         className={`characters flip  ${flipped[index] ? 'rotateY-180' : ''}`}
                         onClick={() => flipCard(index)}
-                      >
+                      > 
                         <div className="flip-front">
                           <img className="h-150 w-auto rounded-xl" src={picture.pic} alt={picture.name} />
                           <h1 className="text-center mt-3">{picture.name}</h1>

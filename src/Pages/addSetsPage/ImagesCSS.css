@@ -10,15 +10,15 @@
 }
  
 .container {
-    padding: 20px;
+   
     justify-content: center;
-    margin: 20px;
+  
 }
 
 .container h2{
     
     text-align: center;
-    padding: 20px;
+   
     
 }
  
@@ -36,17 +36,26 @@
 }
  
 .flip-card-inner {
+    position: relative;
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
+    transition: transform 0.5s;
+   
+   
 }
  
 .flip-card-front,
 .flip-card-back {
+     position: absolute;
     width: 100%;
     height: 100%;
-    position: absolute;
     backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1rem; /* rounded-xl */
 }
  
 .flip-card-front {
@@ -64,8 +73,15 @@
    display: flex;
    flex-direction: column;
 }
-.crd_img{
-    position: relative;
-    width: 100px;
-    height: 100px;
+/* Image Styles */
+.h-150 {
+    height: 150px;
+}
+.w-auto {
+    width: auto;
+}
+
+/* Helper Classes */
+.min-h-full {
+    min-height: 100%;
 }

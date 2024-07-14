@@ -65,7 +65,7 @@ const Login = () => {
       if (res.status == 200) {
         localStorage.setItem("token", res.data.token)
         context.setToken(res.data.token)
-        navigate('/mainPage')
+        navigate('/')
 
       }
     }).catch(err => {
@@ -91,14 +91,14 @@ const Login = () => {
               if (res.status == 201) {
                 localStorage.setItem("token", res.data.token)
                 context.setToken(res.data.token)
-                navigate('/mainPage')
+                navigate('/')
               }
             })
           } else {
             localStorage.setItem("token", res.data.data.token)
             context.setToken(res.data.data.token)
             console.log('else')
-            navigate('/mainPage')
+            navigate('/')
           }
         }
       })
