@@ -6,6 +6,7 @@ import defaultImg from './pic25.png';
 import Waveform from "./Waveform";
 import audio from "../../assets/quothello-therequot-158832.mp3"
 import { HiOutlineArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const grid = 8;
@@ -36,7 +37,8 @@ const getListStyle = isDraggingOver => ({
 const Cards = () => {
   const wavesurferRef = useRef(null);
   const [items, setItems] = useState([]);
-  const [showcard, setShowcard] = useState([]);
+  const navigate = useNavigate()
+  const [showcard, setShowcard] = useState(0);
   const [isshowcard, setIshowcard] = useState(false);
   const [prevcard, setPrevcard] = useState(false);
   const [nextcard, setNextcard] = useState(false);
@@ -57,6 +59,7 @@ const Cards = () => {
   const getAPiToken = localStorage.getItem("token");
 
   useEffect(() => {
+    localStorage.setItem('cardsLimit','');
     console.log(localStorage.getItem('selectedLanguage'))
     console.log(localStorage.getItem('selectedSecondLanguage'))
     const payload={
@@ -70,21 +73,52 @@ const Cards = () => {
     }).catch(err => {
       console.error("Error fetching data:", err);
     });
+
+     console.log(localStorage.getItem('cardsLimit')+ 'bani');
   }, []);
 
 
-  const showCard = (id) => {
+  const showCard = (id,index,tp) => {
+    let cardLimit = localStorage.getItem('cardsLimit');
+    if(cardLimit != ''){
+      let checksVal = cardLimit.split('_');
+       
+      if(cardLimit[1] == 2){
+        alert('Please login and pay to access more cards!');
+        navigate('/login')
+      }
+    }
+     
     getCard(getAPiToken, id).then(res => {
       console.log(res, "data");
-      setShowcard(res.data.cards);
-      setNextcard(res.data.next);
-      setPrevcard(res.data.prev);
-      setIshowcard(true);
-
+      setShowcard(index);
       setFileurl(res.data.cards.targetAudio);
 
+      if(tp == 1){
+       
+        let mapData = {};
+        mapData['id'] = id;
+        mapData['indexval'] = index;
 
+        let oldLimit =  localStorage.getItem('cardsLimit');
+        
+        if(oldLimit != ''){
+          let checkVal = id+'_'+index;
+          let valArr = checkVal.split('_');
 
+         //alert(valArr[0] + ' - '+id);
+          
+            if(oldLimit == id+'_'+index){
+
+            }else{
+              
+              localStorage.setItem('cardsLimit',id+'_'+index);
+            }
+        }else{
+
+           localStorage.setItem('cardsLimit',id+'_'+index);
+        }
+      }
     }).catch(err => {
       console.error("Error fetching data:", err);
     });
@@ -92,58 +126,50 @@ const Cards = () => {
 
 
   return (
-    <div className="flex justify-center">
-      {!isshowcard && <div className="flex flex-col gap-1 w-[70%] items-center mb-2 mt-2">
-        <p>View Cards</p>
-        <div className="flex flex-col p-10  w-full bg-[#FAFAFA] rounded-2xl border-dashed border-[#FAFAFA] border-2">
-          <p>Words</p>
-          <div className="grid mt-5">
+    <div className="flex justify-center ">
+  
             {items.map((item, index) => (
-              <div key={index} className="cell" onClick={() => showCard(item._id)}>{item.sourceText}</div>
+             <div className="flex flex-col pt-5">
+               {index == showcard &&  <div className="flex flex-col items-center w-[100%]">
+                <h2 className="p-2">Hello! Welcome</h2>
+                <h3 className="m-2 greencolor">In {item.sourceLang}</h3>
+                <p className="p-2">{item.sourceText}</p>
+                {item.illustration != null &&
+                  <img src={item.illustration} className="crd_img" />
+                }
+                {item.illustration == null &&
+                  <img src={defaultImg} className="crd_img" />
+                }
+                <h3 className="m-2 greencolor">In {item.targetLang}</h3>
+                <p className="p-2"> {item.targetText}</p>
+
+                {fileurl != null &&
+                  <div className="flex flex-col gap-1 w-[100%] items-center mb-2 mt-2">
+                    <Waveform url={item.targetAudio} />
+
+                    <div className="w-[100%] flex justify-evenly gap-3 mt-3">
+                      <button onClick={() => showCard(items[index-1]._id,index-1,0)} disabled={prevcard == null} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center">
+                        <span className="mt-1">
+                          <HiOutlineArrowNarrowLeft />
+                        </span>
+                        Back
+                      </button>
+                      <button onClick={() => showCard(items[index+1]._id,index+1,1)} disabled={items[index+1] == undefined} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center">
+                        Next
+                        <span className="mt-1">
+                          <HiArrowNarrowRight />
+                        </span>
+                      </button>
+                    </div>
+
+                  </div>}
+             </div> }
+             </div>
 
             )
             )}
-          </div>
-        </div>
-      </div>}
-      {isshowcard && <div className="flex flex-col gap-1 w-[70%] items-center mb-2 mt-3 main-cont">
-
-        <h2 className="p-2">Hello! Welcome</h2>
-        <h3 className="m-2 greencolor">In {showcard.sourceLang}</h3>
-        <p className="p-2">{showcard.sourceText}</p>
-        {showcard.illustration != null &&
-          <img src={showcard.illustration} className="crd_img" />
-        }
-        {showcard.illustration == null &&
-          <img src={defaultImg} className="crd_img" />
-        }
-        <h3 className="m-2 greencolor">In {showcard.targetLang}</h3>
-        <p className="p-2"> {showcard.targetText}</p>
-
-        {fileurl != null &&
-          <div className="flex flex-col gap-1 w-[70%] items-center mb-2 mt-2">
-            <Waveform url={showcard.targetAudio} />
-
-            <div className="w-[60%] flex justify-evenly gap-3 mt-3">
-              <button onClick={() => showCard(prevcard)} disabled={prevcard == null} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center">
-                <span className="mt-1">
-                  <HiOutlineArrowNarrowLeft />
-                </span>
-                Back
-              </button>
-              <button onClick={() => showCard(nextcard)} disabled={nextcard == null} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center">
-                Next
-                <span className="mt-1">
-                  <HiArrowNarrowRight />
-                </span>
-              </button>
-            </div>
-
-          </div>}
-      </div>}
-
-
-
+          
+     
     </div>
   );
 };
