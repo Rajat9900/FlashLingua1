@@ -1,8 +1,8 @@
 import axios from "axios"
 
 
-// export const api_url= "http://localhost:8803/v1"
- export const api_url= "https://flashlingua.cards/api/v1"
+export const api_url= "http://localhost:8803/v1"
+ // export const api_url= "https://flashlingua.cards/api/v1"
 
 export const UserSignup=(payload)=>{
     return axios.post(`${api_url}/users/signup`,payload)
@@ -48,10 +48,10 @@ return axios.get(`${api_url}/cards/get-all-cards`,{
 })
 }
 
-export const getCard = (token,id)=> {
-return axios.get(`${api_url}/cards/get-card/`+id,{
+export const getCard = (payload,token)=> {
+return axios.post(`${api_url}/cards/get-card`,payload,{
     headers:{
-        //Authorization:"Bearer "+ token
+        Authorization:"Bearer "+ token
     } 
 })
 }
@@ -86,6 +86,14 @@ return axios.get(`${api_url}/set/view-cards/`+id,{
 
 export const getFilteredCards=(payload)=>{
     return axios.post(`${api_url}/cards/get-filtered-card`,payload)
+}
+
+export const createPaymentIntent = (token)=> {
+return axios.get(`${api_url}/users/create-intent/`,{
+    headers:{
+        Authorization:"Bearer "+ token
+    } 
+})
 }
 
 

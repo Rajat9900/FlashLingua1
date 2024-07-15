@@ -1,3 +1,4 @@
+import  { useContext, useEffect, useState } from 'react';
 import {BrowserRouter as  Router,Route,Routes } from 'react-router-dom'
 import Header from '../Header/page'
 import Tech from '../../Pages/Tech/Tech'
@@ -17,9 +18,24 @@ import NewCard from '../../Pages/NewCard/NewCard'
 import DragDrop from '../../Pages/DragDrop/DragDrop'
 import AddSets from '../../Pages/addSetsPage/AddSets'
 import Cards from '../cards/cards'
+import Payment from '../Payment/Payment'
+import { AppContext } from '../../context/appContext';
 // import ImagesStyle from '../../Pages/Images/StylesImages/ImagesStyle'
 
+
+const NotFound = () => {
+  return (
+    <>
+      <h1>404 - Page Not Found</h1>
+      <p>Sorry, the page you are looking for could not be found.</p>
+    </>
+  );
+};
+
+
 const RoutesDeclare = () => {
+
+
   return (
    <>
     <Router>
@@ -43,7 +59,8 @@ const RoutesDeclare = () => {
       <Route path='/setsPage' element={<AddSets/>}></Route>
       <Route path='/dragDrop' element={<DragDrop/>}></Route>
       <Route path='/cards' element={<Cards/>}></Route>
-      {/* <Route path='/' element={<ViewPage/>}></Route>   */}
+      <Route path='/payment' element={<Payment/>}></Route>
+       <Route path="*" element={<NotFound />} />
      
    </Routes>
      

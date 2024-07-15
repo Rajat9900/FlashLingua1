@@ -47,6 +47,7 @@ const Cards = () => {
 
   const [isFlipped, setFlipped] = useState('');
   const [flipped, setFFlipped] = useState(Array(items.length).fill(false));
+  const [isnorec, setIsnorec] = useState(false);
 
   const flipCard = (index) => {
     setFFlipped((prevFlipped) => {
@@ -59,6 +60,15 @@ const Cards = () => {
   const getAPiToken = localStorage.getItem("token");
 
   useEffect(() => {
+
+
+  
+  if(getAPiToken == null){
+      navigate('/login');
+  }
+
+
+
     localStorage.setItem('cardsLimit','');
     console.log(localStorage.getItem('selectedLanguage'))
     console.log(localStorage.getItem('selectedSecondLanguage'))
@@ -70,6 +80,8 @@ const Cards = () => {
       console.log(res.data, "data");
       setItems(res.data);
 
+      
+
     }).catch(err => {
       console.error("Error fetching data:", err);
     });
@@ -79,46 +91,19 @@ const Cards = () => {
 
 
   const showCard = (id,index,tp) => {
-    let cardLimit = localStorage.getItem('cardsLimit');
-    if(cardLimit != ''){
-      let checksVal = cardLimit.split('_');
-       
-      if(cardLimit[1] == 2){
-        alert('Please login and pay to access more cards!');
-        navigate('/login')
+     const formData = new FormData()
+      formData.append('cardid',id)
+      formData.append('istype',tp);
+    getCard(formData,getAPiToken).then(res => {
+
+      if(res.data.isAllowed > 25){
+        navigate('/payment');
       }
-    }
-     
-    getCard(getAPiToken, id).then(res => {
       console.log(res, "data");
       setShowcard(index);
       setFileurl(res.data.cards.targetAudio);
 
-      if(tp == 1){
-       
-        let mapData = {};
-        mapData['id'] = id;
-        mapData['indexval'] = index;
-
-        let oldLimit =  localStorage.getItem('cardsLimit');
-        
-        if(oldLimit != ''){
-          let checkVal = id+'_'+index;
-          let valArr = checkVal.split('_');
-
-         //alert(valArr[0] + ' - '+id);
-          
-            if(oldLimit == id+'_'+index){
-
-            }else{
-              
-              localStorage.setItem('cardsLimit',id+'_'+index);
-            }
-        }else{
-
-           localStorage.setItem('cardsLimit',id+'_'+index);
-        } 
-      }
+  
     }).catch(err => {
       console.error("Error fetching data:", err);
     });
@@ -127,6 +112,8 @@ const Cards = () => {
 
   return (
     <div className="flex justify-center ">
+
+          {Object.keys(items).length == 0 && <div className="items-center mt-5"><h2>No Records</h2></div>}
   
             {items.map((item, index) => (
              <div className="flex flex-col pt-5">
@@ -148,13 +135,13 @@ const Cards = () => {
                     <Waveform url={item.targetAudio} />
 
                     <div className="w-[100%] flex justify-evenly gap-3 mt-3">
-                      <button onClick={() => showCard(items[index-1]._id,index-1,0)} disabled={prevcard == null} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center">
+                      <button onClick={() => showCard(items[index-1]._id,index-1,0)} disabled={items[index-1] == undefined} className={"hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center " + (items[index-1] == undefined ? 'd-none' : '')}>
                         <span className="mt-1">
                           <HiOutlineArrowNarrowLeft />
                         </span>
                         Back
                       </button>
-                      <button onClick={() => showCard(items[index+1]._id,index+1,1)} disabled={items[index+1] == undefined} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center">
+                      <button onClick={() => showCard(items[index+1]._id,index+1,1)} disabled={items[index+1] == undefined} className={"hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center " + (items[index+1] == undefined ? 'd-none' : '')} >
                         Next
                         <span className="mt-1">
                           <HiArrowNarrowRight />

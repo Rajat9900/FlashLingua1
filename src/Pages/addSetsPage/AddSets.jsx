@@ -3,6 +3,8 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/appContext";
 import { getViewCards } from "../../../services";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { Link, useNavigate } from "react-router-dom";
+  
 import './ImagesCSS.css';
  import defaultImg from './pic25.png';
 const grid = 4;
@@ -41,6 +43,7 @@ const AddSets = () => {
   const [isShowcars, setIsShowcars] = useState(false);
    const [isFlipped, setFlipped] = useState('');
     const [flipped, setFFlipped] = useState(Array(0).fill(false));
+  const navigate = useNavigate()
 
      const flipCard = (index) => {
     setFFlipped((prevFlipped) => {
@@ -54,6 +57,13 @@ const AddSets = () => {
 
 
   useEffect(() => {
+
+  if(getAPiToken == null){
+      navigate('/login');
+  }
+
+
+
     addGetSet(getAPiToken).then(res => {
       console.log(res.data, "data"); 
       setCharacters(res.data);

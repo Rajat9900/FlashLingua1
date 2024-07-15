@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import { HiOutlineArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/appContext";
@@ -21,6 +21,19 @@ const MainPage = () => {
 
   const [activeIndex, setActiveIndex] = useState(null);
   const context = useContext(AppContext)
+
+
+  const getAPiToken = localStorage.getItem("token");
+
+  useEffect(() => {
+
+
+  
+  if(getAPiToken == null){
+      navigate('/login');
+  }
+})
+
 
   const handleButtons = (index) => {
     setActiveIndex(index);

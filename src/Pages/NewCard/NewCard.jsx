@@ -21,6 +21,10 @@ const NewCard = () => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
+
+    if(storedToken == null){
+      navigate('/login');
+  }
     const storedLanguage=  localStorage.getItem("selectedLanguage");
     setToken(storedToken);
     setLanguage1(storedLanguage);
@@ -70,9 +74,31 @@ const NewCard = () => {
   const [error, setError] = useState(null);
    const [sets, setSets] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [sourcelang, setsourceLangVal] = useState(null);
+    const [targetlang, settargetLangVal] = useState(null);
+    const [getFirstItem, setGetFirstItem] = useState(null);
+    const [getSecondItem, setGetSecondItem] = useState(null);
+    const [isnewset, setIsnewset] = useState(null);
+
+
   
 
   console.log(englishWord);
+
+  const languages = [
+    { names: "English" },
+    { names: "Spanish" },
+    { names: "French" },
+    { names: "Italian" },
+    { names: "Japanese" },
+    { names: "Chinese" },
+    { names: "Portuguese" },
+    { names: "German" },
+    { names: "Greek" },
+    { names: "Russian" },
+  ];
+
+
 
   useEffect(() => {
     const setAudio = async (language) => {
@@ -90,6 +116,10 @@ const NewCard = () => {
     getSets(getAPiToken).then(res => {
       console.log(res.data, "data"); 
       setSets(res.data);
+
+      if(res.data.length == 0){
+        setIsnewset(1);
+      } 
       
     }).catch(err => {
       console.error("Error fetching data:", err); 
@@ -257,6 +287,18 @@ const NewCard = () => {
   const setSelectedItemCal = (event) => {
     setSelectedItem(event.target.value)
   }
+
+
+   const setsourceLang = (event) => {
+
+    setsourceLangVal(event)
+    setGetSecondItem(event);
+  
+  }
+   const settargetLang = (event) => {
+    settargetLangVal(event)
+      setGetFirstItem(event);
+  }
   
 
   const runWave = (language) => {
@@ -280,8 +322,6 @@ const NewCard = () => {
     const remainingTime = totalTime - currentTime;
     return formatTime(remainingTime);
   };
-  const getFirstItem = localStorage.getItem("selectedLanguage")
-  const getSecondItem = localStorage.getItem("selectedSecondLanguage")
   
 const navigate= useNavigate()
 
@@ -296,17 +336,28 @@ const context = useContext(AppContext)
       const targetAudioFile=new File([audioBlobSpanish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
       console.log(targetAudioFile)
 
+      if(selectedItem == null && isnewset == 0){
+        alert('Please Select Set');
+        return
+      }
+      let setVal = selectedItem;
+      if(isnewset != 0){
+        setVal = 'new';
+      }
+
+
+
       const formData = new FormData()
       formData.append('image',image)
-      formData.append('sourceLang',context.nativeLanguage)
-      formData.append('targetLang',context.languageToLearn)
+      formData.append('sourceLang',getSecondItem)
+      formData.append('targetLang',getFirstItem )
       formData.append('sourceText',englishWord),
       formData.append('targetText',Spanish),
       // formData.append('sourceAudio',audioURLEnglish),
       formData.append('sourceAudio',sourceAudioFile),
       formData.append('targetAudio',targetAudioFile),
 
-      formData.append('setId',selectedItem)
+      formData.append('setId',setVal)
 
       AddCard(formData,context.token).then(res=>{
         if(res.status==201){
@@ -350,6 +401,43 @@ const context = useContext(AppContext)
           />
         </div>
         </div>
+
+
+          <div className="flex justify-between w-full gap-3">
+          
+          <div>
+           
+            <h1 className="mb-3">Native language</h1>
+             <select className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" onChange={e => setsourceLang(e.target.value)} required>
+             <option value="">Please Select Set</option>
+      {languages.map((itemm, indexx) => (
+        <option key={itemm.names}  value={itemm.names}>
+          {itemm.names}
+        </option>
+      ))}
+
+      
+    </select>
+          </div> 
+
+          <div>
+           
+            <h1 className="mb-3">Learn language</h1>
+             <select className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" onChange={e => settargetLang(e.target.value)} required>
+             <option value="">Please Select Set</option>
+      {languages.map((itemm, indexx) => (
+        <option key={itemm.names}  value={itemm.names}>
+          {itemm.names}
+        </option>
+      ))}
+
+      
+    </select>
+          </div> 
+        </div>
+
+
+
         <div className="flex justify-between w-full gap-3">
           
           <div>
@@ -412,7 +500,7 @@ const context = useContext(AppContext)
               </div>
           </div>
         </div>
-         <div className="flex justify-between w-full gap-3">
+        {sets.length > 0 && <div className="flex justify-between w-full gap-3">
           
           <div>
            
@@ -428,7 +516,7 @@ const context = useContext(AppContext)
       
     </select>
           </div> 
-        </div>
+        </div> }
         <button onClick={submitData} className="bg-[#4CAF50] w-full p-2 rounded-xl text-white mt-5">Create card</button>
       {/* </div> */}
     </div>
