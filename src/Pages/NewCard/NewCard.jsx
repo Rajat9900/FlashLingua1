@@ -341,7 +341,7 @@ const context = useContext(AppContext)
         return
       }
       let setVal = selectedItem;
-      if(isnewset != 0){
+      if(isnewset == 0){
         setVal = 'new';
       }
 
@@ -349,10 +349,10 @@ const context = useContext(AppContext)
 
       const formData = new FormData()
       formData.append('image',image)
-      formData.append('sourceLang',getSecondItem)
-      formData.append('targetLang',getFirstItem )
-      formData.append('sourceText',englishWord),
-      formData.append('targetText',Spanish),
+      formData.append('sourceLang',getFirstItem)
+      formData.append('targetLang',getSecondItem )
+      formData.append('sourceText',Spanish),
+      formData.append('targetText',englishWord),
       // formData.append('sourceAudio',audioURLEnglish),
       formData.append('sourceAudio',sourceAudioFile),
       formData.append('targetAudio',targetAudioFile),
