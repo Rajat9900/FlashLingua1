@@ -17,6 +17,7 @@ const Payment = () => {
 
 
 
+
   useEffect(() => {
   const getAPiToken = localStorage.getItem("token");
 
@@ -29,24 +30,29 @@ const Payment = () => {
       console.error("Error fetching data:", err);
     });
 
-    const handleSubmit = async (event) => {
+  
+
+  }, []);
+
+   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
     event.preventDefault();
 
-    if (!stripe || !elements) {
+    if (!Elements) {
       // Stripe.js hasn't yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
-    const result = await stripe.confirmPayment({
+    const result = await stripePromise.confirmPayment({
       //`Elements` instance that was used to create the Payment Element
-      elements,
+      useElements,
       confirmParams: {
-        return_url: "https://example.com/order/123/complete",
+        return_url: "http://localhost:5173/payment-success",
       },
     });
+
 
     if (result.error) {
       // Show error to your customer (for example, payment details incomplete)
@@ -59,9 +65,6 @@ const Payment = () => {
   };
 
 
-
-  }, []);
-
   return (
     <>
     <div className="flex justify-center ">
@@ -72,8 +75,8 @@ const Payment = () => {
       {/* <h1>React Stripe and the Payment Element</h1> */}
       {clientSecret && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <PaymentElement />
-        <button className="bg-[#4CAF50] w-[30%] p-2 rounded-xl text-white mt-5">Submit</button>
+          <form onSubmit={handleSubmit}><PaymentElement />
+        <button disabled={!stripePromise} className="bg-[#4CAF50] w-[30%] p-2 rounded-xl text-white mt-5">Submit</button></form>
         </Elements>
       )}
       </div>

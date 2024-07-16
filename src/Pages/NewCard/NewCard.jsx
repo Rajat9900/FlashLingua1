@@ -78,7 +78,7 @@ const NewCard = () => {
     const [targetlang, settargetLangVal] = useState(null);
     const [getFirstItem, setGetFirstItem] = useState(null);
     const [getSecondItem, setGetSecondItem] = useState(null);
-    const [isnewset, setIsnewset] = useState(null);
+    const [isnewset, setIsnewset] = useState(0);
 
 
   
@@ -113,9 +113,10 @@ const NewCard = () => {
     };
 
      const getAPiToken = localStorage.getItem("token");
-    getSets(getAPiToken).then(res => {
+      getSets(getAPiToken).then(res => {
       console.log(res.data, "data"); 
       setSets(res.data);
+
 
       if(res.data.length == 0){
         setIsnewset(1);
@@ -341,7 +342,8 @@ const context = useContext(AppContext)
         return
       }
       let setVal = selectedItem;
-      if(isnewset == 0){
+      //alert(isnewset);
+      if(isnewset == 1){
         setVal = 'new';
       }
 
