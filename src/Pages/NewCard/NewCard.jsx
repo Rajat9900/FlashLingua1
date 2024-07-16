@@ -293,12 +293,12 @@ const NewCard = () => {
    const setsourceLang = (event) => {
 
     setsourceLangVal(event)
-    setGetSecondItem(event);
+    setGetFirstItem(event);
   
   }
    const settargetLang = (event) => {
     settargetLangVal(event)
-      setGetFirstItem(event);
+      setGetSecondItem(event);
   }
   
 
@@ -444,11 +444,11 @@ const context = useContext(AppContext)
           
           <div>
            
-            <h1 className="mb-3">Word in {getSecondItem}</h1>
+            <h1 className="mb-3">Word in {getFirstItem}</h1>
             <input onChange={(e) => setEnglishWord(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" required/>
           </div>
           <div>
-            <h1 className="mb-3">Word in {getFirstItem}</h1>
+            <h1 className="mb-3">Word in {getSecondItem}</h1>
             <input  onChange={(e) => setSpanish(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl"  required/>
           </div>
         </div>
