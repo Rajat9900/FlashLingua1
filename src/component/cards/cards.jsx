@@ -96,9 +96,9 @@ const Cards = () => {
       formData.append('istype',tp);
       getCard(formData,getAPiToken).then(res => {
 
-      /*if(res.data.isAllowed == 0){
+      if(res.data.isAllowed == 0){
         navigate('/payment');
-      }*/
+      }
       console.log(res, "data");
       setShowcard(index);
       setFileurl(res.data.cards.targetAudio);
