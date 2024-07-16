@@ -19,6 +19,7 @@ import DragDrop from '../../Pages/DragDrop/DragDrop'
 import AddSets from '../../Pages/addSetsPage/AddSets'
 import Cards from '../cards/cards'
 import Payment from '../Payment/Payment'
+import PaymentSuccesPage from '../Payment/PaymentSuccesPage'
 import { AppContext } from '../../context/appContext';
 // import ImagesStyle from '../../Pages/Images/StylesImages/ImagesStyle'
 
@@ -60,6 +61,7 @@ const RoutesDeclare = () => {
       <Route path='/dragDrop' element={<DragDrop/>}></Route>
       <Route path='/cards' element={<Cards/>}></Route>
       <Route path='/payment' element={<Payment/>}></Route>
+      <Route path='/payment-success' element={<PaymentSuccesPage/>}></Route>
        <Route path="*" element={<NotFound />} />
      
    </Routes>

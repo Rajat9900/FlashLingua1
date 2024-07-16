@@ -94,11 +94,11 @@ const Cards = () => {
      const formData = new FormData()
       formData.append('cardid',id)
       formData.append('istype',tp);
-    getCard(formData,getAPiToken).then(res => {
+      getCard(formData,getAPiToken).then(res => {
 
-      if(res.data.isAllowed > 25){
+      /*if(res.data.isAllowed == 0){
         navigate('/payment');
-      }
+      }*/
       console.log(res, "data");
       setShowcard(index);
       setFileurl(res.data.cards.targetAudio);
