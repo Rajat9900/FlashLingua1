@@ -353,8 +353,8 @@ const context = useContext(AppContext)
       formData.append('image',image)
       formData.append('sourceLang',getFirstItem)
       formData.append('targetLang',getSecondItem )
-      formData.append('sourceText',Spanish),
-      formData.append('targetText',englishWord),
+      formData.append('sourceText',englishWord),
+      formData.append('targetText',Spanish),
       // formData.append('sourceAudio',audioURLEnglish),
       formData.append('sourceAudio',sourceAudioFile),
       formData.append('targetAudio',targetAudioFile),
