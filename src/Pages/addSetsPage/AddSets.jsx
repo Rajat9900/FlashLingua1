@@ -1,7 +1,7 @@
 import { addGetSet } from "../../../services";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/appContext";
-import { getViewCards } from "../../../services";
+import { getViewCards,updateCardsOrder } from "../../../services";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link, useNavigate } from "react-router-dom";
   
@@ -39,11 +39,12 @@ const AddSets = () => {
   const [characters, setCharacters] = useState([]);
   const context = useContext(AppContext)
   const getAPiToken = localStorage.getItem("token");
-  const [items, setItems] = useState([]);
+  const [flashcards, setFlashcards] = useState([]);
   const [isShowcars, setIsShowcars] = useState(false);
    const [isFlipped, setFlipped] = useState('');
     const [flipped, setFFlipped] = useState(Array(0).fill(false));
   const navigate = useNavigate()
+  const [activeset,setActiveset] = useState(null)
 
      const flipCard = (index) => {
     setFFlipped((prevFlipped) => {
@@ -77,12 +78,16 @@ const AddSets = () => {
   } 
 
   const viewCards = (id) => {
-    
+    setActiveset(id);
     getViewCards(getAPiToken,id).then(res => {
       console.log(res.data.flashcards, "data"); 
 
+      let cardsArr = res.data.flashcards;
 
-      setItems(res.data.flashcards);
+      cardsArr.sort((a, b) => a.order - b.order)
+
+
+      setFlashcards(cardsArr);
       setIsShowcars(true)
       
     }).catch(err => {
@@ -101,20 +106,37 @@ const AddSets = () => {
 
   const onDragEnd = (result) => {
     // dropped outside the list
-    if (!result.destination) {
-      return;
-    }
+    if (!result.destination) return;
 
-    console.log( result);
+    const items = Array.from(flashcards);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setFlashcards(items);
+
+    // Update order on the backend
+    const newOrder = items.map((item, index) => ({
+      flashcardId: item.flashcard._id,
+      order: index + 1
+    }));
+
+    
+     updateCardsOrder(getAPiToken,newOrder,activeset).then(res => {
+      
+      
+    }).catch(err => {
+      console.error("Error fetching data:", err); 
+    });
+
 
 
     const reorderedItems = reorder(
-      items,
+      flashcards,
       result.source.index,
       result.destination.index
     );
 
-    setItems(reorderedItems);
+    setFlashcards(reorderedItems);
   };
 
   return (
@@ -139,7 +161,7 @@ const AddSets = () => {
       {isShowcars &&
         <div className="container"><h2>View Cards</h2>
 
-        {items.length == 0 && 
+        {flashcards.length == 0 && 
           <div className="flex">
           <div className="main-container mt-4">
            <button onClick={e => getback()} className=" bg-[#4CAF50] py-2 px-3 mt-5 mb-2  rounded-lg text-white">Back</button>
@@ -151,7 +173,7 @@ const AddSets = () => {
           </div>
         }
 
-        {items.length > 0 && 
+        {flashcards.length > 0 && 
           <div>
             
             <button onClick={e => getback()} className=" bg-[#4CAF50] py-2 px-3  mb-2 rounded-lg text-white">Back</button>
@@ -163,7 +185,7 @@ const AddSets = () => {
             ref={provided.innerRef}
             style={getListStyle(snapshot.isDraggingOver)}
           >
-            {items.map((item, index) => (
+            {flashcards.map((item, index) => (
               <Draggable key={item._id} draggableId={item._id} index={index}>
                 {(provided, snapshot) => (
                   <div

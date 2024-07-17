@@ -88,6 +88,15 @@ export const getFilteredCards=(payload)=>{
     return axios.post(`${api_url}/cards/get-filtered-card`,payload)
 }
 
+
+export const updateCardsOrder=(token,payload,id)=>{
+    return axios.put(`${api_url}/set/update-card-order/`+id,payload,{
+         headers:{
+        Authorization:"Bearer "+ token
+    } 
+    })
+}
+
 export const createPaymentIntent = (token)=> {
 return axios.get(`${api_url}/users/create-intent/`,{
     headers:{
