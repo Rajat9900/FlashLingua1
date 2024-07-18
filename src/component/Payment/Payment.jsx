@@ -41,7 +41,7 @@ const Payment = () => {
 
        savePayment(getAPiToken,{payent_intent}).then(res => {
           alert('You Payment has been received. Now you can access more cards!');
-      //navigate('/')
+      navigate('/')
       }).catch(err => {
         console.log(err)
        // alert('Please do another payment to access more cards!');
