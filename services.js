@@ -106,4 +106,13 @@ return axios.get(`${api_url}/users/create-intent/`,{
 }
 
 
+export const savePayment = (token,payload)=> {
+return axios.post(`${api_url}/users/save-payment/`,payload,{
+    headers:{
+        Authorization:"Bearer "+ token
+    } 
+})
+}
+
+
 

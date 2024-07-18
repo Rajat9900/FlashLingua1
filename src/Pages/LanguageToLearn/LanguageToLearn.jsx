@@ -7,6 +7,7 @@ import { AppContext } from "../../context/appContext";
 const LanguageToLearn = () => {
   const buttonss = [
     { names: "English" },
+    { names: "Hindi" },
     { names: "Spanish" },
     { names: "French" },
     { names: "Italian" },

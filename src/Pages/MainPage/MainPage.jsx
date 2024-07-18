@@ -6,6 +6,7 @@ import { AppContext } from "../../context/appContext";
 const MainPage = () => {
   const buttonss = [
     { names: "English" },
+    { names: "Hindi" },
     { names: "Spanish" },
     { names: "French" },
     { names: "Italian" },

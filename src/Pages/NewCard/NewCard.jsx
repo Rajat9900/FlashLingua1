@@ -87,6 +87,7 @@ const NewCard = () => {
 
   const languages = [
     { names: "English" },
+    { names: "Hindi" },
     { names: "Spanish" },
     { names: "French" },
     { names: "Italian" },
