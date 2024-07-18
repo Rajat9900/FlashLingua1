@@ -1,4 +1,6 @@
 import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
+import { AppUrl } from "../../../services";
+
 
 const CheckoutForm = () => {
   const stripe = useStripe();
@@ -19,7 +21,7 @@ const CheckoutForm = () => {
       //`Elements` instance that was used to create the Payment Element
       elements,
       confirmParams: {
-        return_url: "http://localhost:5173/payment",
+        return_url: AppUrl+"payment",
       },
     });
 

@@ -5,7 +5,7 @@ import CheckoutForm from './CheckoutForm'
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import { savePayment } from "../../../services";
+import { savePayment,AppUrl } from "../../../services";
 
 import {
   PaymentElement,
