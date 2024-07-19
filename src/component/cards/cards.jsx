@@ -4,6 +4,7 @@ import { getallCards, getCard, getFilteredCards } from "../../../services";
 import './ImagesCSS.css';
 import defaultImg from './pic25.png';
 import Waveform from "./Waveform";
+import Wavesourceform from "./Wavesourceform";
 import audio from "../../assets/quothello-therequot-158832.mp3"
 import { HiOutlineArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
@@ -124,7 +125,7 @@ const Cards = () => {
                 <p className="p-2">{item.sourceText}</p>
                  {sourceFileurl != null &&
                   <div className="flex flex-col gap-1 w-[100%] items-center m-4">
-                    <Waveform url={item.sourceAudio} />
+                    <Wavesourceform url={item.sourceAudio} />
                     </div>
                 }
 
