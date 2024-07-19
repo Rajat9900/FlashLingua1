@@ -332,7 +332,7 @@ const context = useContext(AppContext)
     const submitData = () => {
       // console.log(audioBlobEnglish)
       // console.log(audioBlobSpanish)
-      const sourceAudioFile=new File([audioURLEnglish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
+      const sourceAudioFile=new File([audioBlobEnglish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
     
       console.log(sourceAudioFile)
       const targetAudioFile=new File([audioBlobSpanish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })

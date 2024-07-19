@@ -125,7 +125,7 @@ const Cards = () => {
                 <p className="p-2">{item.sourceText}</p>
                  {sourceFileurl != null &&
                   <div className="flex flex-col gap-1 w-[100%] items-center m-4">
-                    <Wavesourceform url={item.sourceAudio} />
+                    <Waveform url={item.sourceAudio} />
                     </div>
                 }
 
