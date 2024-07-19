@@ -43,6 +43,7 @@ const Cards = () => {
   const [prevcard, setPrevcard] = useState(false);
   const [nextcard, setNextcard] = useState(false);
   const [fileurl, setFileurl] = useState('https://www.mfiles.co.uk/mp3-downloads/franz-schubert-standchen-serenade.mp3');
+  const [sourceFileurl, setSourceFileurl] = useState('https://www.mfiles.co.uk/mp3-downloads/franz-schubert-standchen-serenade.mp3');
 
 
   const [isFlipped, setFlipped] = useState('');
@@ -102,7 +103,7 @@ const Cards = () => {
       console.log(res, "data");
       setShowcard(index);
       setFileurl(res.data.cards.targetAudio);
-
+      setSourceFileurl(res.data.cards.sourceAudio);
   
     }).catch(err => {
       console.error("Error fetching data:", err);
@@ -121,6 +122,12 @@ const Cards = () => {
                 <h2 className="p-2">Hello! Welcome</h2>
                 <h3 className="m-2 greencolor">In {item.sourceLang}</h3>
                 <p className="p-2">{item.sourceText}</p>
+                 {sourceFileurl != null &&
+                  <div className="flex flex-col gap-1 w-[100%] items-center m-4">
+                    <Waveform url={item.sourceAudio} />
+                    </div>
+                }
+
                 {item.illustration != null &&
                   <img src={item.illustration} className="crd_img" />
                 }
@@ -131,8 +138,14 @@ const Cards = () => {
                 <p className="p-2"> {item.targetText}</p>
 
                 {fileurl != null &&
-                  <div className="flex flex-col gap-1 w-[100%] items-center mb-2 mt-2">
+                  <div className="flex flex-col gap-1 w-[100%] items-center m-4">
                     <Waveform url={item.targetAudio} />
+                    </div>
+                }
+
+               
+
+                <div className="flex flex-col gap-1 w-[100%] items-center mb-2 mt-2">
 
                     <div className="w-[100%] flex justify-evenly gap-3 mt-3">
                       <button onClick={() => showCard(items[index-1]._id,index-1,0)} disabled={items[index-1] == undefined} className={"hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center " + (items[index-1] == undefined ? 'd-none' : '')}>
@@ -149,7 +162,7 @@ const Cards = () => {
                       </button>
                     </div>
 
-                  </div>}
+                  </div>
              </div> }
              </div>
 
