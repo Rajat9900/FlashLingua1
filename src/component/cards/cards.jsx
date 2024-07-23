@@ -111,6 +111,10 @@ const Cards = () => {
     });
   }
 
+  const useCard = (id) => {
+    navigate('/newCard/'+id);
+  }
+
 
   return (
     <div className="flex justify-center ">
@@ -160,8 +164,22 @@ const Cards = () => {
                         <span className="mt-1">
                           <HiArrowNarrowRight />
                         </span>
+                      </button> 
+
+                     
+                    </div>
+
+
+                  </div>
+                <div className="flex flex-col gap-1 w-[100%] items-center mb-2 mt-2">
+
+                    <div className="w-[100%] flex justify-evenly gap-3 mt-3">
+                      <button onClick={() => useCard(items[index]._id)} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center" >
+                        Use Card
+                        
                       </button>
                     </div>
+                    
 
                   </div>
              </div> }

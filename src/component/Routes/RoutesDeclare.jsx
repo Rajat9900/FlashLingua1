@@ -56,6 +56,7 @@ const RoutesDeclare = () => {
       <Route path='/language2' element={<Language2/>}></Route>
       <Route path='/runningboy' element={<RunningBoy/>}></Route>
       <Route path='/images' element={<Images/>}></Route>
+      <Route path='/newCard/:id' element={<NewCard/>}></Route>
       <Route path='/newCard' element={<NewCard/>}></Route>
       <Route path='/setsPage' element={<AddSets/>}></Route>
       <Route path='/dragDrop' element={<DragDrop/>}></Route>

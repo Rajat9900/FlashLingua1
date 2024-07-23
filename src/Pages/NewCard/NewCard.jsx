@@ -7,9 +7,9 @@ import RecordButtonImg from "../../assets/recordButton.png"
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
 import { AppContext } from '../../context/appContext';
-import { AddCard,getSets } from '../../../services';
+import { AddCard,getSets,getCard } from '../../../services';
 import { useNavigate } from 'react-router-dom';
-
+import { useSearchParams } from "react-router-dom";
 
 const NewCard = () => {
   
@@ -17,27 +17,9 @@ const NewCard = () => {
   const [image, setImage] = useState(null);
   const [token, setToken] = useState(null);
   const [language1, setLanguage1] = useState(null);
-
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-
-    if(storedToken == null){
-      navigate('/login');
-  }
-    const storedLanguage=  localStorage.getItem("selectedLanguage");
-    setToken(storedToken);
-    setLanguage1(storedLanguage);
-  }, []);
-
-  console.log(token);
-  console.log("Himanshu",language1);
-
-  const handleInput = (event) => {
-    setImage(event.target.files[0])
-    setProfilePic(URL.createObjectURL(event.target.files[0]));
-  };
-
+  let [searchParams, setSearchParams] = useSearchParams();
+  let [cardId, setCardId] = useState(false);
+  let [showcard, setShowcard] = useState([]);
   const [canRecordEnglish, setCanRecordEnglish] = useState(false);
   const [isRecordingEnglish, setIsRecordingEnglish] = useState(false);
   const [audioURLEnglish, setAudioURLEnglish] = useState(null);
@@ -79,11 +61,96 @@ const NewCard = () => {
     const [getFirstItem, setGetFirstItem] = useState(null);
     const [getSecondItem, setGetSecondItem] = useState(null);
     const [isnewset, setIsnewset] = useState(0);
+    const [nlang, setNlang] = useState('');
+    const [llang, setLlang] = useState('');
+    const [savedfirstitem, setSavedfirstitem] = useState('');
+    const [savedseconditem, setSavedseconditem] = useState('');
+    const [savedsetvalue, setSavedsetvalue] = useState('');
+    const [savedset, setSavedset] = useState('');
+    const [isprevimg, setIsprevimg] = useState('');
+    const [issourceAudio, setIssourceAudio] = useState('');
+    const [istargetAudio, setIstargetAudio] = useState('');
 
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if(storedToken == null){
+      navigate('/login');
+  }
+
+  var href = location.href;
+
+  if(href != ''){
+      const getAPiToken = localStorage.getItem("token");
+
+      setCardId(true);
+
+       const formData = new FormData()
+        formData.append('cardid',href.match(/([^\/]*)\/*$/)[1])
+        formData.append('istype',0);
+        getCard(formData,getAPiToken).then(res => {
+
+        
+        console.log(res.data, "data");
+        setShowcard(res.data.cards);
+
+        let dadta = res.data.cards;
+
+        console.log(dadta.sourceLang);
+
+        setsourceLang(dadta.sourceLang);
+        settargetLang(dadta.targetLang);
+        
+        setEnglishWord(dadta.sourceText);
+        setSpanish(dadta.targetText);
+       
+       
+        setAudioURLEnglish(dadta.sourceAudio);
+        setAudioURLSpanish(dadta.targetAudio);
+        
+        setSelectedItem(res.data.setid);
+        if(dadta.illustration != null){
+           setProfilePic(dadta.illustration);
+           setIsprevimg(dadta.illustration)
+        }
+
+        if(dadta.sourceAudio != null){
+          setIssourceAudio(dadta.sourceAudio);
+        }
+        
+        if(dadta.targetAudio != null){
+          setIstargetAudio(dadta.targetAudio);
+        }
+
+    
+    
+      }).catch(err => {
+        console.error("Error fetching data:", err);
+      });
+    
+
+  }
 
   
 
-  console.log(englishWord);
+
+    const storedLanguage=  localStorage.getItem("selectedLanguage");
+    setToken(storedToken);
+    setLanguage1(storedLanguage);
+  }, []);
+
+ 
+
+  const handleInput = (event) => {
+    setImage(event.target.files[0])
+    setIsprevimg('')
+    setProfilePic(URL.createObjectURL(event.target.files[0]));
+  };
+
+  
+
+
+  
 
   const languages = [
     { names: "English" },
@@ -115,7 +182,7 @@ const NewCard = () => {
 
      const getAPiToken = localStorage.getItem("token");
       getSets(getAPiToken).then(res => {
-      console.log(res.data, "data"); 
+      
       setSets(res.data);
 
 
@@ -145,7 +212,7 @@ const NewCard = () => {
         const setAudioBlob = language === 'english' ? setAudioBlobEnglish : setAudioBlobSpanish;
         const blob = new Blob(chunksRef.current, { type: 'audio/ogg; codecs=opus' });
         chunksRef.current = [];
-        console.log(blob)
+        
         const audioURL = window.URL.createObjectURL(blob);
         // console.log(audioURL)
         setAudioBlob(blob);
@@ -231,11 +298,19 @@ const NewCard = () => {
     const chunksRef = language === 'english' ? chunksRefEnglish : chunksRefSpanish;
     const setAudioURL = language === 'english' ? setAudioURLEnglish : setAudioURLSpanish;
     const waveSurferRef = language === 'english' ? waveSurferRefEnglish : waveSurferRefSpanish;
+
+    if(language == 'english'){
+      setIssourceAudio('');
+    }else{
+      setIstargetAudio('');
+    }
   
     if (!canRecord) return;
   
     setIsRecording((prev) => {
       if (!prev) {
+       
+    
         // Stop the previous recording if it's still running
         if (recorderRef.current && recorderRef.current.state === 'recording') {
           recorderRef.current.stop();
@@ -266,6 +341,8 @@ const NewCard = () => {
 
 
   const deleteAudio=(language)=>{
+    setIssourceAudio('');
+    setIstargetAudio('');
     const chunksRef = language === 'english' ? chunksRefEnglish : chunksRefSpanish;
 
     const setAudioURL = language === 'english' ? setAudioURLEnglish : setAudioURLSpanish;
@@ -288,11 +365,15 @@ const NewCard = () => {
 
   const setSelectedItemCal = (event) => {
     setSelectedItem(event.target.value)
+    setSavedset(event.target.value)
   }
 
 
-   const setsourceLang = (event) => {
 
+      
+
+   const setsourceLang = (event) => {
+     
     setsourceLangVal(event)
     setGetFirstItem(event);
   
@@ -300,6 +381,7 @@ const NewCard = () => {
    const settargetLang = (event) => {
     settargetLangVal(event)
       setGetSecondItem(event);
+        
   }
   
 
@@ -334,9 +416,9 @@ const context = useContext(AppContext)
       // console.log(audioBlobSpanish)
       const sourceAudioFile=new File([audioBlobEnglish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
     
-      console.log(sourceAudioFile)
+     
       const targetAudioFile=new File([audioBlobSpanish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
-      console.log(targetAudioFile)
+      
 
       if(selectedItem == null && isnewset == 0){
         alert('Please Select Set');
@@ -346,6 +428,12 @@ const context = useContext(AppContext)
       //alert(isnewset);
       if(isnewset == 1){
         setVal = 'new';
+      }
+      let sourceAudio = sourceAudioFile;
+      let targetAudio = targetAudioFile;
+      if(cardId){
+        sourceAudio = audioURLEnglish;
+        sourceAudio = audioURLSpanish;
       }
 
 
@@ -359,6 +447,9 @@ const context = useContext(AppContext)
       // formData.append('sourceAudio',audioURLEnglish),
       formData.append('sourceAudio',sourceAudioFile),
       formData.append('targetAudio',targetAudioFile),
+      formData.append('isprevimg',isprevimg),
+      formData.append('issourceAudio',issourceAudio),
+      formData.append('istargetAudio',istargetAudio),
 
       formData.append('setId',setVal)
 
@@ -411,10 +502,10 @@ const context = useContext(AppContext)
           <div>
            
             <h1 className="mb-3">Native language</h1>
-             <select className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" onChange={e => setsourceLang(e.target.value)} required>
+             <select className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" onChange={e => setsourceLang(e.target.value)} value={sourcelang} required>
              <option value="">Please Select Set</option>
       {languages.map((itemm, indexx) => (
-        <option key={itemm.names}  value={itemm.names}>
+        <option key={itemm.names}  value={itemm.names} >
           {itemm.names}
         </option>
       ))}
@@ -426,7 +517,7 @@ const context = useContext(AppContext)
           <div>
            
             <h1 className="mb-3">Learn language</h1>
-             <select className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" onChange={e => settargetLang(e.target.value)} required>
+             <select className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" onChange={e => settargetLang(e.target.value)} value={targetlang} required>
              <option value="">Please Select Set</option>
       {languages.map((itemm, indexx) => (
         <option key={itemm.names}  value={itemm.names}>
@@ -446,11 +537,11 @@ const context = useContext(AppContext)
           <div>
            
             <h1 className="mb-3">Word in {getFirstItem}</h1>
-            <input onChange={(e) => setEnglishWord(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" required/>
+            <input onChange={(e) => setEnglishWord(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" value={englishWord} required/>
           </div>
           <div>
             <h1 className="mb-3">Word in {getSecondItem}</h1>
-            <input  onChange={(e) => setSpanish(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl"  required/>
+            <input  onChange={(e) => setSpanish(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] border-gray-200 border-2 rounded-xl" value={Spanish}  required/>
           </div>
         </div>
         <div className="flex justify-between w-full gap-3 mt-4">
@@ -508,7 +599,7 @@ const context = useContext(AppContext)
           <div>
            
             <h1 className="mb-3">Asign Set</h1>
-             <select className="pl-3 pt-3 pb-3 w-[600px] border-gray-200 border-2 rounded-xl" onChange={e => setSelectedItem(e.target.value)} required>
+             <select className="pl-3 pt-3 pb-3 w-[600px] border-gray-200 border-2 rounded-xl" onChange={e => setSelectedItem(e.target.value)} value={selectedItem} required>
              <option value="">Please Select Set</option>
       {sets.map((itemm, indexx) => (
         <option key={itemm._id}  value={itemm._id}>
