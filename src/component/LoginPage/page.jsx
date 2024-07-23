@@ -63,7 +63,9 @@ const Login = () => {
     console.log('data', data)
     userLogin(data).then(res => {
       if (res.status == 200) {
+        // console.log('res', res.data)
         localStorage.setItem("token", res.data.token)
+        localStorage.setItem("email", res.data.data.email)
         context.setToken(res.data.token)
         navigate('/')
 
@@ -96,6 +98,7 @@ const Login = () => {
             })
           } else {
             localStorage.setItem("token", res.data.data.token)
+            localStorage.setItem("email", res.data.data.email)
             context.setToken(res.data.data.token)
             console.log('else')
             navigate('/')

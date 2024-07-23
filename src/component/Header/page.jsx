@@ -1,4 +1,4 @@
-import  { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Navbar, Nav, Modal, Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from "../../assets/main-logo.svg";
@@ -16,7 +16,7 @@ const Header = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
-  const context= useContext(AppContext)
+  const context = useContext(AppContext)
   const toggleModal = () => setShowModal(!showModal);
 
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const Header = () => {
     });
   };
 
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     localStorage.clear()
     context.setToken(null)
     navigate('/')
@@ -57,28 +57,32 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto" style={{ marginRight: "6%" }}>
               <Nav.Link style={fontWeight600} href="/">Home</Nav.Link>
-              {context.token !==null && context.token!==undefined ? (
+              {(context.token !== null && context.token !== undefined) ? (
                 <>
                   {/* <Nav.Link style={fontWeight600} href="#link">Teach</Nav.Link>
                   <Nav.Link style={fontWeight600} href="#home">Profile</Nav.Link> */}
-                 <Nav.Link style={fontWeight600} href="#link">Add Flashcards</Nav.Link>
-                  <Nav.Link style={fontWeight600} href="newCard">Add Cards</Nav.Link>
-                  <Nav.Link style={fontWeight600} href="#link">Rank</Nav.Link>
+                  {localStorage.getItem('email') == "tom@colorfulranch.com" &&
+                    <>
+                      <Nav.Link style={fontWeight600} href="#link">Add Flashcards</Nav.Link>
+                      <Nav.Link style={fontWeight600} href="newCard">Add Cards</Nav.Link>
+                      <Nav.Link style={fontWeight600} onClick={toggleModal} >Add Sets</Nav.Link>
+                      <Nav.Link style={fontWeight600} href="#link">Rank</Nav.Link>
+                    </>
+                  }
                   <Nav.Link style={fontWeight600} href="/setsPage">sets</Nav.Link>
-                  <Nav.Link style={fontWeight600} onClick={toggleModal} >Add Sets</Nav.Link>
-                    <Link to="/login"><button className={styles.logoBtn} type="button" onClick={handleLogout}>Logout</button></Link>
+                  <Link to="/login"><button className={styles.logoBtn} type="button" onClick={handleLogout}>Logout</button></Link>
 
                 </>
               ) : (
                 <>
-                 
-               
-  <Link to="/login"><button className={styles.logoBtn} type="button">Login</button></Link>
-             
+
+
+                  <Link to="/login"><button className={styles.logoBtn} type="button">Login</button></Link>
+
                 </>
               )}
-              
-              
+
+
             </Nav>
           </Navbar.Collapse>
         </div>
@@ -92,11 +96,11 @@ const Header = () => {
           <Form>
             <Form.Group controlId="formSetName">
               <Form.Label>Set Name</Form.Label>
-              <Form.Control 
-                type="text" 
-                placeholder="Write your name" 
-                value={name} 
-                onChange={(e) => setName(e.target.value)} 
+              <Form.Control
+                type="text"
+                placeholder="Write your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </Form.Group>
           </Form>
@@ -105,7 +109,7 @@ const Header = () => {
           <Button variant="secondary" onClick={toggleModal}>
             Close
           </Button>
-          <Button  className=' bg-[#4CAF50]' onClick={() => addSetApi({ name })}>
+          <Button className=' bg-[#4CAF50]' onClick={() => addSetApi({ name })}>
             Add Name
           </Button>
         </Modal.Footer>
