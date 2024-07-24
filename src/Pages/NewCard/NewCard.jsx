@@ -76,63 +76,6 @@ const NewCard = () => {
       navigate('/login');
   }
 
-  if(location.state != null){
-    const {cardIdRec} = location.state; 
- console.log(cardIdRec);
-    console.log(cardIdRec.id);
-      const getAPiToken = localStorage.getItem("token");
-
-      setCardId(true);
-
-       const formData = new FormData()
-        formData.append('cardid',cardIdRec.id)
-        formData.append('istype',0);
-         setIsLoading(true);
-        getCard(formData,getAPiToken).then(res => {
-
-        setIsLoading(false);
-        console.log(res.data, "data");
-        setShowcard(res.data.cards);
-
-        let dadta = res.data.cards;
-
-        console.log(dadta.sourceLang);
-
-        setsourceLang(dadta.sourceLang);
-        settargetLang(dadta.targetLang);
-        
-        setEnglishWord(dadta.sourceText);
-        setSpanish(dadta.targetText);
-       
-       
-        setAudioURLEnglish(dadta.sourceAudio);
-        setAudioURLSpanish(dadta.targetAudio);
-        
-        setSelectedItem(res.data.setid);
-        if(dadta.illustration != null){
-           setProfilePic(dadta.illustration);
-           setIsprevimg(dadta.illustration)
-        }
-
-        if(dadta.sourceAudio != null){
-          setIssourceAudio(dadta.sourceAudio);
-        }
-        
-        if(dadta.targetAudio != null){
-          setIstargetAudio(dadta.targetAudio);
-        }
-
-    
-    
-      }).catch(err => {
-        console.error("Error fetching data:", err);
-      });
-    
-
-  }
-
-  
-
 
     const storedLanguage=  localStorage.getItem("selectedLanguage");
     setToken(storedToken);
@@ -286,6 +229,68 @@ const NewCard = () => {
 
     setupWaveSurfer(audioURLEnglish, waveformRefEnglish, waveSurferRefEnglish, setPlaybackTimeEnglish, setIsWaveformReadyEnglish, setIsPlayingEnglish);
     setupWaveSurfer(audioURLSpanish, waveformRefSpanish, waveSurferRefSpanish, setPlaybackTimeSpanish, setIsWaveformReadySpanish, setIsPlayingSpanish);
+
+
+
+  if(location.state != null){
+    const {cardIdRec} = location.state; 
+ console.log(cardIdRec);
+    console.log(cardIdRec.id);
+      const getAPiToken = localStorage.getItem("token");
+
+      setCardId(true);
+
+       const formData = new FormData()
+        formData.append('cardid',cardIdRec.id)
+        formData.append('istype',0);
+         setIsLoading(true);
+        getCard(formData,getAPiToken).then(res => {
+
+        setIsLoading(false);
+        console.log(res.data, "data");
+        setShowcard(res.data.cards);
+
+        let dadta = res.data.cards;
+
+        console.log(dadta.sourceLang);
+
+        setsourceLang(dadta.sourceLang);
+        settargetLang(dadta.targetLang);
+        
+        setEnglishWord(dadta.sourceText);
+        setSpanish(dadta.targetText);
+       
+       
+        setAudioURLEnglish(dadta.sourceAudio);
+        setAudioURLSpanish(dadta.targetAudio);
+        
+        setSelectedItem(res.data.setid);
+        if(dadta.illustration != null){
+           setProfilePic(dadta.illustration);
+           setIsprevimg(dadta.illustration)
+        }
+
+        if(dadta.sourceAudio != null){
+          setIssourceAudio(dadta.sourceAudio);
+        }
+        
+        if(dadta.targetAudio != null){
+          setIstargetAudio(dadta.targetAudio);
+        }
+
+    
+    
+      }).catch(err => {
+        console.error("Error fetching data:", err);
+      });
+    
+
+  }
+
+  
+
+
+
   }, [audioURLEnglish, audioURLSpanish]);
 
   const toggleMic = (language) => {
