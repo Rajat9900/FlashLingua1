@@ -9,7 +9,9 @@ import axios from 'axios';
 import { AppContext } from '../../context/appContext';
 import { AddCard,getSets,getCard } from '../../../services';
 import { useNavigate } from 'react-router-dom';
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams,useLocation } from "react-router-dom";
+import Loader from "../../component/Loader/Loader";
+
 
 const NewCard = () => {
   
@@ -61,15 +63,11 @@ const NewCard = () => {
     const [getFirstItem, setGetFirstItem] = useState(null);
     const [getSecondItem, setGetSecondItem] = useState(null);
     const [isnewset, setIsnewset] = useState(0);
-    const [nlang, setNlang] = useState('');
-    const [llang, setLlang] = useState('');
-    const [savedfirstitem, setSavedfirstitem] = useState('');
-    const [savedseconditem, setSavedseconditem] = useState('');
-    const [savedsetvalue, setSavedsetvalue] = useState('');
-    const [savedset, setSavedset] = useState('');
     const [isprevimg, setIsprevimg] = useState('');
     const [issourceAudio, setIssourceAudio] = useState('');
     const [istargetAudio, setIstargetAudio] = useState('');
+    const location = useLocation();
+    const [isLoading, setIsLoading] = useState(false);
 
 
   useEffect(() => {
@@ -77,61 +75,6 @@ const NewCard = () => {
     if(storedToken == null){
       navigate('/login');
   }
-
-  var href = location.href;
-
-  if(href != ''){
-      const getAPiToken = localStorage.getItem("token");
-
-      setCardId(true);
-
-       const formData = new FormData()
-        formData.append('cardid',href.match(/([^\/]*)\/*$/)[1])
-        formData.append('istype',0);
-        getCard(formData,getAPiToken).then(res => {
-
-        
-        console.log(res.data, "data");
-        setShowcard(res.data.cards);
-
-        let dadta = res.data.cards;
-
-        console.log(dadta.sourceLang);
-
-        setsourceLang(dadta.sourceLang);
-        settargetLang(dadta.targetLang);
-        
-        setEnglishWord(dadta.sourceText);
-        setSpanish(dadta.targetText);
-       
-       
-        setAudioURLEnglish(dadta.sourceAudio);
-        setAudioURLSpanish(dadta.targetAudio);
-        
-        setSelectedItem(res.data.setid);
-        if(dadta.illustration != null){
-           setProfilePic(dadta.illustration);
-           setIsprevimg(dadta.illustration)
-        }
-
-        if(dadta.sourceAudio != null){
-          setIssourceAudio(dadta.sourceAudio);
-        }
-        
-        if(dadta.targetAudio != null){
-          setIstargetAudio(dadta.targetAudio);
-        }
-
-    
-    
-      }).catch(err => {
-        console.error("Error fetching data:", err);
-      });
-    
-
-  }
-
-  
 
 
     const storedLanguage=  localStorage.getItem("selectedLanguage");
@@ -286,6 +229,68 @@ const NewCard = () => {
 
     setupWaveSurfer(audioURLEnglish, waveformRefEnglish, waveSurferRefEnglish, setPlaybackTimeEnglish, setIsWaveformReadyEnglish, setIsPlayingEnglish);
     setupWaveSurfer(audioURLSpanish, waveformRefSpanish, waveSurferRefSpanish, setPlaybackTimeSpanish, setIsWaveformReadySpanish, setIsPlayingSpanish);
+
+
+
+  if(location.state != null){
+    const {cardIdRec} = location.state; 
+ console.log(cardIdRec);
+    console.log(cardIdRec.id);
+      const getAPiToken = localStorage.getItem("token");
+
+      setCardId(true);
+
+       const formData = new FormData()
+        formData.append('cardid',cardIdRec.id)
+        formData.append('istype',0);
+         setIsLoading(true);
+        getCard(formData,getAPiToken).then(res => {
+
+        setIsLoading(false);
+        console.log(res.data, "data");
+        setShowcard(res.data.cards);
+
+        let dadta = res.data.cards;
+
+        console.log(dadta.sourceLang);
+
+        setsourceLang(dadta.sourceLang);
+        settargetLang(dadta.targetLang);
+        
+        setEnglishWord(dadta.sourceText);
+        setSpanish(dadta.targetText);
+       
+       
+        setAudioURLEnglish(dadta.sourceAudio);
+        setAudioURLSpanish(dadta.targetAudio);
+        
+        setSelectedItem(res.data.setid);
+        if(dadta.illustration != null){
+           setProfilePic(dadta.illustration);
+           setIsprevimg(dadta.illustration)
+        }
+
+        if(dadta.sourceAudio != null){
+          setIssourceAudio(dadta.sourceAudio);
+        }
+        
+        if(dadta.targetAudio != null){
+          setIstargetAudio(dadta.targetAudio);
+        }
+
+    
+    
+      }).catch(err => {
+        console.error("Error fetching data:", err);
+      });
+    
+
+  }
+
+  
+
+
+
   }, [audioURLEnglish, audioURLSpanish]);
 
   const toggleMic = (language) => {
@@ -341,8 +346,14 @@ const NewCard = () => {
 
 
   const deleteAudio=(language)=>{
-    setIssourceAudio('');
-    setIstargetAudio('');
+
+    if(language == 'english'){
+       setIssourceAudio('');
+    }else{
+         setIstargetAudio('');
+    }
+   
+   
     const chunksRef = language === 'english' ? chunksRefEnglish : chunksRefSpanish;
 
     const setAudioURL = language === 'english' ? setAudioURLEnglish : setAudioURLSpanish;
@@ -365,7 +376,7 @@ const NewCard = () => {
 
   const setSelectedItemCal = (event) => {
     setSelectedItem(event.target.value)
-    setSavedset(event.target.value)
+    
   }
 
 
@@ -375,12 +386,12 @@ const NewCard = () => {
    const setsourceLang = (event) => {
      
     setsourceLangVal(event)
-    setGetFirstItem(event);
+    
   
   }
    const settargetLang = (event) => {
     settargetLangVal(event)
-      setGetSecondItem(event);
+    
         
   }
   
@@ -431,8 +442,13 @@ const context = useContext(AppContext)
       }
       let sourceAudio = sourceAudioFile;
       let targetAudio = targetAudioFile;
-      if(cardId){
+      if(issourceAudio != ''){
         sourceAudio = audioURLEnglish;
+       
+      }
+
+      if(istargetAudio != ''){
+       
         sourceAudio = audioURLSpanish;
       }
 
@@ -613,7 +629,9 @@ const context = useContext(AppContext)
         </div> }
         <button onClick={submitData} className="bg-[#4CAF50] w-full p-2 rounded-xl text-white mt-5">Create card</button>
       {/* </div> */}
+      {isLoading && <div className="position-absolute top-[90%]"> <Loader /> </div> }
     </div>
+
     </div>
   );
 };
