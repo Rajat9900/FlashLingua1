@@ -112,7 +112,7 @@ const Cards = () => {
   }
 
   const useCard = (id) => {
-    navigate('/newCard/'+id);
+    navigate('/newCard/', { state: {cardIdRec: {id: id}} });
   }
 
 
