@@ -80,6 +80,65 @@ const NewCard = () => {
     const storedLanguage=  localStorage.getItem("selectedLanguage");
     setToken(storedToken);
     setLanguage1(storedLanguage);
+
+
+
+     if(location.state != null){
+    const {cardIdRec} = location.state; 
+ console.log(cardIdRec);
+    console.log(cardIdRec.id);
+      const getAPiToken = localStorage.getItem("token");
+
+      setCardId(true);
+
+       const formData = new FormData()
+        formData.append('cardid',cardIdRec.id)
+        formData.append('istype',0);
+         setIsLoading(true);
+        getCard(formData,getAPiToken).then(res => {
+
+        setIsLoading(false);
+        console.log(res.data, "data");
+        setShowcard(res.data.cards);
+
+        let dadta = res.data.cards;
+
+        console.log(dadta.sourceLang);
+
+        setsourceLang(dadta.sourceLang);
+        settargetLang(dadta.targetLang);
+        
+        setEnglishWord(dadta.sourceText);
+        setSpanish(dadta.targetText);
+       
+       
+        setAudioURLEnglish(dadta.sourceAudio);
+        setAudioURLSpanish(dadta.targetAudio);
+        
+        setSelectedItem(res.data.setid);
+        if(dadta.illustration != null){
+           setProfilePic(dadta.illustration);
+           setIsprevimg(dadta.illustration)
+        }
+
+        if(dadta.sourceAudio != null){
+          setIssourceAudio(dadta.sourceAudio);
+        }
+        
+        if(dadta.targetAudio != null){
+          setIstargetAudio(dadta.targetAudio);
+        }
+
+    
+    
+      }).catch(err => {
+        console.error("Error fetching data:", err);
+      });
+    
+
+  }
+
+
   }, []);
 
  
@@ -232,60 +291,7 @@ const NewCard = () => {
 
 
 
-  if(location.state != null){
-    const {cardIdRec} = location.state; 
- console.log(cardIdRec);
-    console.log(cardIdRec.id);
-      const getAPiToken = localStorage.getItem("token");
-
-      setCardId(true);
-
-       const formData = new FormData()
-        formData.append('cardid',cardIdRec.id)
-        formData.append('istype',0);
-         setIsLoading(true);
-        getCard(formData,getAPiToken).then(res => {
-
-        setIsLoading(false);
-        console.log(res.data, "data");
-        setShowcard(res.data.cards);
-
-        let dadta = res.data.cards;
-
-        console.log(dadta.sourceLang);
-
-        setsourceLang(dadta.sourceLang);
-        settargetLang(dadta.targetLang);
-        
-        setEnglishWord(dadta.sourceText);
-        setSpanish(dadta.targetText);
-       
-       
-        setAudioURLEnglish(dadta.sourceAudio);
-        setAudioURLSpanish(dadta.targetAudio);
-        
-        setSelectedItem(res.data.setid);
-        if(dadta.illustration != null){
-           setProfilePic(dadta.illustration);
-           setIsprevimg(dadta.illustration)
-        }
-
-        if(dadta.sourceAudio != null){
-          setIssourceAudio(dadta.sourceAudio);
-        }
-        
-        if(dadta.targetAudio != null){
-          setIstargetAudio(dadta.targetAudio);
-        }
-
-    
-    
-      }).catch(err => {
-        console.error("Error fetching data:", err);
-      });
-    
-
-  }
+ 
 
   
 
@@ -383,18 +389,16 @@ const NewCard = () => {
 
       
 
-   const setsourceLang = (event) => {
-     
+  const setsourceLang = (event) => {
+
     setsourceLangVal(event)
-    
+    setGetFirstItem(event);
   
   }
    const settargetLang = (event) => {
     settargetLangVal(event)
-    
-        
+      setGetSecondItem(event);
   }
-  
 
   const runWave = (language) => {
     const waveSurferRef = language === 'english' ? waveSurferRefEnglish : waveSurferRefSpanish;
@@ -429,12 +433,13 @@ const context = useContext(AppContext)
     
      
       const targetAudioFile=new File([audioBlobSpanish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
-      
-
-      if(selectedItem == null && isnewset == 0){
+        
+      if((selectedItem == null || selectedItem == '') && isnewset == 0){
         alert('Please Select Set');
         return
       }
+
+     
       let setVal = selectedItem;
       //alert(isnewset);
       if(isnewset == 1){
