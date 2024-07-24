@@ -61,7 +61,7 @@ const Header = () => {
                 <>
                   {/* <Nav.Link style={fontWeight600} href="#link">Teach</Nav.Link>
                   <Nav.Link style={fontWeight600} href="#home">Profile</Nav.Link> */}
-                  {localStorage.getItem('email') == "jhondoe@yopmail.com" &&
+                  {localStorage.getItem('email') == "tom@colorfulranch.com" &&
                     <>
                       <Nav.Link style={fontWeight600} href="#link">Add Flashcards</Nav.Link>
                       <Nav.Link style={fontWeight600} href="newCard">Add Cards</Nav.Link>
