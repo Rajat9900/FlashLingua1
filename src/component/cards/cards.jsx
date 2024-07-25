@@ -7,7 +7,7 @@ import Waveform from "./Waveform";
 import Wavesourceform from "./Wavesourceform";
 import audio from "../../assets/quothello-therequot-158832.mp3"
 import { HiOutlineArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 
 
 const grid = 8;
@@ -37,6 +37,7 @@ const getListStyle = isDraggingOver => ({
 
 const Cards = () => {
   const wavesurferRef = useRef(null);
+  const location = useLocation();
   const [items, setItems] = useState([]);
   const navigate = useNavigate()
   const [showcard, setShowcard] = useState(0);
@@ -82,7 +83,15 @@ const Cards = () => {
       console.log(res.data, "data");
       setItems(res.data);
 
-      
+      if(location.state != null){
+        const {cardIdRec} = location.state; 
+        if(res.data.length < location.state){
+          setShowcard(cardIdRec.curindex);
+        }
+        
+      }
+
+       navigate(location.state, {}); 
 
     }).catch(err => {
       console.error("Error fetching data:", err);
@@ -111,8 +120,8 @@ const Cards = () => {
     });
   }
 
-  const useCard = (id) => {
-    navigate('/newCard/', { state: {cardIdRec: {id: id}} });
+  const useCard = (id,ind) => {
+    navigate('/newCard/', { state: {cardIdRec: {id: id,nextindex: ind}} });
   }
 
 
@@ -174,7 +183,7 @@ const Cards = () => {
                 <div className="flex flex-col gap-1 w-[100%] items-center mb-2 mt-2">
 
                     <div className="w-[100%] flex justify-evenly gap-3 mt-3">
-                      <button onClick={() => useCard(items[index]._id)} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center" >
+                      <button onClick={() => useCard(items[index]._id,index+1)} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center" >
                         Use Card
                         
                       </button>

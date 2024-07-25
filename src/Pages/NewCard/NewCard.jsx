@@ -68,6 +68,7 @@ const NewCard = () => {
     const [istargetAudio, setIstargetAudio] = useState('');
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(false);
+    const [newindex, setNewindex] = useState('');
 
 
   useEffect(() => {
@@ -87,6 +88,7 @@ const NewCard = () => {
     const {cardIdRec} = location.state; 
  console.log(cardIdRec);
     console.log(cardIdRec.id);
+    setNewindex(cardIdRec.nextindex);
       const getAPiToken = localStorage.getItem("token");
 
       setCardId(true);
@@ -429,6 +431,12 @@ const context = useContext(AppContext)
     const submitData = () => {
       // console.log(audioBlobEnglish)
       // console.log(audioBlobSpanish)
+      
+
+      navigate('/cards', { state: {cardIdRec: {curindex: newindex}} })
+
+
+      return
       const sourceAudioFile=new File([audioBlobEnglish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
     
      
@@ -474,10 +482,12 @@ const context = useContext(AppContext)
 
       formData.append('setId',setVal)
 
+      console.log();
+
       AddCard(formData,context.token).then(res=>{
         if(res.status==201){
           alert('card added successfully.')
-          navigate('/setsPage')
+          navigate('/cards', { state: {cardIdRec: {curindex: newindex}} })
         }
       }).catch(err=>{
         alert(err.response.data.message)
