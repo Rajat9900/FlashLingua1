@@ -82,16 +82,17 @@ const Cards = () => {
     getFilteredCards(payload).then(res => {
       console.log(res.data, "data");
       setItems(res.data);
-
+      console.log(location.state);
       if(location.state != null){
         const {cardIdRec} = location.state; 
-        if(res.data.length < location.state){
+        if(cardIdRec.curindex < res.data.length){
           setShowcard(cardIdRec.curindex);
+
         }
         
       }
 
-       navigate(location.state, {}); 
+       //navigate(location.state, {}); 
 
     }).catch(err => {
       console.error("Error fetching data:", err);
