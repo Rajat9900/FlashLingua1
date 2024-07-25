@@ -431,12 +431,12 @@ const context = useContext(AppContext)
     const submitData = () => {
       // console.log(audioBlobEnglish)
       // console.log(audioBlobSpanish)
-      
-
-      navigate('/cards', { state: {cardIdRec: {curindex: newindex}} })
 
 
-      return
+     // navigate('/cards', { state: {cardIdRec: {curindex: newindex}} })
+
+
+     // return
       const sourceAudioFile=new File([audioBlobEnglish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
     
      
