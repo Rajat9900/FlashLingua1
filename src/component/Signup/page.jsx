@@ -5,38 +5,38 @@ import { useNavigate } from "react-router-dom";
 
 
 const Signup = () => {
-   
-  const { register, handleSubmit, formState: { errors },reset } = useForm();
- const navigate  = useNavigate()
+
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const navigate = useNavigate()
   const onSubmit = (data) => {
     console.log(data);
     delete data['confirmPassword']
-    UserSignup(data).then(res=>{
-      if(res.status==201){
+    UserSignup(data).then(res => {
+      if (res.status == 201) {
         alert("User Created Successfully")
         reset()
-      navigate('/')
+        navigate('/')
       }
     }
-    ).catch((err)=>{
+    ).catch((err) => {
       console.log(err);
     })
   }
 
   return (
     <>
-      <div className="container">
+      <div className="container mx-auto  sm-max:w-[95%]  md-range:w-[80%]">
         <div className="row">
           <div
             className="col-md-5 m-auto py-5 mt-4 mb-4"
             style={{ border: "1px solid #E6E6E6", borderRadius: "20px" }}
           >
             <h2
-              className="mb-5"
+              className="mb-5 sm-max:!mx-auto sm-max:!py-0"
               style={{
                 fontSize: "34px",
                 fontWeight: "700",
-                marginLeft: "66px",
+                
               }}
             >
               Sign Up
@@ -138,7 +138,7 @@ const Signup = () => {
                 type="submit"
 
               >
-                Create Account 
+                Create Account
               </button>
 
             </form>
