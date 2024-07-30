@@ -26,6 +26,14 @@ export const AddCard = (payload,token)=>{
     })
 }
 
+export const EditCard = (payload,token)=>{
+    return axios.post(`${api_url}/cards/edit-card`,payload,{
+        headers:{
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
 export const addSet = (payload,token)=> {
 return axios.post(`${api_url}/set/add`,payload,{
     headers:{
@@ -110,6 +118,14 @@ return axios.get(`${api_url}/users/create-intent/`,{
 
 export const savePayment = (token,payload)=> {
 return axios.post(`${api_url}/users/save-payment/`,payload,{
+    headers:{
+        Authorization:"Bearer "+ token
+    } 
+})
+}
+
+export const deletedbCard = (token,payload)=> {
+return axios.post(`${api_url}/cards/delete-card/`,payload,{
     headers:{
         Authorization:"Bearer "+ token
     } 
