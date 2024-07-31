@@ -136,7 +136,7 @@ const NewCard = () => {
       }).catch(err => {
         console.error("Error fetching data:", err);
       });
-    
+    navigate(location.state, {}); 
 
   }
 
@@ -481,11 +481,12 @@ const context = useContext(AppContext)
       formData.append('istargetAudio',istargetAudio),
 
       formData.append('setId',setVal)
-
+setIsLoading(true);
       console.log();
 
       AddCard(formData,context.token).then(res=>{
         if(res.status==201){
+          setIsLoading(false);
           alert('card added successfully.')
           navigate('/cards', { state: {cardIdRec: {curindex: newindex}} })
         }
@@ -644,7 +645,7 @@ const context = useContext(AppContext)
         </div> }
         <button onClick={submitData} className="bg-[#4CAF50] w-full p-2 rounded-xl text-white mt-5">Create card</button>
       {/* </div> */}
-      {isLoading && <div className="position-absolute top-[90%]"> <Loader /> </div> }
+      {isLoading &&  <Loader /> }
     </div>
 
     </div>

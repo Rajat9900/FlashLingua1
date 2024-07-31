@@ -8,6 +8,7 @@ import Wavesourceform from "./Wavesourceform";
 import audio from "../../assets/quothello-therequot-158832.mp3"
 import { HiOutlineArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import { Link, useNavigate,useLocation } from "react-router-dom";
+import Loader from "../Loader/Loader";
 
 
 const grid = 8;
@@ -44,6 +45,7 @@ const Cards = () => {
   const [isshowcard, setIshowcard] = useState(false);
   const [prevcard, setPrevcard] = useState(false);
   const [nextcard, setNextcard] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [fileurl, setFileurl] = useState('https://www.mfiles.co.uk/mp3-downloads/franz-schubert-standchen-serenade.mp3');
   const [sourceFileurl, setSourceFileurl] = useState('https://www.mfiles.co.uk/mp3-downloads/franz-schubert-standchen-serenade.mp3');
 
@@ -79,9 +81,11 @@ const Cards = () => {
       "sourceLang":localStorage.getItem('selectedSecondLanguage'),
       "targetLang":localStorage.getItem('selectedLanguage')
     }
+    setIsLoading(true);
     getFilteredCards(payload).then(res => {
       console.log(res.data, "data");
       setItems(res.data);
+      setIsLoading(false);
       console.log(location.state);
       if(location.state != null){
         const {cardIdRec} = location.state; 
@@ -226,7 +230,7 @@ const Cards = () => {
             )
             )}
           
-     
+     {isLoading &&  <Loader /> }
     </div>
   );
 };

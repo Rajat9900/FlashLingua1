@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSearchParams,useLocation } from "react-router-dom";
 import Loader from "../../component/Loader/Loader";
 import {Modal, Button} from 'react-bootstrap'
-
+ 
 
 const EditModal = (props) => {
   
