@@ -7,13 +7,14 @@ import RecordButtonImg from "../../assets/recordButton.png"
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
 import { AppContext } from '../../context/appContext';
-import { AddCard,getSets,getCard } from '../../../services';
+import { EditCard,getSets,getCard } from '../../../services';
 import { useNavigate } from 'react-router-dom';
 import { useSearchParams,useLocation } from "react-router-dom";
 import Loader from "../../component/Loader/Loader";
+import {Modal, Button} from 'react-bootstrap'
+ 
 
-
-const NewCard = () => {
+const EditModal = (props) => {
   
   const [profilePic, setProfilePic] = useState(Icon);
   const [image, setImage] = useState(null);
@@ -77,30 +78,23 @@ const NewCard = () => {
       navigate('/login');
   }
 
-
-    const storedLanguage=  localStorage.getItem("selectedLanguage");
-    setToken(storedToken);
-    setLanguage1(storedLanguage);
-
-
-
-     if(location.state != null){
-    const {cardIdRec} = location.state; 
- console.log(cardIdRec);
-    console.log(cardIdRec.id);
-    setNewindex(cardIdRec.nextindex);
+  async function getCarddetail(){
+    if(props.cardid != ''){
+    
       const getAPiToken = localStorage.getItem("token");
 
       setCardId(true);
 
+      console.log("SHivi - "+props.cardid);
+
        const formData = new FormData()
-        formData.append('cardid',cardIdRec.id)
+        formData.append('cardid',props.cardid)
         formData.append('istype',0);
          setIsLoading(true);
-        getCard(formData,getAPiToken).then(res => {
+        await getCard(formData,getAPiToken).then(res => {
 
         setIsLoading(false);
-        console.log(res.data, "data");
+        
         setShowcard(res.data.cards);
 
         let dadta = res.data.cards;
@@ -131,49 +125,7 @@ const NewCard = () => {
           setIstargetAudio(dadta.targetAudio);
         }
 
-    
-    
-      }).catch(err => {
-        console.error("Error fetching data:", err);
-      });
-    navigate(location.state, {}); 
-
-  }
-
-
-  }, []);
-
- 
-
-  const handleInput = (event) => {
-    setImage(event.target.files[0])
-    setIsprevimg('')
-    setProfilePic(URL.createObjectURL(event.target.files[0]));
-  };
-
-  
-
-
-  
-
-  const languages = [
-    { names: "English" },
-    { names: "Hindi" },
-    { names: "Spanish" },
-    { names: "French" },
-    { names: "Italian" },
-    { names: "Japanese" },
-    { names: "Chinese" },
-    { names: "Portuguese" },
-    { names: "German" },
-    { names: "Greek" },
-    { names: "Russian" },
-  ];
-
-
-
-  useEffect(() => {
-    const setAudio = async (language) => {
+        const setAudio = async (language) => {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -242,7 +194,59 @@ const NewCard = () => {
         recorderRefSpanish.current.stream.getTracks().forEach((track) => track.stop());
       }
     };
+
+    
+    
+      }).catch(err => {
+        console.error("Error fetching data:", err);
+      });
+    
+
+  }
+  }
+
+
+    const storedLanguage=  localStorage.getItem("selectedLanguage");
+    setToken(storedToken);
+    setLanguage1(storedLanguage);
+
+    getCarddetail();
+
+     
+
+
   }, []);
+
+ 
+
+  const handleInput = (event) => {
+    setImage(event.target.files[0])
+    setIsprevimg('')
+    setProfilePic(URL.createObjectURL(event.target.files[0]));
+  };
+
+  
+
+
+  
+
+  const languages = [
+    { names: "English" },
+    { names: "Hindi" },
+    { names: "Spanish" },
+    { names: "French" },
+    { names: "Italian" },
+    { names: "Japanese" },
+    { names: "Chinese" },
+    { names: "Portuguese" },
+    { names: "German" },
+    { names: "Greek" },
+    { names: "Russian" },
+  ];
+
+
+
+
 
   useEffect(() => {
     const setupWaveSurfer = (audioURL, waveformRef, waveSurferRef, setPlaybackTime, setIsWaveformReady, setIsPlaying) => {
@@ -480,15 +484,18 @@ const context = useContext(AppContext)
       formData.append('issourceAudio',issourceAudio),
       formData.append('istargetAudio',istargetAudio),
 
-      formData.append('setId',setVal)
-setIsLoading(true);
-      console.log();
+      formData.append('setId',setVal);
+      formData.append('cardId',props.cardid);
 
-      AddCard(formData,context.token).then(res=>{
+
+      console.log();
+      setIsLoading(true);
+
+      EditCard(formData,context.token).then(res=>{
         if(res.status==201){
+          alert('card updated successfully.')
           setIsLoading(false);
-          alert('card added successfully.')
-          navigate('/cards', { state: {cardIdRec: {curindex: newindex}} })
+          props.toggle();
         }
       }).catch(err=>{
         alert(err.response.data.message) 
@@ -502,7 +509,13 @@ setIsLoading(true);
 
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col gap-4 w-[40%] items-center mb-5 mt-20">
+    <Modal size="lg" show={props.isOpen}>
+    <Modal.Header className="d-flex justify-content-sm-between">
+          <Modal.Title>Edit Card!</Modal.Title>
+          <Button variant="primary" onClick={props.toggle}>Close</Button>
+        </Modal.Header>
+        <Modal.Body className="flex flex-col  w-[100%] justify-center items-center">
+      <div className="flex flex-col  w-[90%] justify-center items-center mb-5 mt-3 p-6">
         <p>Create a new card</p>
         <div className="h-[220px] flex flex-col justify-center items-center w-full bg-[#FAFAFA] rounded-2xl border-dashed border-[#FAFAFA] border-2">
         <div className="h-[220px] flex flex-col justify-center items-center w-full bg-[#FAFAFA] rounded-2xl border-dashed border-[#FAFAFA] border-2">
@@ -643,13 +656,14 @@ setIsLoading(true);
     </select>
           </div> 
         </div> }
-        <button onClick={submitData} className="bg-[#4CAF50] w-full p-2 rounded-xl text-white mt-5">Create card</button>
+        <button onClick={submitData} className="bg-[#4CAF50] w-full p-2 rounded-xl text-white mt-5">Update card</button>
       {/* </div> */}
-      {isLoading &&  <Loader /> }
+      {isLoading && <div className="position-absolute top-[90%]"> <Loader /> </div> }
     </div>
-
+    </Modal.Body>
+</Modal>
     </div>
   );
 };
 
-export default NewCard;
+export default EditModal;

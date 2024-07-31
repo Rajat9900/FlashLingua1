@@ -18,38 +18,34 @@ const formWaveSurferOptions = ref => ({
   // Use the PeakCache to improve rendering speed of large waveforms.
   partialRender: true
 });
-
+ 
 export default function Waveform({ url }) {
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
   const [playing, setPlay] = useState(false);
   const [volume, setVolume] = useState(0.5);
+  const [isready, setIsready] = useState(false);
+
   const [remainingtime, setRemainingtime] = useState(0);
   const formatTime = (seconds) => [seconds / 60, seconds % 60].map((v) => `0${Math.floor(v)}`.slice(-2)).join(':')
   // create new WaveSurfer instance
   // On component mount and when url changes
   useEffect(() => {
-    setPlay(false);
-
-
-
+    
     const options = formWaveSurferOptions(waveformRef.current);
     wavesurfer.current = WaveSurfer.create(options);
     console.log(url)
     wavesurfer.current.load(url);
-
+setPlay(false);
     wavesurfer.current.on("ready", function () {
       // https://wavesurfer-js.org/docs/methods.html
       // wavesurfer.current.play();
-      // setPlay(true);
-
+         handlePlayPause();
+         
       // make sure object stillavailable when file loaded
       if (wavesurfer.current) {
         wavesurfer.current.setVolume(volume);
         setVolume(volume);
-
-
-
 
       }
 
@@ -58,16 +54,16 @@ export default function Waveform({ url }) {
           var totalTime = wavesurfer.current.getDuration(),
             currentTime = wavesurfer.current.getCurrentTime(),
             remainingTime = totalTime - currentTime;
+            
+            if(remainingTime == 0){
+               setPlay(true);
+               
+              console.log('remtim - '+remainingTime)
+            }
 
           setRemainingtime(remainingTime);
         };
       })
-
-
-
-
-
-
     });
     wavesurfer.current.on("error", function (e) {
       console.error('WaveSurfer error:', e);

@@ -1,9 +1,11 @@
 import { addGetSet } from "../../../services";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/appContext";
-import { getViewCards,updateCardsOrder } from "../../../services";
+import { getViewCards,updateCardsOrder,deletedbCard } from "../../../services";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
+import EditModal  from "./EditModal";
   
 import './ImagesCSS.css';
  import defaultImg from './pic25.png';
@@ -15,7 +17,7 @@ const grid = 4;
   // change background colour if dragging
   background: isDragging ? "lightgreen" : "white",
    border: '2px solid #e5e7eb', /* border-gray-200 */
-   margin: 4,
+   margin: '10px 20px 0px 20px',
     borderRadius: '1rem', /* rounded-xl */
   // styles we need to apply on draggables
    boxShadow: '0px 10px 15px rgba(0, 0, 0, 0.1)', /* shadow-xl */
@@ -45,7 +47,7 @@ const AddSets = () => {
     const [flipped, setFFlipped] = useState(Array(0).fill(false));
   const navigate = useNavigate()
   const [activeset,setActiveset] = useState(null)
-
+const [showModal, setShowModal] = useState(false);
      const flipCard = (index) => {
     setFFlipped((prevFlipped) => {
       const newFlipped = [...prevFlipped];
@@ -78,6 +80,7 @@ const AddSets = () => {
   } 
 
   const viewCards = (id) => {
+    // isCloseM();
     setActiveset(id);
     getViewCards(getAPiToken,id).then(res => {
       console.log(res.data.flashcards, "data"); 
@@ -139,6 +142,42 @@ const AddSets = () => {
     setFlashcards(reorderedItems);
   };
 
+  const editCard = (id) => {
+      setShowModal(true);
+  }
+
+  const deleteCard =  (id) => {
+       
+       Swal.fire({
+        title: '<p>Do you want to delete this card ?</p>',
+        showCancelButton: true,
+        confirmButtonText: `Delete`,
+        cancelButtonText: `Cancel`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+           const formData = new FormData()
+            formData.append('cardid',id)
+            formData.append('setid',activeset)
+             deletedbCard(getAPiToken,{cardid:id,setid:activeset}).then(res => {
+                Swal.fire("Card Deleted!", "", "success");
+                viewCards(activeset)
+            }).catch(err => {
+                console.error("Error fetching data:", err); 
+            });
+          
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
+  }
+
+
+  const isCloseM = () => {
+    setShowModal(false);
+    viewCards(activeset)
+  }
+
   return (
     <div className="flex">
      {!isShowcars && <div className="main-container w-[80%]">
@@ -188,7 +227,7 @@ const AddSets = () => {
             {flashcards.map((item, index) => (
               <Draggable key={item._id} draggableId={item._id} index={index}>
                 {(provided, snapshot) => (
-                  <div
+                  <div className="outer-card-section"><div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
@@ -223,7 +262,18 @@ const AddSets = () => {
                         </div>
                     </div>
                    
+                  
                   </div>
+                   <div className="editsection">
+                      
+                       <button onClick={e => editCard(item?._id)} className="w-[40%] bg-[#4CAF50] py-2 px-3 mt-2 rounded-lg text-white ">Edit</button>
+                       <button onClick={e => deleteCard(item?.flashcard._id)} className="w-[40%] bg-[#4CAF50] py-2 px-3 mt-2 rounded-lg text-white ">Delete</button>
+                    </div>
+
+                  {showModal && <EditModal isOpen={showModal} toggle={isCloseM} cardid={item?.flashcard?._id} /> }
+
+                    </div>
+
                 )}
               </Draggable>
             ))}
