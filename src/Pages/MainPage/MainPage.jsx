@@ -1,4 +1,4 @@
-import { useContext, useState,useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { HiOutlineArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/appContext";
@@ -12,7 +12,7 @@ const MainPage = () => {
     { names: "Italian" },
     { names: "Japanese" },
     { names: "Chinese" },
-    { names: "Portuguese" },
+    { names: "Urdu" },
     { names: "German" },
     { names: "Greek" },
     { names: "Russian" },
@@ -29,11 +29,11 @@ const MainPage = () => {
   useEffect(() => {
 
 
-  
-  if(getAPiToken == null){
+
+    if (getAPiToken == null) {
       navigate('/login');
-  }
-})
+    }
+  })
 
 
   const handleButtons = (index) => {
@@ -41,7 +41,7 @@ const MainPage = () => {
     const selectedLanguage = buttonss[index].names;
     localStorage.setItem("selectedLanguage", selectedLanguage);
     context.setLanguageToLearn(selectedLanguage)
-    
+
   };
 
   const BacktoMain = () => {
@@ -64,7 +64,7 @@ const MainPage = () => {
         <p className="text-[#4CAF50] sm-max:!text-center">
           Which language would you like to learn?
         </p>
-        <div className="flex gap-3 flex-wrap md-range:justify-around lg-range:justify-center">
+        <div className="flex gap-3 flex-wrap md-range:justify-around lg-range:justify-center sm-max:justify-center">
           {buttonss.map((name, index) => {
             const isActive = activeIndex === index;
             return (
@@ -72,16 +72,16 @@ const MainPage = () => {
                 key={index}
                 id={`btn-${index}`}
                 onClick={() => handleButtons(index)}
-                className={`border-2 pl-14 pr-14 p-2 w-[200px] sm-max:!w-[100px] text-center ${isActive ? "Active-btn" : ''} rounded-xl`}
+                className={`border-2 pl-14 pr-14 p-2 w-[200px] sm-max:!max-w-[95px] text-center ${isActive ? "Active-btn" : ''} rounded-xl`}
               >
                 {name.names}
               </button>
             );
           })}
         </div>
-        <div className="flex gap-3 w-[60%] sm-max:flex-col sm-max:!mx-0 lg-range:!justify-center">
-          <div className="text-right w-full p-2  sm-max:!px-0 sm-max:!text-center sm-max:!text-[17px]">All languages</div>
-          <select className="flex justify-between w-full rounded-xl border-gray-200 border-2 pl-3 pr-3 items-center sm-max:py-[10px] lg-range:w-[200px]">
+        <div className="flex justify-evenly gap-3 sm-max:!mx-auto items-center md-range:flex md-range:justify-center md-range:!ml-[65px] lg-range:!ml-[65px]">
+          <div className="w-full flex sm-max:pt-2 justify-center px-14 sm-max:!px-0 h-[44px] md-range:!w-[200px] md-range:!px-0 md-range:pt-2 md-range:!justify-start lg-range:!w-[200px] lg-range:!px-0 lg-range:pt-2 lg-range:!justify-start xl-range:w-[320px] xl-range:items-center">All languages</div>
+          <select className="flex w-full   rounded-xl border-[#E6E6E6] border-2 hover:border-none px-1 justify-center sm-max:!w-[100px] sm-max:!px-0 h-[44px] md-range:!px-0 lg-range:!px-0">
             <option value="Turkish">Turkish</option>
             <option value="English">English</option>
             <option value="French">French</option>

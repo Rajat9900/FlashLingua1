@@ -132,7 +132,7 @@ const Cards = () => {
           {Object.keys(items).length == 0 && <div className="items-center mt-5"><h2>No Records</h2></div>}
   
             {items.map((item, index) => (
-             <div className="flex flex-col pt-5">
+             <div className="flex flex-col pt-5 mx-auto">
                {index == showcard &&  <div className="flex flex-col items-center w-[100%]">
                 <h2 className="p-2">Hello! Welcome</h2>
                 <h3 className="m-2 greencolor">In {item.sourceLang}</h3>

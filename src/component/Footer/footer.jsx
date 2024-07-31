@@ -17,7 +17,7 @@ const Footer = () => {
 
     return (
         <>
-            <div className="container !mx-auto border mt-20 sm-max:w-[90%] sm-max:mx-auto md-range:!w-[99%] w-[99%]" >
+            <div className="container !mx-auto border mt-20 sm-max:w-[90%] sm-max:mx-auto md-range:!w-[99%] w-[99%] max-w-[5000px]" >
                 <div className="row ">
                     <div className="col-lg-9 sm-max:text-center sm-max:justify-center sm-max:flex sm-max:flex-col">
                         <img src={logo} alt="not loading" className='sm-max:w-[50%] sm-max:mx-auto' />

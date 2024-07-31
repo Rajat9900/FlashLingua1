@@ -48,13 +48,13 @@ const Header = () => {
   }
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary relative">
-        <div className="container md-range:mx-auto">
+      <Navbar expand="lg" className="bg-body-tertiary relative lg-range:justify-center lg-range:mx-auto">
+        <div className="container md-range:mx-auto max-w-[5000px]">
           <Navbar.Brand href="/">
             <img src={logo} className={styles.imgMargin} alt="Logo" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Collapse id="basic-navbar-nav" className='xl-range:!mr-[70px]'>
             <Nav className="ms-auto" >
               <Nav.Link style={fontWeight600} href="/">Home</Nav.Link>
               {(context.token !== null && context.token !== undefined) ? (
