@@ -267,7 +267,7 @@ const [showModal, setShowModal] = useState(false);
                    <div className="editsection">
                       
                        <button onClick={e => editCard(item?._id)} className="w-[40%] bg-[#4CAF50] py-2 px-3 mt-2 rounded-lg text-white ">Edit</button>
-                       <button onClick={e => deleteCard(item?.flashcard._id)} className="w-[40%] bg-[#4CAF50] py-2 px-3 mt-2 rounded-lg text-white ">Delete</button>
+                       <button onClick={e => deleteCard(item?.flashcard._id)} className=" bg-[#4CAF50] py-2 px-3 mt-2 rounded-lg text-white ">Delete</button>
                     </div>
 
                   {showModal && <EditModal isOpen={showModal} toggle={isCloseM} cardid={item?.flashcard?._id} /> }
