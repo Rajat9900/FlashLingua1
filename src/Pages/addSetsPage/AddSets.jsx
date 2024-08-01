@@ -1,10 +1,12 @@
 import { addGetSet } from "../../../services";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/appContext";
-import { getViewCards, updateCardsOrder } from "../../../services";
+import { getViewCards,updateCardsOrder,deletedbCard } from "../../../services";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link, useNavigate } from "react-router-dom";
-
+import Swal from 'sweetalert2'
+import EditModal  from "./EditModal";
+  
 import './ImagesCSS.css';
 import defaultImg from './pic25.png';
 const grid = 4;
@@ -44,9 +46,9 @@ const AddSets = () => {
   const [isFlipped, setFlipped] = useState('');
   const [flipped, setFFlipped] = useState(Array(0).fill(false));
   const navigate = useNavigate()
-  const [activeset, setActiveset] = useState(null)
-
-  const flipCard = (index) => {
+  const [activeset,setActiveset] = useState(null)
+const [showModal, setShowModal] = useState(false);
+     const flipCard = (index) => {
     setFFlipped((prevFlipped) => {
       const newFlipped = [...prevFlipped];
       newFlipped[index] = !newFlipped[index];
@@ -78,6 +80,7 @@ const AddSets = () => {
   }
 
   const viewCards = (id) => {
+    // isCloseM();
     setActiveset(id);
     getViewCards(getAPiToken, id).then(res => {
       console.log(res.data.flashcards, "data");
@@ -139,6 +142,42 @@ const AddSets = () => {
     setFlashcards(reorderedItems);
   };
 
+  const editCard = (id) => {
+      setShowModal(true);
+  }
+
+  const deleteCard =  (id) => {
+       
+       Swal.fire({
+        title: '<p>Do you want to delete this card ?</p>',
+        showCancelButton: true,
+        confirmButtonText: `Delete`,
+        cancelButtonText: `Cancel`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+           const formData = new FormData()
+            formData.append('cardid',id)
+            formData.append('setid',activeset)
+             deletedbCard(getAPiToken,{cardid:id,setid:activeset}).then(res => {
+                Swal.fire("Card Deleted!", "", "success");
+                viewCards(activeset)
+            }).catch(err => {
+                console.error("Error fetching data:", err); 
+            });
+          
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
+  }
+
+
+  const isCloseM = () => {
+    setShowModal(false);
+    viewCards(activeset)
+  }
+
   return (
     <div className="flex">
       {!isShowcars && <div className="main-container mx-auto">
@@ -173,67 +212,78 @@ const AddSets = () => {
             </div>
           }
 
-          {flashcards.length > 0 &&
-            <div>
-
-              <button onClick={e => getback()} className=" bg-[#4CAF50] py-2 px-3  mb-2 rounded-lg text-white">Back</button>
-              <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="droppable" direction="horizontal">
-                  {(provided, snapshot) => (
-                    <div
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      style={getListStyle(snapshot.isDraggingOver)}
-                    >
-                      {flashcards.map((item, index) => (
-                        <Draggable key={item._id} draggableId={item._id} index={index}>
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={getItemStyle(
-                                snapshot.isDragging,
-                                provided.draggableProps.style
-                              )}
-
-                              className={`flip-card  ${flipped[index] ? 'rotateY-180' : ''}`}
-                              onClick={() => flipCard(index)}
-
-                            >
-                              <div className="flip-card-inner">
-                                <div className="flip-card-front">
-                                  {item?.flashcard?.illustration != null &&
-                                    <img className="h-150 w-auto rounded-xl" src={item.flashcard.illustration} />
-                                  }
-                                  {item.flashcard.illustration == null &&
-                                    <img className="h-150 w-auto rounded-xl" src={defaultImg} />
-                                  }
-                                  <h1 className="text-center mt-3">{item?.flashcard?.sourceText}</h1>
-
-                                </div>
-                                <div className="flip-card-back">
-                                  {item?.flashcard?.illustration != null &&
-                                    <img className="h-150 w-auto rounded-xl" src={item.flashcard.illustration} />
-                                  }
-                                  {item.flashcard.illustration == null &&
-                                    <img className="h-150 w-auto rounded-xl" src={defaultImg} />
-                                  }
-                                  <h1 className="text-center mt-3">{item?.flashcard?.targetText}</h1>
-                                </div>
-                              </div>
-
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
+        {flashcards.length > 0 && 
+          <div>
+            
+            <button onClick={e => getback()} className=" bg-[#4CAF50] py-2 px-3  mb-2 rounded-lg text-white">Back</button>
+        <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="droppable" direction="horizontal">
+        {(provided, snapshot) => (
+          <div
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            style={getListStyle(snapshot.isDraggingOver)}
+          >
+            {flashcards.map((item, index) => (
+              <Draggable key={item._id} draggableId={item._id} index={index}>
+                {(provided, snapshot) => (
+                  <div className="outer-card-section"><div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    style={getItemStyle(
+                      snapshot.isDragging,
+                      provided.draggableProps.style
+                    )}
+                    
+                     className={`flip-card  ${flipped[index] ? 'rotateY-180' : ''}`}
+                         onClick={() => flipCard(index)}
+                   
+                  >
+                <div className="flip-card-inner">
+                        <div className="flip-card-front">
+                           {item?.flashcard?.illustration != null &&
+                            <img className="h-150 w-auto rounded-xl" src={item.flashcard.illustration} />
+                             }
+                             {item.flashcard.illustration == null &&
+                            <img className="h-150 w-auto rounded-xl" src={defaultImg} />
+                             }
+                          <h1 className="text-center mt-3">{item?.flashcard?.sourceText}</h1>
+                            
+                        </div>
+                        <div className="flip-card-back">
+                            {item?.flashcard?.illustration != null &&
+                            <img className="h-150 w-auto rounded-xl" src={item.flashcard.illustration} />
+                             }
+                             {item.flashcard.illustration == null &&
+                            <img className="h-150 w-auto rounded-xl" src={defaultImg}  />
+                             }
+                          <h1 className="text-center mt-3">{item?.flashcard?.targetText}</h1>
+                        </div>
                     </div>
-                  )}
-                </Droppable>
-              </DragDropContext>
-            </div>
-          }
+                   
+                  
+                  </div>
+                   <div className="editsection">
+                      
+                       <button onClick={e => editCard(item?._id)} className="w-[40%] bg-[#4CAF50] py-2 px-3 mt-2 rounded-lg text-white ">Edit</button>
+                       <button onClick={e => deleteCard(item?.flashcard._id)} className="w-[40%] bg-[#4CAF50] py-2 px-3 mt-2 rounded-lg text-white ">Delete</button>
+                    </div>
+
+                  {showModal && <EditModal isOpen={showModal} toggle={isCloseM} cardid={item?.flashcard?._id} /> }
+
+                    </div>
+
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
+          </div>
+        }
         </div>
       }
     </div>
