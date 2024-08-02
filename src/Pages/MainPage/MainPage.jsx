@@ -7,6 +7,7 @@ const MainPage = () => {
   const buttonss = [
     { names: "English" },
     { names: "Hindi" },
+    { names: "Punjabi" },
     { names: "Spanish" },
     { names: "French" },
     { names: "Italian" },
@@ -84,6 +85,8 @@ const MainPage = () => {
           <select className="flex justify-between w-full rounded-xl border-gray-200 border-2 pl-3 pr-3 items-center">
             <option value="Turkish">Turkish</option>
             <option value="English">English</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Punjabi">Punjabi</option>
             <option value="French">French</option>
             <option value="Italian">Italian</option>
             <option value="Japanese">Japanese</option>
