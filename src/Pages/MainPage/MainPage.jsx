@@ -7,6 +7,7 @@ const MainPage = () => {
   const buttonss = [
     { names: "English" },
     { names: "Hindi" },
+    { names: "Punjabi" },
     { names: "Spanish" },
     { names: "French" },
     { names: "Italian" },
@@ -84,6 +85,8 @@ const MainPage = () => {
           <select className="flex w-full   rounded-xl border-[#E6E6E6] border-2 hover:border-none px-1 justify-center sm-max:!w-[100px] sm-max:!px-0 h-[44px] md-range:!px-0 lg-range:!px-0">
             <option value="Turkish">Turkish</option>
             <option value="English">English</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Punjabi">Punjabi</option>
             <option value="French">French</option>
             <option value="Italian">Italian</option>
             <option value="Japanese">Japanese</option>

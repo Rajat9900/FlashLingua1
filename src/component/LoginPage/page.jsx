@@ -19,7 +19,8 @@ const Login = () => {
       const buttonWidth = window.innerWidth < 600 ? '80%' : '100%';
       google.accounts.id.initialize({
         // client_id: '320095015258-gnjp46r8ca05hofucgdqp9pks7kk0rmi.apps.googleusercontent.com', // Replace with your actual Client ID
-        client_id: '995931197559-2j4knhg95qbapup7gde5l8quba96jon7.apps.googleusercontent.com', // Replace with your actual Client ID
+        // client_id: '995931197559-2j4knhg95qbapup7gde5l8quba96jon7.apps.googleusercontent.com', // Replace with your actual Client ID
+        client_id: '498421212323-qdoc7dgb3mn5jhl441860kbad032k5i0.apps.googleusercontent.com', // Replace with your actual Client ID
         callback: handleCredentialResponse,
       });
       google.accounts.id.renderButton(
