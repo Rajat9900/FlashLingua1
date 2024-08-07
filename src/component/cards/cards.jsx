@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { getallCards, getCard, getFilteredCards } from "../../../services";
+// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+// import { getallCards, getCard, getFilteredCards } from "../../../services";
 import './ImagesCSS.css';
 import defaultImg from './pic25.png';
 import Waveform from "./Waveform";
-import Wavesourceform from "./Wavesourceform";
-import audio from "../../assets/quothello-therequot-158832.mp3"
+// import Wavesourceform from "./Wavesourceform";
+// import audio from "../../assets/quothello-therequot-158832.mp3"
 import { HiOutlineArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import { Link, useNavigate,useLocation } from "react-router-dom";
 import Loader from "../Loader/Loader";
@@ -160,7 +160,7 @@ const Cards = () => {
           {Object.keys(items).length == 0 && <div className="items-center mt-5"><h2>No Records</h2></div>}
   
             {items.map((item, index) => (
-             <div className="flex flex-col pt-5 df" key={1}>
+             <div className="flex flex-col pt-5 mx-auto">
                {index == showcard &&  <div className="flex flex-col items-center w-[100%]">
                 <h2 className="p-2">Hello! Welcome</h2>
                 <h3 className="m-2 greencolor">In {item.sourceLang}</h3>
