@@ -1,0 +1,23 @@
+/* Add this CSS to your stylesheet */
+#signInDiv {
+    width: 100%; /* Ensure the div takes full width of its container */
+    display: flex;
+    justify-content: center;
+  }
+  .back{
+    background-color: black;
+  }
+  @media (max-width: 600px) {
+    #signInDiv img {
+      width: 27px; /* Adjust the size of the image if needed */
+      height: 26px;
+    }
+    #signInDiv p {
+      font-size: 14px; /* Adjust the font size if needed */
+      margin-left: 10px;
+    }
+    .res1{
+        margin: auto !important;
+    }
+  }
+  
