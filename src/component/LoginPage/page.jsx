@@ -93,6 +93,7 @@ const Login = () => {
             UserSignup(data).then(res => {
               if (res.status == 201) {
                 localStorage.setItem("token", res.data.token)
+                localStorage.setItem("email", res.data.data.email)
                 context.setToken(res.data.token)
                 navigate('/')
               }

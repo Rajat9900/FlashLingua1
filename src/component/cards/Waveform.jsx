@@ -40,7 +40,7 @@ setPlay(false);
     wavesurfer.current.on("ready", function () {
       // https://wavesurfer-js.org/docs/methods.html
       // wavesurfer.current.play();
-         handlePlayPause();
+        //  handlePlayPause();
          
       // make sure object stillavailable when file loaded
       if (wavesurfer.current) {

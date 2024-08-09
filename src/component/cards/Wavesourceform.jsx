@@ -42,7 +42,7 @@ export default function Wavesourceform({ url }) {
       // https://wavesurfer-js.org/docs/methods.html
       // wavesurfer.current.play();
       // setPlay(true);
-
+      handlePlayPause()
       // make sure object stillavailable when file loaded
       if (wavesurfer.current) {
         wavesurfer.current.setVolume(volume);
