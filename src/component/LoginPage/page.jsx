@@ -66,10 +66,12 @@ const Login = () => {
     console.log('data', data)
     userLogin(data).then(res => {
       if (res.status == 200) {
-        // console.log('res', res.data)
+        console.log('res', res.data)
         localStorage.setItem("token", res.data.token)
         localStorage.setItem("email", res.data.data.email)
+        localStorage.setItem("isAdmin", res.data.data.isAdmin)
         context.setToken(res.data.token)
+        context.setIsAdmin(res.data.data.isAdmin)
         navigate('/')
 
       }
@@ -96,7 +98,9 @@ const Login = () => {
               if (res.status == 201) {
                 localStorage.setItem("token", res.data.token)
                 localStorage.setItem("email", res.data.data.email)
+                localStorage.setItem("isAdmin", res.data.data.isAdmin)
                 context.setToken(res.data.token)
+                context.setIsAdmin(res.data.data.isAdmin)
                 navigate('/')
               }
             })

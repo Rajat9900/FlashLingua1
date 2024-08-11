@@ -5,6 +5,7 @@ export const AppContext = createContext({});
 export const ContextProvider = ({ children }) => {
  
 const [token,setToken] = useState(null)
+const [isAdmin,setIsAdmin] = useState(null)
 const [nativeLanguage,setNativeLanguage] = useState('')
 const [languageToLearn,setLanguageToLearn] = useState('')
 const[cardAdded,setCardAdded]= useState(false)
@@ -12,16 +13,18 @@ const[cardAdded,setCardAdded]= useState(false)
 
   const value = {
 
-    token,setToken,
+    token,setToken,setIsAdmin,
     nativeLanguage,setNativeLanguage,
     languageToLearn,setLanguageToLearn,
     cardAdded,setCardAdded
   };
 
   useEffect(() => {
+    
       if(localStorage.getItem('token')!==null && localStorage.getItem('token')!==undefined){
         console.log('ti', localStorage.getItem('token'))
         setToken(localStorage.getItem('token'))
+        setIsAdmin(localStorage.getItem('isAdmin'))
         setLanguageToLearn(localStorage.getItem("selectedLanguage"))
         setNativeLanguage( localStorage.getItem("selectedSecondLanguage"))
       }

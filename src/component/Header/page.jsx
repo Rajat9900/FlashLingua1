@@ -21,10 +21,12 @@ const Header = () => {
 
   const navigate = useNavigate();
   const getToken = localStorage.getItem("token");
+  const isAdmin = localStorage.getItem("isAdmin");
 
   useEffect(() => {
     // Any useEffect logic if needed
     console.log(context.token)
+    console.log(isAdmin)
   }, [context]);
 
   const addSetApi = (data) => {
@@ -61,7 +63,7 @@ const Header = () => {
                 <>
                   {/* <Nav.Link style={fontWeight600} href="#link">Teach</Nav.Link>
                   <Nav.Link style={fontWeight600} href="#home">Profile</Nav.Link> */}
-                  {localStorage.getItem('email') == "tom@colorfulranch.com" &&
+                  {isAdmin !== null && isAdmin == 1 &&
                     <>
                       <Nav.Link style={fontWeight600} href="#link">Add Flashcards</Nav.Link>
                       <Nav.Link style={fontWeight600} href="newCard">Add Cards</Nav.Link>
