@@ -1,7 +1,8 @@
 import { TailSpin } from "react-loader-spinner";
+import './loader.css';
 const LoaderComp = () => {
     return (
-        <TailSpin
+        <div className="loaderMain"><TailSpin
             height="80"
             width="80"
             color="#4fa94d"
@@ -10,7 +11,7 @@ const LoaderComp = () => {
             wrapperStyle={{}}
             wrapperClass=""
             visible={true}
-        />
+        /></div>
     );
 };  
 export default LoaderComp;

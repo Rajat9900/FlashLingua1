@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { getallCards, getCard, getFilteredCards } from "../../../services";
+// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+// import { getallCards, getCard, getFilteredCards } from "../../../services";
 import './ImagesCSS.css';
 import defaultImg from './pic25.png';
 import Waveform from "./Waveform";
-import Wavesourceform from "./Wavesourceform";
-import audio from "../../assets/quothello-therequot-158832.mp3"
+// import Wavesourceform from "./Wavesourceform";
+// import audio from "../../assets/quothello-therequot-158832.mp3"
 import { HiOutlineArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import { Link, useNavigate,useLocation } from "react-router-dom";
+import Loader from "../Loader/Loader";
 
 
 const grid = 8;
@@ -44,6 +45,7 @@ const Cards = () => {
   const [isshowcard, setIshowcard] = useState(false);
   const [prevcard, setPrevcard] = useState(false);
   const [nextcard, setNextcard] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [fileurl, setFileurl] = useState('https://www.mfiles.co.uk/mp3-downloads/franz-schubert-standchen-serenade.mp3');
   const [sourceFileurl, setSourceFileurl] = useState('https://www.mfiles.co.uk/mp3-downloads/franz-schubert-standchen-serenade.mp3');
 
@@ -79,9 +81,11 @@ const Cards = () => {
       "sourceLang":localStorage.getItem('selectedSecondLanguage'),
       "targetLang":localStorage.getItem('selectedLanguage')
     }
+    setIsLoading(true);
     getFilteredCards(payload).then(res => {
       console.log(res.data, "data");
       setItems(res.data);
+      setIsLoading(false);
       console.log(location.state);
       if(location.state != null){
         const {cardIdRec} = location.state; 
@@ -125,14 +129,38 @@ const Cards = () => {
     navigate('/newCard/', { state: {cardIdRec: {id: id,nextindex: ind}} });
   }
 
+  const switchCard = (dd,ind) => {
 
+    let neArr = {};
+    neArr._id = dd._id
+    neArr.illustration = dd.illustration;
+    neArr.isOfficial = dd.isOfficial;
+    neArr.sourceAudio = dd.targetAudio;
+    neArr.targetAudio = dd.sourceAudio;
+    neArr.sourceLang = dd.targetLang;
+    neArr.targetLang = dd.sourceLang;
+    neArr.sourceText = dd.targetText;
+    neArr.targetText = dd.sourceText
+    neArr.__v = dd.__v;
+
+    const newData = items.slice(ind);
+
+    newData[ind] = neArr;
+
+    setItems(newData);
+     setShowcard(ind);
+    
+    
+  }
+
+  var UniqeKeyVarible = 1;
   return (
     <div className="flex justify-center ">
 
           {Object.keys(items).length == 0 && <div className="items-center mt-5"><h2>No Records</h2></div>}
   
             {items.map((item, index) => (
-             <div className="flex flex-col pt-5">
+             <div className="flex flex-col pt-5 mx-auto">
                {index == showcard &&  <div className="flex flex-col items-center w-[100%]">
                 <h2 className="p-2">Hello! Welcome</h2>
                 <h3 className="m-2 greencolor">In {item.sourceLang}</h3>
@@ -154,7 +182,7 @@ const Cards = () => {
 
                 {fileurl != null &&
                   <div className="flex flex-col gap-1 w-[100%] items-center m-4">
-                    <Waveform url={item.targetAudio} />
+                    <Wavesourceform url={item.targetAudio} />
                     </div>
                 }
 
@@ -183,9 +211,13 @@ const Cards = () => {
                   </div>
                 <div className="flex flex-col gap-1 w-[100%] items-center mb-2 mt-2">
 
-                    <div className="w-[100%] flex justify-evenly gap-3 mt-3">
+                    <div className="w-[100%] flex-col flex justify-evenly gap-3 mt-3">
                       <button onClick={() => useCard(items[index]._id,index+1)} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center" >
                         Use Card
+                        
+                      </button>
+                       <button onClick={() => switchCard(items[index],index)} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center" >
+                        SwitchCard
                         
                       </button>
                     </div>
@@ -198,7 +230,7 @@ const Cards = () => {
             )
             )}
           
-     
+     {isLoading &&  <Loader /> }
     </div>
   );
 };

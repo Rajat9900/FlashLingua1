@@ -53,12 +53,12 @@ const LanguageToLearn = () => {
   // localStorage.setItem(selectedLanguage);
 
   return (
-    <div className=" flex justify-center ">
-      <div className="flex  flex-col gap-4  w-[60%] justify-center items-center h-[100vh] ">
+    <div className=" flex justify-center mx-auto">
+      <div className="flex  flex-col gap-4  w-[60%] sm-max:w-[90%] justify-center items-center  ">
         <p className="text-gray-400">Perfect! You want to learn</p>
         <h2 className="text-2xl text-[#4CAF50]">{getItemFromLoal}</h2>
         <p className="">What is your native language?</p>
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex gap-3 flex-wrap justify-center ">
           {buttonss.map((name, index) => {
             const isActive = activeIndex === index
             return (
@@ -66,7 +66,7 @@ const LanguageToLearn = () => {
                 <button
 
                   onClick={() => handleButtons(index)}
-                  className={`border-2 pl-14 pr-14 p-2 w-[200px]  text-center ${isActive ? "Active-btn" : ''} rounded-xl`}
+                  className={`border-2 pl-14 pr-14 p-2 w-[200px] sm-max:w-[100px]  text-center ${isActive ? "Active-btn" : ''} rounded-xl`}
                 >
                   {name.names}
                 </button>
@@ -74,9 +74,9 @@ const LanguageToLearn = () => {
             );
           })}
         </div>
-        <div className=" flex gap-3  w-[60%]  ">
+        <div className=" flex gap-3  w-[60%] sm-max:!w-[74%] ">
           <div className=" text-right w-full  p-2 ">All languages</div>
-          <select className=" flex  justify-between  w-full rounded-xl border-gray-200 border-2 pl-3 pr-3  items-center" >
+          <select className=" flex  justify-between  w-full rounded-xl border-gray-200 border-2 pl-3 pr-3  items-center sm-max:pr-0" >
             <option value="Turkish">Turkish</option>
             <option value="English">English</option>
             <option value="Hindi">Hindi</option>

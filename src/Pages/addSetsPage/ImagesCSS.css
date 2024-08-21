@@ -85,3 +85,20 @@
 .min-h-full {
     min-height: 100%;
 }
+
+.editsection{
+        display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin: 0 auto;
+    padding: 9px 20px 4px 20px;
+
+}
+
+.outer-card-section{
+
+}
+
+.spcb{
+    justify-content: space-between;
+}

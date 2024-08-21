@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { DevTool } from '@hookform/devtools'
 import { SocialLogin, userLogin, UserSignup } from "../../../services";
 import { AppContext } from '../../context/appContext';
+import '../LoginPage/styles/style.module.css';
 
 
 
@@ -15,14 +16,16 @@ const Login = () => {
   const context = useContext(AppContext)
   useEffect(() => {
     const initializeGoogleSignIn = () => {
+      const buttonWidth = window.innerWidth < 600 ? '80%' : '100%';
       google.accounts.id.initialize({
         // client_id: '320095015258-gnjp46r8ca05hofucgdqp9pks7kk0rmi.apps.googleusercontent.com', // Replace with your actual Client ID
-        client_id: '995931197559-2j4knhg95qbapup7gde5l8quba96jon7.apps.googleusercontent.com', // Replace with your actual Client ID
+        // client_id: '995931197559-2j4knhg95qbapup7gde5l8quba96jon7.apps.googleusercontent.com', // Replace with your actual Client ID
+        client_id: '498421212323-qdoc7dgb3mn5jhl441860kbad032k5i0.apps.googleusercontent.com', // Replace with your actual Client ID
         callback: handleCredentialResponse,
       });
       google.accounts.id.renderButton(
         document.getElementById('signInDiv'),
-        { width: 500 }
+        { width: buttonWidth}
       );
     };
 
@@ -47,7 +50,7 @@ const Login = () => {
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join('')); 
+    }).join(''));
 
     const user = JSON.parse(jsonPayload);
     console.log('User ID: ' + user.sub);
@@ -113,12 +116,12 @@ const Login = () => {
 
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-5 m-auto border mt-5 mb-5" style={{ borderRadius: "20px" }}>
+    <div className="container sm-max:mx-auto md-range:mx-auto mx-auto">
+      <div className="row ">
+        <div className="col-md-5 m-auto border mt-5 mb-5 md-range:w-[80%] sm-max:w-[95%]" style={{ borderRadius: "20px" }}>
           <h1 className='text-center mt-4' style={{ fontWeight: "600", color: "#4CAF50" }}>You made it through 25 words</h1>
-          <h1 className='text-center mt-4' style={{ fontWeight: "600" }}>Loving it? Register and Login now to enjoy more awesome features!</h1>
-          <form className='m-auto' style={{ width: "80%" }} onSubmit={handleSubmit(onSubmit)}>
+          <h1 className='text-center mt-4 sm-max:!text-left md-range:mx-auto' style={{ fontWeight: "600" }}>Loving it? Register and Login now to enjoy more awesome features!</h1>
+          <form className='m-auto sm-max:!w-[100%]' style={{ width: "80%" }} onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-3">
               <label htmlFor="exampleInputEmail2" style={{ fontWeight: "600" }} className="form-label">Email address</label>
               <input type="email" style={{ border: "1px solid #E6E6E6", height: "52px" }} className="form-control" id="exampleInputEmail2" placeholder='Figma design@gmail.com' aria-describedby="emailHelp" {...register('email', { required: "Email is required." })} />
@@ -156,15 +159,14 @@ const Login = () => {
               or login with
             </p>
           </div>
-
           <div className='mt-4' style={{ display: "flex", margin: "auto", textAlign: "center", cursor: "pointer" }}>
-            <div id="signInDiv" style={{ background: "white", margin: "auto", display: "flex", height: "43px", alignItems: "center" }}>
+            <div id="signInDiv" className="google-signin-button " style={{ background: "white", margin: "auto", display: "flex", height: "43px", alignItems: "center" }}>
               <img src={Google} style={{ width: "27px", height: "26px" }} alt="" />
               <p style={{ fontWeight: "700", marginLeft: "20px" }}></p>
             </div>
           </div>
           <p className='text-center mt-4' style={{ fontWeight: "700" }}> Don&apos;t have a Google account? No worries</p>
-          <Link to="/signup"><button className="mb-5 btn m-auto mt-4" style={{ color: "#4CAF50", border: "1px solid #4CAF50", height: "43px", fontWeight: "700", width: "80%", display: "block", textAlign: "center" }} type="submit"><span>Create Account</span> <span><FaArrowRight style={{ marginLeft: "70%", marginTop: "-18px" }} className='d-flex' /></span>
+          <Link to="/signup"><button className="mb-5 btn m-auto mt-4 sm-max:!w-[100%]" style={{ color: "#4CAF50", border: "1px solid #4CAF50", height: "43px", fontWeight: "700", width: "80%", display: "block", textAlign: "center" }} type="submit"><span>Create Account</span> <span><FaArrowRight style={{ marginLeft: "70%", marginTop: "-18px" }} className='d-flex sm-max:!ml-[73%] sm-max:!mt-[-20px]' /></span>
           </button></Link>
         </div>
       </div>
