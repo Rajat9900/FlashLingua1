@@ -156,83 +156,98 @@ const Cards = () => {
 
   var UniqeKeyVarible = 1;
   return (
-    <div className="flex justify-center ">
+    <div className="flex justify-center items-center min-h-screen">
 
-          {Object.keys(items).length == 0 && <div className="items-center mt-5"><h2>No Records</h2></div>}
-  
-            {items.map((item, index) => (
-             <div className="flex flex-col pt-5 mx-auto">
-               {index == showcard &&  <div className="flex flex-col items-center w-[100%]">
-                <h2 className="p-2">Hello! Welcome</h2>
-                <h3 className="m-2 greencolor">In {item.sourceLang}</h3>
-                <p className="p-2">{item.sourceText}</p>
-                 {sourceFileurl != null &&
-                  <div className="flex flex-col gap-1 w-[100%] items-center m-4">
-                    <Waveform url={item.sourceAudio} />
-                    </div>
-                }
+  <div className="flex justify-center items-center flex-col w-full">
 
-                {item.illustration != null &&
-                  <img src={item.illustration} className="crd_img" />
-                }
-                {item.illustration == null &&
-                  <img src={defaultImg} className="crd_img" />
-                }
-                <h3 className="m-2 greencolor">In {item.targetLang}</h3>
-                <p className="p-2"> {item.targetText}</p>
+    {Object.keys(items).length === 0 && (
+      <div className="items-center mt-5">
+        <h2>No Records</h2>
+      </div>
+    )}
 
-                {fileurl != null &&
-                  <div className="flex flex-col gap-1 w-[100%] items-center m-4">
-                    <Wavesourceform url={item.targetAudio} />
-                    </div>
-                }
-
-               
-
-                <div className="flex flex-col gap-1 w-[100%] items-center mb-2 mt-2">
-
-                    <div className="w-[100%] flex justify-evenly gap-3 mt-3">
-                      <button onClick={() => showCard(items[index-1]._id,index-1,0)} disabled={items[index-1] == undefined} className={"hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center " + (items[index-1] == undefined ? 'd-none' : '')}>
-                        <span className="mt-1">
-                          <HiOutlineArrowNarrowLeft />
-                        </span>
-                        Back
-                      </button>
-                      <button onClick={() => showCard(items[index+1]._id,index+1,1)} disabled={items[index+1] == undefined} className={"hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center " + (items[index+1] == undefined ? 'd-none' : '')} >
-                        Next
-                        <span className="mt-1">
-                          <HiArrowNarrowRight />
-                        </span>
-                      </button> 
-
-                     
-                    </div>
-
-
-                  </div>
-                <div className="flex flex-col gap-1 w-[100%] items-center mb-2 mt-2">
-
-                    <div className="w-[100%] flex-col flex justify-evenly gap-3 mt-3">
-                      <button onClick={() => useCard(items[index]._id,index+1)} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center" >
-                        Use Card
-                        
-                      </button>
-                       <button onClick={() => switchCard(items[index],index)} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center" >
-                        SwitchCard
-                        
-                      </button>
-                    </div>
-                    
-
-                  </div>
-             </div> }
-             </div>
-
-            )
+    {items.map((item, index) => (
+      <div className="flex flex-col pt-5 mx-auto">
+        {index === showcard && (
+          <div className="flex flex-col items-center w-full">
+            <h2 className="p-2">Hello! Welcome</h2>
+            <h3 className="m-2 greencolor">In {item.sourceLang}</h3>
+            <p className="p-2">{item.sourceText}</p>
+            {sourceFileurl != null && (
+              <div className="flex flex-col gap-1 w-full items-center m-4">
+                <Waveform url={item.sourceAudio} />
+              </div>
             )}
-          
-     {isLoading &&  <Loader /> }
-    </div>
+            {item.illustration != null ? (
+              <img src={item.illustration} className="crd_img" />
+            ) : (
+              <img src={defaultImg} className="crd_img" />
+            )}
+            <h3 className="m-2 greencolor">In {item.targetLang}</h3>
+            <p className="p-2">{item.targetText}</p>
+
+            {fileurl != null && (
+              <div className="flex flex-col gap-1 w-full items-center m-4">
+                <Wavesourceform url={item.targetAudio} />
+              </div>
+            )}
+
+            <div className="flex flex-col gap-1 w-full items-center mb-2 mt-2">
+              <div className="w-full flex justify-evenly gap-3 mt-3">
+                <button
+                  onClick={() => showCard(items[index - 1]._id, index - 1, 0)}
+                  disabled={items[index - 1] == undefined}
+                  className={
+                    "hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center " +
+                    (items[index - 1] == undefined ? "d-none" : "")
+                  }
+                >
+                  <span className="mt-1">
+                    <HiOutlineArrowNarrowLeft />
+                  </span>
+                  Back
+                </button>
+                <button
+                  onClick={() => showCard(items[index + 1]._id, index + 1, 1)}
+                  disabled={items[index + 1] == undefined}
+                  className={
+                    "hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center " +
+                    (items[index + 1] == undefined ? "d-none" : "")
+                  }
+                >
+                  Next
+                  <span className="mt-1">
+                    <HiArrowNarrowRight />
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1 w-full items-center mb-2 mt-2">
+              <div className="w-full flex-col flex justify-evenly gap-3 mt-3">
+                <button
+                  onClick={() => useCard(items[index]._id, index + 1)}
+                  className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center"
+                >
+                  Use Card
+                </button>
+                <button
+                  onClick={() => switchCard(items[index], index)}
+                  className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center"
+                >
+                  SwitchCard
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    ))}
+
+    {isLoading && <Loader />}
+  </div>
+</div>
+
   );
 };
 
