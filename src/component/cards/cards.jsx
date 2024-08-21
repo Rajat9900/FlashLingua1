@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 // import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-// import { getallCards, getCard, getFilteredCards } from "../../../services";
+import { getallCards, getCard, getFilteredCards } from "../../../services";
 import './ImagesCSS.css';
 import defaultImg from './pic25.png';
 import Waveform from "./Waveform";
-// import Wavesourceform from "./Wavesourceform";
+import Wavesourceform from "./Wavesourceform";
 // import audio from "../../assets/quothello-therequot-158832.mp3"
 import { HiOutlineArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import { Link, useNavigate,useLocation } from "react-router-dom";
 import Loader from "../Loader/Loader";
+// import { getFilteredCards } from "../../../services";
 
 
 const grid = 8;
