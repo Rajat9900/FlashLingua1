@@ -1,7 +1,7 @@
 import axios from "axios"
 
 
- export const api_url= "http://localhost:8803/v1"
+ //export const api_url= "http://localhost:8803/v1"
 
 //  export const api_url= "https://flashlingua.cards/api/v1"
 // export const api_url = "http://3.87.132.30/api/v1"
