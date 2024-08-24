@@ -11,6 +11,8 @@ import { AddCard, getSets, getCard } from '../../../services';
 import { useNavigate } from 'react-router-dom';
 import { useSearchParams, useLocation } from "react-router-dom";
 import Loader from "../../component/Loader/Loader";
+import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
+
 
 
 const NewCard = () => {
@@ -26,8 +28,8 @@ const NewCard = () => {
   const [isRecordingEnglish, setIsRecordingEnglish] = useState(false);
   const [audioURLEnglish, setAudioURLEnglish] = useState(null);
   const [audioURLSpanish, setAudioURLSpanish] = useState(null);
-  const [audioBlobEnglish, setAudioBlobEnglish] = useState(null);
-  const [audioBlobSpanish, setAudioBlobSpanish] = useState(null);
+  const [audioBlobEnglish, setAudioBlobEnglish] = useState({audios: null});
+  const [audioBlobSpanish, setAudioBlobSpanish] = useState({audios: null});
   const [recordingTimeEnglish, setRecordingTimeEnglish] = useState(0);
   const [playbackTimeEnglish, setPlaybackTimeEnglish] = useState(0);
   const [isPlayingEnglish, setIsPlayingEnglish] = useState(false);
@@ -69,6 +71,25 @@ const NewCard = () => {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [newindex, setNewindex] = useState('');
+  const [isRecordingStatus1, setIsRecordingStatus1] = useState(false);
+  const [isRecordingStatus2, setIsRecordingStatus2] = useState(false);
+
+
+  const recorderControls1 = useAudioRecorder(
+    {
+      noiseSuppression: true,
+      echoCancellation: true,
+    },
+    (err) => console.table(err)
+  );
+
+  const recorderControls2 = useAudioRecorder(
+    {
+      noiseSuppression: true,
+      echoCancellation: true,
+    },
+    (err) => console.table(err)
+  );
 
 
   useEffect(() => {
@@ -142,6 +163,35 @@ const NewCard = () => {
 
 
   }, []);
+
+
+    const handleRecordClick = (index) => {
+      const isCurrentlyRecording = isRecordingStatus+index;
+
+      const selectedRecorderControls = index === 1 ? recorderControls1 : recorderControls2;
+
+      if (isCurrentlyRecording) {
+        selectedRecorderControls.stopRecording();
+      } else {
+        selectedRecorderControls.startRecording();
+      }
+
+      if(index == 1){
+         setIsRecordingStatus1((prevStatus) => {
+          const newStatus = [...prevStatus];
+          newStatus = !isCurrentlyRecording;
+          return newStatus;
+        });
+      }else{
+         setIsRecordingStatus2((prevStatus) => {
+          const newStatus = [...prevStatus];
+          newStatus = !isCurrentlyRecording;
+          return newStatus;
+        });
+      }
+
+     
+    };
 
 
 
@@ -429,18 +479,38 @@ const NewCard = () => {
   const context = useContext(AppContext)
 
   const submitData = () => {
+
+    console.log(audioBlobEnglish);
+//     console.log(audioBlobSpanish);
+
+//return
+
+//     const url = URL.createObjectURL(audioBlobEnglish.audios.English);
+//     console.log(url);
+//   const audio = document.createElement("audio");
+//   audio.src = url;
+//    audio.controls = true;
+//   document.body.appendChild(audio);
+
+// return
     // console.log(audioBlobEnglish)
+
+    // console.log('Hello India');
+
+
     // console.log(audioBlobSpanish)
+
+    // return
 
 
     // navigate('/cards', { state: {cardIdRec: {curindex: newindex}} })
 
 
     // return
-    const sourceAudioFile = new File([audioBlobEnglish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
+    const sourceAudioFile = audioBlobEnglish.audios
 
 
-    const targetAudioFile = new File([audioBlobSpanish], `audio${Date.now()}.ogg`, { type: 'audio/ogg' })
+    const targetAudioFile = audioBlobSpanish.audios
 
     if ((selectedItem == null || selectedItem == '') && isnewset == 0) {
       alert('Please Select Set');
@@ -575,54 +645,54 @@ setIsLoading(true);
             <input onChange={(e) => setSpanish(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] sm-max:w-[140px] border-gray-200 border-2 rounded-xl" value={Spanish} required />
           </div>
         </div>
-        <div className="flex justify-between lg-range:w-full gap-3 mt-4 sm-max:flex-col sm-max:w-[300px]">
-          <div className=''>
-            <h1 onClick={() => toggleMic('english')} style={{ cursor: "pointer" }} className="mb-3">
-              {isRecordingEnglish ? 'Stop' : 'Record'} voice in {getFirstItem}
-            </h1>
-            <p>Recording Time: {formatTime(recordingTimeEnglish)}</p>
-            {/* <div className='border' style={{}}> */}
-            <div className='mt-3' style={{ height: "50px", margin: 'auto', display: 'flex', borderRadius: '15px', border: '1px solid #E6E6E6', alignItems: 'center', padding: '7px 13px' }}>
+        <div className="flex justify-between lg-range:w-full gap-3 mt-4 sm-max:flex-col sm-max:w-[600px]">
+          <div className='w-[100%]'>
+           
+            <button
+                type="button"
+                onClick={() => handleRecordClick(1)}
+              >
+                {isRecordingStatus1 ? 'Stop' : 'Record'} voice in {getFirstItem}
+              </button>
+              <br />
+              <div className="w-[300px]">
+              <AudioRecorder
+                onRecordingComplete={(blob) =>
+                  setAudioBlobEnglish((prevData) => ({
+                    ...prevData,
+                    audios: blob,
+                  }))
+                }
+                recorderControls= {recorderControls1}
+                showVisualizer={true}
+              />
 
-              {audioURLEnglish ? (
-                <div className='d-flex'>
-                  <button style={{ marginRight: '18px', display: 'block', width: 'fit-content' }} onClick={() => runWave('english')}>
-                    {isPlayingEnglish ? <IoPauseSharp style={{ color: '#4CAF50' }} /> : <FaPlay style={{ color: '#4CAF50' }} />}
-                  </button>
-                  <div style={{ width: '130px', marginRight: '20px' }} id="waveformEnglish" ref={waveformRefEnglish}></div>
-                  <div style={{ width: 'fit-content', marginTop: '6px' }}>
-                    <p style={{ fontWeight: '600', color: "rgb(76 175 80)" }}>{audioURLEnglish && waveSurferRefEnglish.current && <div>{formatReverseTime(waveSurferRefEnglish.current.getDuration(), playbackTimeEnglish)}</div>}</p>
-                    {/* <button onClick={()=>deleteAudio('english')}>cancel</button> */}
-                  </div>
-                  <MdDelete style={{ cursor: "pointer", color: "rgb(76 175 80)", marginTop: "8px", fontSize: "21px", marginLeft: "8px" }} onClick={() => deleteAudio('english')} />
-                </div>
-              ) :
-                (<img style={{ cursor: "pointer" }} onClick={() => toggleMic('english')} src={RecordButtonImg} alt='img not loading' />)
-              }
-            </div>
-            {/* </div> */}
+              </div>
           </div>
-          <div className=''>
-            <h1 onClick={() => toggleMic('spanish')} style={{ cursor: "pointer" }} className="mb-3">
-              {isRecordingSpanish ? 'Stop' : 'Record'} voice in {getSecondItem}
-            </h1>
-            <p>Recording Time: {formatTime(recordingTimeSpanish)}</p>
-            <div className='mt-3' style={{ height: "50px", margin: 'auto', display: 'flex', borderRadius: '15px', border: '1px solid #E6E6E6', alignItems: 'center', padding: '7px 13px' }}>
-              {audioURLSpanish ? (
-                <div className="d-flex">
-                  <button style={{ marginRight: '18px', display: 'block', width: 'fit-content' }} onClick={() => runWave('spanish')}>
-                    {isPlayingSpanish ? <IoPauseSharp style={{ color: '#4CAF50' }} /> : <FaPlay style={{ color: '#4CAF50' }} />}
-                  </button>
-                  <div style={{ width: '130px', marginRight: '20px' }} id="waveformSpanish" ref={waveformRefSpanish}></div>
-                  <div style={{ width: 'fit-content', marginTop: '6px' }}>
-                    <p style={{ fontWeight: '600', color: "rgb(76 175 80)" }}>{audioURLSpanish && waveSurferRefSpanish.current && <div>{formatReverseTime(waveSurferRefSpanish.current.getDuration(), playbackTimeSpanish)}</div>}</p>
-                  </div>
-                  <MdDelete style={{ cursor: "pointer", color: "rgb(76 175 80)", marginTop: "8px", fontSize: "21px", marginLeft: "8px" }} onClick={() => deleteAudio('spanish')} />
-                </div>
-              ) :
-                (<img style={{ cursor: "pointer" }} onClick={() => toggleMic('spanish')} src={RecordButtonImg} alt='img not loading' />)
-              }
-            </div>
+          <div className='w-[100%]'>
+            <div className=''>
+           
+            <button
+                type="button"
+                onClick={() => handleRecordClick(2)}
+              >
+                {isRecordingStatus2 ? 'Stop' : 'Record'} voice in {getSecondItem}
+              </button>
+              <br />
+              <div className="w-[300px]">
+              <AudioRecorder
+                onRecordingComplete={(blob) =>
+                  setAudioBlobSpanish((prevData) => ({
+                    ...prevData,
+                    audios: blob,
+                  }))
+                }
+                recorderControls= {recorderControls2}
+                showVisualizer={true}
+              />
+
+              </div>
+          </div>
           </div>
         </div>
         {sets.length > 0 && <div className="flex justify-between lg-range:w-full gap-3 sm-max:w-[300px]">
