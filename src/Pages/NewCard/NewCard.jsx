@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSearchParams, useLocation } from "react-router-dom";
 import Loader from "../../component/Loader/Loader";
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
-
+import './Card.css';
 
 
 const NewCard = () => {
@@ -645,8 +645,8 @@ setIsLoading(true);
             <input onChange={(e) => setSpanish(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] sm-max:w-[140px] border-gray-200 border-2 rounded-xl" value={Spanish} required />
           </div>
         </div>
-        <div className="flex justify-between lg-range:w-full gap-3 mt-4 sm-max:flex-col sm-max:w-[600px]">
-          <div className='w-[100%]'>
+        <div className="flex justify-between lg-range:w-full mt-4 auidesc">
+          <div className='w-[100%] mr-5'>
            
             <button
                 type="button"
