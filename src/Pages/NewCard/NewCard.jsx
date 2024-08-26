@@ -93,6 +93,19 @@ const NewCard = () => {
 
 
   useEffect(() => {
+    const getAPiToken = localStorage.getItem("token");
+    getSets(getAPiToken).then(res => {
+
+      setSets(res.data);
+
+
+      if (res.data.length == 0) {
+        setIsnewset(1);
+      }
+
+    }).catch(err => {
+      console.error("Error fetching data:", err);
+    });
     const storedToken = localStorage.getItem('token');
     if (storedToken == null) {
       navigate('/login');
@@ -106,6 +119,7 @@ const NewCard = () => {
 
 
     if (location.state != null) {
+
       const { cardIdRec } = location.state;
       console.log(cardIdRec);
       console.log(cardIdRec.id);
@@ -152,8 +166,6 @@ const NewCard = () => {
           setIstargetAudio(dadta.targetAudio);
         }
 
-
-
       }).catch(err => {
         console.error("Error fetching data:", err);
       });
@@ -163,6 +175,24 @@ const NewCard = () => {
 
 
   }, []);
+
+  const completeAudio = (blob,isd) => {
+   
+    if(isd == 1){
+      setIssourceAudio('');
+       setAudioBlobEnglish((prevData) => ({
+                    ...prevData,
+                    audios: blob,
+                  }))
+    }else{
+      setIstargetAudio('');
+       setAudioBlobSpanish((prevData) => ({
+                    ...prevData,
+                    audios: blob,
+                  }))
+    }
+    
+  } 
 
 
     const handleRecordClick = (index) => {
@@ -189,7 +219,7 @@ const NewCard = () => {
           return newStatus;
         });
       }
-
+      
      
     };
 
@@ -200,10 +230,6 @@ const NewCard = () => {
     setIsprevimg('')
     setProfilePic(URL.createObjectURL(event.target.files[0]));
   };
-
-
-
-
 
 
   const languages = [
@@ -221,225 +247,10 @@ const NewCard = () => {
   ];
 
 
-
-  useEffect(() => {
-    const setAudio = async (language) => {
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          setupStream(stream, language);
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    };
-
-    const getAPiToken = localStorage.getItem("token");
-    getSets(getAPiToken).then(res => {
-
-      setSets(res.data);
-
-
-      if (res.data.length == 0) {
-        setIsnewset(1);
-      }
-
-    }).catch(err => {
-      console.error("Error fetching data:", err);
-    });
-
-    const setupStream = (stream, language) => {
-      const recorderRef = language === 'english' ? recorderRefEnglish : recorderRefSpanish;
-      const setCanRecord = language === 'english' ? setCanRecordEnglish : setCanRecordSpanish;
-
-      if (recorderRef.current) {
-        recorderRef.current.stream.getTracks().forEach((track) => track.stop());
-      }
-      recorderRef.current = new MediaRecorder(stream);
-      recorderRef.current.ondataavailable = (e) => {
-        const chunksRef = language === 'english' ? chunksRefEnglish : chunksRefSpanish;
-        chunksRef.current.push(e.data);
-      };
-      recorderRef.current.onstop = () => {
-        const chunksRef = language === 'english' ? chunksRefEnglish : chunksRefSpanish;
-        const setAudioURL = language === 'english' ? setAudioURLEnglish : setAudioURLSpanish;
-        const setAudioBlob = language === 'english' ? setAudioBlobEnglish : setAudioBlobSpanish;
-        const blob = new Blob(chunksRef.current, { type: 'audio/ogg; codecs=opus' });
-        chunksRef.current = [];
-
-        const audioURL = window.URL.createObjectURL(blob);
-        // console.log(audioURL)
-        setAudioBlob(blob);
-        setAudioURL(audioURL);
-      };
-      setCanRecord(true);
-    };
-
-    setAudio('english');
-    setAudio('spanish');
-
-    return () => {
-      if (waveSurferRefEnglish.current) {
-        waveSurferRefEnglish.current.destroy();
-      }
-      if (recorderRefEnglish.current) {
-        recorderRefEnglish.current.stream.getTracks().forEach((track) => track.stop());
-      }
-      if (waveSurferRefSpanish.current) {
-        waveSurferRefSpanish.current.destroy();
-      }
-      if (recorderRefSpanish.current) {
-        recorderRefSpanish.current.stream.getTracks().forEach((track) => track.stop());
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const setupWaveSurfer = (audioURL, waveformRef, waveSurferRef, setPlaybackTime, setIsWaveformReady, setIsPlaying) => {
-      if (audioURL && waveformRef.current && !waveSurferRef.current) {
-        waveSurferRef.current = WaveSurfer.create({
-          container: waveformRef.current,
-          waveColor: '#4CAF50',
-          progressColor: '#4CAF50',
-          cursorColor: '#4CAF50',
-          cursorWidth: 2,
-          barWidth: 2,
-          barHeight: 1,
-          barGap: 2,
-          height: 30,
-          responsive: true,
-          scrollParent: true,
-          normalize: true,
-          hideScrollbar: true,
-          partialRender: true,
-          minPxPerSec: 50,
-          pixelRatio: 1,
-          interact: true,
-          splitChannels: false,
-          forceDecode: false,
-          backgroundColor: 'grey',
-          plugins: [],
-        });
-
-        waveSurferRef.current.on('ready', () => {
-          setIsWaveformReady(true);
-        });
-
-        waveSurferRef.current.on('audioprocess', () => {
-          setPlaybackTime(waveSurferRef.current.getCurrentTime());
-        });
-
-        waveSurferRef.current.on('finish', () => {
-          setPlaybackTime(0);
-          setIsPlaying(false);
-        });
-
-        waveSurferRef.current.load(audioURL);
-      }
-    };
-
-    setupWaveSurfer(audioURLEnglish, waveformRefEnglish, waveSurferRefEnglish, setPlaybackTimeEnglish, setIsWaveformReadyEnglish, setIsPlayingEnglish);
-    setupWaveSurfer(audioURLSpanish, waveformRefSpanish, waveSurferRefSpanish, setPlaybackTimeSpanish, setIsWaveformReadySpanish, setIsPlayingSpanish);
-
-
-
-
-
-
-
-
-
-  }, [audioURLEnglish, audioURLSpanish]);
-
-  const toggleMic = (language) => {
-    const canRecord = language === 'english' ? canRecordEnglish : canRecordSpanish;
-    const setIsRecording = language === 'english' ? setIsRecordingEnglish : setIsRecordingSpanish;
-    const isRecording = language === 'english' ? isRecordingEnglish : isRecordingSpanish;
-    const recorderRef = language === 'english' ? recorderRefEnglish : recorderRefSpanish;
-    const setRecordingTime = language === 'english' ? setRecordingTimeEnglish : setRecordingTimeSpanish;
-    const recordingIntervalRef = language === 'english' ? recordingIntervalRefEnglish : recordingIntervalRefSpanish;
-    const chunksRef = language === 'english' ? chunksRefEnglish : chunksRefSpanish;
-    const setAudioURL = language === 'english' ? setAudioURLEnglish : setAudioURLSpanish;
-    const waveSurferRef = language === 'english' ? waveSurferRefEnglish : waveSurferRefSpanish;
-
-    if (language == 'english') {
-      setIssourceAudio('');
-    } else {
-      setIstargetAudio('');
-    }
-
-    if (!canRecord) return;
-
-    setIsRecording((prev) => {
-      if (!prev) {
-
-
-        // Stop the previous recording if it's still running
-        if (recorderRef.current && recorderRef.current.state === 'recording') {
-          recorderRef.current.stop();
-        }
-
-        // Clear previous audio data
-        if (waveSurferRef.current) {
-          waveSurferRef.current.destroy();
-          waveSurferRef.current = null;
-        }
-        setAudioURL(null);
-        chunksRef.current = [];
-
-        // Start a new recording
-        setRecordingTime(0); // Reset the timer when starting a new recording
-        recorderRef.current.start();
-        recordingIntervalRef.current = setInterval(() => {
-          setRecordingTime((prevTime) => prevTime + 1);
-        }, 1000);
-      } else {
-        // Stop the current recording
-        recorderRef.current.stop();
-        clearInterval(recordingIntervalRef.current);
-      }
-      return !prev;
-    });
-  };
-
-
-  const deleteAudio = (language) => {
-
-    if (language == 'english') {
-      setIssourceAudio('');
-    } else {
-      setIstargetAudio('');
-    }
-
-
-    const chunksRef = language === 'english' ? chunksRefEnglish : chunksRefSpanish;
-
-    const setAudioURL = language === 'english' ? setAudioURLEnglish : setAudioURLSpanish;
-
-    const waveSurferRef = language === 'english' ? waveSurferRefEnglish : waveSurferRefSpanish;
-    const confirmDelete = () => {
-      if (waveSurferRef.current) {
-        waveSurferRef.current.destroy();
-        waveSurferRef.current = null;
-      }
-      setAudioURL(null);
-      chunksRef.current = [];
-    }
-    const userConfirmed = window.confirm('Are you sure you want to delete the audio ?')
-    if (userConfirmed) {
-      confirmDelete();
-    }
-
-  }
-
   const setSelectedItemCal = (event) => {
     setSelectedItem(event.target.value)
 
   }
-
-
-
-
 
   const setsourceLang = (event) => {
 
@@ -452,27 +263,8 @@ const NewCard = () => {
     setGetSecondItem(event);
   }
 
-  const runWave = (language) => {
-    const waveSurferRef = language === 'english' ? waveSurferRefEnglish : waveSurferRefSpanish;
-    const setIsPlaying = language === 'english' ? setIsPlayingEnglish : setIsPlayingSpanish;
-    const isPlaying = language === 'english' ? isPlayingEnglish : isPlayingSpanish;
+  
 
-    if (waveSurferRef.current) {
-      waveSurferRef.current.playPause();
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
-
-  const formatReverseTime = (totalTime, currentTime) => {
-    const remainingTime = totalTime - currentTime;
-    return formatTime(remainingTime);
-  };
 
   const navigate = useNavigate()
 
@@ -480,44 +272,13 @@ const NewCard = () => {
 
   const submitData = () => {
 
-    console.log(audioBlobEnglish);
-//     console.log(audioBlobSpanish);
-
-//return
-
-//     const url = URL.createObjectURL(audioBlobEnglish.audios.English);
-//     console.log(url);
-//   const audio = document.createElement("audio");
-//   audio.src = url;
-//    audio.controls = true;
-//   document.body.appendChild(audio);
-
-// return
-    // console.log(audioBlobEnglish)
-
-    // console.log('Hello India');
-
-
-    // console.log(audioBlobSpanish)
-
-    // return
-
-
-    // navigate('/cards', { state: {cardIdRec: {curindex: newindex}} })
-
-
-    // return
     const sourceAudioFile = audioBlobEnglish.audios
-
-
     const targetAudioFile = audioBlobSpanish.audios
 
     if ((selectedItem == null || selectedItem == '') && isnewset == 0) {
       alert('Please Select Set');
       return
     }
-
-
     let setVal = selectedItem;
     //alert(isnewset);
     if (isnewset == 1) {
@@ -527,16 +288,10 @@ const NewCard = () => {
     let targetAudio = targetAudioFile;
     if (issourceAudio != '') {
       sourceAudio = audioURLEnglish;
-
     }
-
     if (istargetAudio != '') {
-
       sourceAudio = audioURLSpanish;
     }
-
-
-
     const formData = new FormData()
     formData.append('image', image)
     formData.append('sourceLang', getFirstItem)
@@ -552,7 +307,9 @@ const NewCard = () => {
 
       formData.append('setId',setVal)
 setIsLoading(true);
-      console.log();
+      console.log(formData);
+
+      //return
 
       AddCard(formData,context.token).then(res=>{
         if(res.status==201){
@@ -645,33 +402,36 @@ setIsLoading(true);
             <input onChange={(e) => setSpanish(e.target.value)} type="text" placeholder="Write here..." className="pl-3 pt-3 pb-3 w-[270px] sm-max:w-[140px] border-gray-200 border-2 rounded-xl" value={Spanish} required />
           </div>
         </div>
-        <div className="flex justify-between lg-range:w-full mt-4 auidesc">
-          <div className='w-[100%] mr-5'>
-           
-            <button
+        <div className="flex justify-between lg-range:w-full sm-max:w-[300px] gap-3 auidesc">
+        <div className="w-[270px]">
+        {issourceAudio != '' && 
+          <audio key={issourceAudio} controls={true}>
+                        <source src={issourceAudio} type="audio/mp3" />
+                        Your browser does not support the audio element.
+                      </audio>
+        }
+        <button
                 type="button"
                 onClick={() => handleRecordClick(1)}
               >
                 {isRecordingStatus1 ? 'Stop' : 'Record'} voice in {getFirstItem}
               </button>
-              <br />
-              <div className="w-[300px]">
               <AudioRecorder
-                onRecordingComplete={(blob) =>
-                  setAudioBlobEnglish((prevData) => ({
-                    ...prevData,
-                    audios: blob,
-                  }))
-                }
+               onRecordingComplete={(blob) => completeAudio(blob,1)}
+                
                 recorderControls= {recorderControls1}
                 showVisualizer={true}
-              />
 
-              </div>
-          </div>
-          <div className='w-[100%]'>
-            <div className=''>
-           
+              />
+        </div>
+          
+          <div className="w-[270px]">
+            {istargetAudio != '' && 
+          <audio key={istargetAudio} controls={true}>
+                        <source src={istargetAudio} type="audio/mp3" />
+                        Your browser does not support the audio element.
+                      </audio>
+        }
             <button
                 type="button"
                 onClick={() => handleRecordClick(2)}
@@ -679,20 +439,15 @@ setIsLoading(true);
                 {isRecordingStatus2 ? 'Stop' : 'Record'} voice in {getSecondItem}
               </button>
               <br />
-              <div className="w-[300px]">
+             
               <AudioRecorder
-                onRecordingComplete={(blob) =>
-                  setAudioBlobSpanish((prevData) => ({
-                    ...prevData,
-                    audios: blob,
-                  }))
-                }
+                onRecordingComplete={(blob) => completeAudio(blob,2)}
                 recorderControls= {recorderControls2}
                 showVisualizer={true}
               />
 
-              </div>
-          </div>
+              
+          
           </div>
         </div>
         {sets.length > 0 && <div className="flex justify-between lg-range:w-full gap-3 sm-max:w-[300px]">
