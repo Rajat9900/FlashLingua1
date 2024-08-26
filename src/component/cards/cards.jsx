@@ -225,7 +225,7 @@ const Cards = () => {
                   <div className="flex flex-col gap-1 w-[100%] items-center m-4">
                     {item.sourceAudio != null   && (
                       <audio key={item.sourceAudio} controls={true}>
-                        <source src={item.sourceAudio} type="audio/ogg" />
+                        <source src={item.sourceAudio} type="audio/mp3" />
                         Your browser does not support the audio element.
                       </audio>
                     )}
@@ -246,7 +246,7 @@ const Cards = () => {
                    
                     
                       <audio key={item.targetAudio} controls={true} preload="auto" autoPlay>
-                        <source src={item.targetAudio} type="audio/ogg" />
+                        <source src={item.targetAudio} type="audio/mp3" />
                         Your browser does not support the audio element.
                       </audio>
                     
