@@ -178,13 +178,13 @@ const NewCard = () => {
 
       if(index == 1){
          setIsRecordingStatus1((prevStatus) => {
-          const newStatus = [...prevStatus];
+          let newStatus = [...prevStatus];
           newStatus = !isCurrentlyRecording;
           return newStatus;
         });
       }else{
          setIsRecordingStatus2((prevStatus) => {
-          const newStatus = [...prevStatus];
+          let newStatus = [...prevStatus];
           newStatus = !isCurrentlyRecording;
           return newStatus;
         });
