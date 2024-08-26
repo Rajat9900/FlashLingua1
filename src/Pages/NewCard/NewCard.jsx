@@ -283,11 +283,6 @@ const context = useContext(AppContext)
       })
     }
 
-
-    
-
-
-
   return (
     <div className="flex justify-center">
       <div className="flex flex-col gap-4 w-[40%] items-center mb-5 mt-20">
