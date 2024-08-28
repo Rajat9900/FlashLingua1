@@ -28,8 +28,11 @@ const EditModal = (props) => {
   const [isRecordingEnglish, setIsRecordingEnglish] = useState(false);
   const [audioURLEnglish, setAudioURLEnglish] = useState(null);
   const [audioURLSpanish, setAudioURLSpanish] = useState(null);
-  const [audioBlobEnglish, setAudioBlobEnglish] = useState(null);
-  const [audioBlobSpanish, setAudioBlobSpanish] = useState(null);
+  
+  const [audioBlobEnglish, setAudioBlobEnglish] = useState({audios: null});
+  const [audioBlobSpanish, setAudioBlobSpanish] = useState({audios: null});
+
+  
   const [recordingTimeEnglish, setRecordingTimeEnglish] = useState(0);
   const [playbackTimeEnglish, setPlaybackTimeEnglish] = useState(0);
   const [isPlayingEnglish, setIsPlayingEnglish] = useState(false);
