@@ -61,14 +61,14 @@ const Header = () => {
                 <>
                   {/* <Nav.Link style={fontWeight600} href="#link">Teach</Nav.Link>
                   <Nav.Link style={fontWeight600} href="#home">Profile</Nav.Link> */}
-                  {/* {localStorage.getItem('email') == "tom@colorfulranch.com" && */}
+                  {localStorage.getItem('email') == "tom@colorfulranch.com" &&
                     <>
                       <Nav.Link style={fontWeight600} href="#link">Add Flashcards</Nav.Link>
                       <Nav.Link style={fontWeight600} href="newCard">Add Cards</Nav.Link>
                       <Nav.Link style={fontWeight600} onClick={toggleModal} >Add Sets</Nav.Link>
                       <Nav.Link style={fontWeight600} href="#link">Rank</Nav.Link>
                     </>
-                  {/* } */}
+                   } 
                   <Nav.Link style={fontWeight600} href="/setsPage">sets</Nav.Link>
                   <Link to="/login"><button className={styles.logoBtn} type="button" onClick={handleLogout}>Logout</button></Link>
 

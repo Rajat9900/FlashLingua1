@@ -1,16 +1,16 @@
 import axios from "axios"
 
 
- export const api_url= "http://localhost:8803/v1"
- export const AppUrl = "http://localhost:5173/"
+//  export const api_url= "http://localhost:8803/v1"
+//  export const AppUrl = "http://localhost:5173/"
 //  export const api_url= "https://flashlingua.cards/api/v1"
 // export const api_url = "http://3.87.132.30/api/v1"
 // export const AppUrl = "http://3.87.132.30/"
 //  export const AppUrl= "https://flashlingua.cards/"
- // export const api_url= "https://test.flashlingua.cards/api/v1"
- // export const AppUrl= "https://test.flashlingua.cards/"
- // export const api_url= "https://flashlingua.cards/api/v1"
- // export const AppUrl= "https://flashlingua.cards/"
+//  export const api_url= "https://test.flashlingua.cards/api/v1"
+//  export const AppUrl= "https://test.flashlingua.cards/"
+ export const api_url= "https://flashlingua.cards/api/v1"
+ export const AppUrl= "https://flashlingua.cards/"
 
 
 
