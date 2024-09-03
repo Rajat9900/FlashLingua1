@@ -69,6 +69,7 @@ const Login = () => {
         // console.log('res', res.data)
         localStorage.setItem("token", res.data.token)
         localStorage.setItem("email", res.data.data.email)
+        localStorage.setItem("isTeacher", res.data.data.isAdmin)
         context.setToken(res.data.token)
         navigate('/')
 
@@ -96,6 +97,7 @@ const Login = () => {
               if (res.status == 201) {
                 localStorage.setItem("token", res.data.token)
                 context.setToken(res.data.token)
+                localStorage.setItem("isTeacher", res.data.data.isAdmin)
                 navigate('/')
               }
             })
@@ -103,6 +105,7 @@ const Login = () => {
             localStorage.setItem("token", res.data.data.token)
             localStorage.setItem("email", res.data.data.email)
             context.setToken(res.data.data.token)
+            localStorage.setItem("isTeacher", res.data.data.isAdmin)
             console.log('else')
             navigate('/')
           }

@@ -13,7 +13,7 @@ import { useSearchParams, useLocation } from "react-router-dom";
 import Loader from "../../component/Loader/Loader";
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import './Card.css';
-
+import Swal from 'sweetalert2'
 
 const NewCard = () => {
 
@@ -93,6 +93,15 @@ const NewCard = () => {
 
 
   useEffect(() => {
+
+    if(localStorage.getItem('isTeacher') != 1){
+       Swal.fire({
+            title: 'Unauthorized',
+            text: 'You are not authorized to access this',
+            icon: 'error',
+        });
+       navigate('/');
+    }
     const getAPiToken = localStorage.getItem("token");
     getSets(getAPiToken).then(res => {
 

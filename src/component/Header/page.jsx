@@ -16,6 +16,7 @@ const Header = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
+  const [isTeacher, setIsTeacher] = useState(0);
   const context = useContext(AppContext)
   const toggleModal = () => setShowModal(!showModal);
 
@@ -25,6 +26,7 @@ const Header = () => {
   useEffect(() => {
     // Any useEffect logic if needed
     console.log(context.token)
+    setIsTeacher(localStorage.getItem('isTeacher'));
   }, [context]);
 
   const addSetApi = (data) => {
@@ -61,7 +63,7 @@ const Header = () => {
                 <>
                   {/* <Nav.Link style={fontWeight600} href="#link">Teach</Nav.Link>
                   <Nav.Link style={fontWeight600} href="#home">Profile</Nav.Link> */}
-                  {localStorage.getItem('email') == "tom@colorfulranch.com" &&
+                  {isTeacher == 1 &&
                     <>
                       <Nav.Link style={fontWeight600} href="#link">Add Flashcards</Nav.Link>
                       <Nav.Link style={fontWeight600} href="newCard">Add Cards</Nav.Link>
