@@ -15,6 +15,7 @@ const LanguageToLearn = () => {
     { names: "Japanese" },
     { names: "Chinese" },
     { names: "Portuguese" },
+    { names: "Urdu" },
     { names: "German" },
     { names: "Greek" },
     { names: "Russian" },

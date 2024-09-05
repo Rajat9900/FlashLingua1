@@ -58,6 +58,7 @@ const Cards = () => {
    const [playAudio, setPlayAudio] = useState(false);
   const audioRef = useRef(new Audio());
   const audioElement = audioRef.current;
+   const [usecard, setUsecard] = useState(1);
 
   useEffect(() => {
     // Clean up when component unmounts
@@ -66,6 +67,12 @@ const Cards = () => {
       audioElement.src = '';
       audioElement.removeEventListener('canplaythrough', handleLoadedMetadata);
     };
+
+     if(localStorage.getItem('isTeacher') != 1){
+       setUsecard(0);
+       
+    }
+
   }, [audioElement]);
 
   const handleLoadedMetadata = useCallback(() => {
@@ -282,10 +289,10 @@ const Cards = () => {
                 <div className="flex flex-col gap-1 w-[100%] items-center mb-2 mt-2">
 
                     <div className="w-[100%] flex-col flex justify-evenly gap-3 mt-3">
-                      <button onClick={() => useCard(items[index]._id,index+1)} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center" >
+                     {usecard != 1 && <button onClick={() => useCard(items[index]._id,index+1)} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center" >
                         Use Card
                         
-                      </button>
+                      </button>}
                        <button onClick={() => switchCard(items[index],index)} className="hover:bg-[#4CAF50] hover:text-white w-full flex pt-2 pb-2 rounded-xl border-[#E6E6E6] border-2 hover:border-none gap-2 justify-center" >
                         SwitchCard
                         

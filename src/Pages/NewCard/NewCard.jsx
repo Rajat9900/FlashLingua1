@@ -14,7 +14,7 @@ import Loader from "../../component/Loader/Loader";
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import './Card.css';
 import Swal from 'sweetalert2'
-
+ 
 const NewCard = () => {
 
   const [profilePic, setProfilePic] = useState(Icon);
@@ -99,8 +99,11 @@ const NewCard = () => {
             title: 'Unauthorized',
             text: 'You are not authorized to access this',
             icon: 'error',
+            didClose: () => {
+                 navigate('/');
+            }
         });
-       navigate('/');
+       
     }
     const getAPiToken = localStorage.getItem("token");
     getSets(getAPiToken).then(res => {
@@ -325,6 +328,16 @@ setIsLoading(true);
           setIsLoading(false);
           alert('card added successfully.')
           navigate('/cards', { state: {cardIdRec: {curindex: newindex}} })
+        }else if(res.status==203){
+           Swal.fire({
+            title: 'Unauthorized',
+            text: 'You are not authorized to access this',
+            icon: 'error',
+            didClose: () => {
+              localStorage.setItem('isTeacher',0);
+                 navigate('/');
+            }
+        });
         }
       }).catch(err=>{
         alert(err.response.data.message) 

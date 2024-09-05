@@ -13,6 +13,7 @@ const MainPage = () => {
     { names: "Italian" },
     { names: "Japanese" },
     { names: "Chinese" },
+    { names: "Portuguese" },
     { names: "Urdu" },
     { names: "German" },
     { names: "Greek" },

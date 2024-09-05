@@ -45,8 +45,10 @@ const AddSets = () => {
   const [isShowcars, setIsShowcars] = useState(false);
   const [isFlipped, setFlipped] = useState('');
   const [flipped, setFFlipped] = useState(Array(0).fill(false));
+  const [editcard, setEditcard] = useState(1);
   const navigate = useNavigate()
   const [activeset,setActiveset] = useState(null)
+  const [currentItemid,setCurrentItemid] = useState(null)
 const [showModal, setShowModal] = useState(false);
      const flipCard = (index) => {
     setFFlipped((prevFlipped) => {
@@ -63,6 +65,11 @@ const [showModal, setShowModal] = useState(false);
 
     if (getAPiToken == null) {
       navigate('/login');
+    }
+
+     if(localStorage.getItem('isTeacher') != 1){
+       setEditcard(0);
+       
     }
 
 
@@ -142,7 +149,8 @@ const [showModal, setShowModal] = useState(false);
     setFlashcards(reorderedItems);
   };
 
-  const editCard = (id) => {
+  const editSCard = (id,flsCardid) => {
+      setCurrentItemid(flsCardid);
       setShowModal(true);
   }
 
@@ -264,15 +272,15 @@ const [showModal, setShowModal] = useState(false);
                    
                   
                   </div>
-                   <div className="editsection">
+                   {editcard == 1 && <div className="editsection">
                       
-                       <button onClick={e => editCard(item?._id)} className="w-[40%] bg-[#4CAF50] py-2 px-3 mt-2 rounded-lg text-white ">Edit</button>
+                       <button onClick={e => editSCard(item?._id,item?.flashcard?._id)} className="w-[40%] bg-[#4CAF50] py-2 px-3 mt-2 rounded-lg text-white ">Edit</button>
                        <button onClick={e => deleteCard(item?.flashcard._id)} className=" bg-[#4CAF50] py-2 px-3 mt-2 rounded-lg text-white ">Delete</button>
-                    </div>
+                    </div>}
 
-                  {showModal && <EditModal isOpen={showModal} toggle={isCloseM} cardid={item?.flashcard?._id} /> }
+                  
 
-                    </div>
+                    </div> 
 
                 )}
               </Draggable>
@@ -282,6 +290,7 @@ const [showModal, setShowModal] = useState(false);
         )}
       </Droppable>
     </DragDropContext>
+    {showModal && <EditModal isOpen={showModal} toggle={isCloseM} cardid={currentItemid} /> }
           </div>
         }
         </div>

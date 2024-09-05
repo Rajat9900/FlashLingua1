@@ -13,7 +13,7 @@ import { useSearchParams,useLocation } from "react-router-dom";
 import Loader from "../../component/Loader/Loader";
 import {Modal, Button} from 'react-bootstrap'
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
- 
+ import Swal from 'sweetalert2'
 
 const EditModal = (props) => {
   
@@ -98,19 +98,37 @@ const EditModal = (props) => {
 
 
   useEffect(() => {
+    if(localStorage.getItem('isTeacher') != 1){
+       Swal.fire({
+            title: 'Unauthorized',
+            text: 'You are not authorized to access this',
+            icon: 'error',
+            didClose: () => {
+                 navigate('/');
+            }
+        });
+       
+    }
     const storedToken = localStorage.getItem('token');
     if(storedToken == null){
       navigate('/login');
-  }
+    }
+    const storedLanguage=  localStorage.getItem("selectedLanguage");
+    setToken(storedToken);
+    setLanguage1(storedLanguage);
+    getCarddetail();
 
-  async function getCarddetail(){
+  }, []);
+
+   async function getCarddetail(){
+    console.log('Hello');
     if(props.cardid != ''){
     
       const getAPiToken = localStorage.getItem("token");
 
       setCardId(true);
 
-      console.log("SHivi - "+props.cardid);
+    
 
        const formData = new FormData()
         formData.append('cardid',props.cardid)
@@ -124,7 +142,7 @@ const EditModal = (props) => {
 
         let dadta = res.data.cards;
 
-        console.log(dadta.sourceLang);
+        
 
         setsourceLang(dadta.sourceLang);
         settargetLang(dadta.targetLang);
@@ -150,17 +168,7 @@ const EditModal = (props) => {
           setIstargetAudio(dadta.targetAudio);
         }
 
-        const setAudio = async (language) => {
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          setupStream(stream, language);
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    };
-
+       
      const getAPiToken = localStorage.getItem("token");
       getSets(getAPiToken).then(res => {
       
@@ -177,53 +185,6 @@ const EditModal = (props) => {
 
    
 
-
-
-    const setupStream = (stream, language) => {
-      const recorderRef = language === 'english' ? recorderRefEnglish : recorderRefSpanish;
-      const setCanRecord = language === 'english' ? setCanRecordEnglish : setCanRecordSpanish;
-
-      if (recorderRef.current) {
-        recorderRef.current.stream.getTracks().forEach((track) => track.stop());
-      }
-      recorderRef.current = new MediaRecorder(stream);
-      recorderRef.current.ondataavailable = (e) => {
-        const chunksRef = language === 'english' ? chunksRefEnglish : chunksRefSpanish;
-        chunksRef.current.push(e.data);
-      };
-      recorderRef.current.onstop = () => {
-        const chunksRef = language === 'english' ? chunksRefEnglish : chunksRefSpanish;
-        const setAudioURL = language === 'english' ? setAudioURLEnglish : setAudioURLSpanish;
-        const setAudioBlob = language === 'english' ? setAudioBlobEnglish : setAudioBlobSpanish;
-        const blob = new Blob(chunksRef.current, { type: 'audio/ogg; codecs=opus' });
-        chunksRef.current = [];
-        
-        const audioURL = window.URL.createObjectURL(blob);
-        // console.log(audioURL)
-        setAudioBlob(blob);
-        setAudioURL(audioURL);
-      };
-      setCanRecord(true);
-    };
-
-    setAudio('english');
-    setAudio('spanish');
-
-    return () => {
-      if (waveSurferRefEnglish.current) {
-        waveSurferRefEnglish.current.destroy();
-      }
-      if (recorderRefEnglish.current) {
-        recorderRefEnglish.current.stream.getTracks().forEach((track) => track.stop());
-      }
-      if (waveSurferRefSpanish.current) {
-        waveSurferRefSpanish.current.destroy();
-      }
-      if (recorderRefSpanish.current) {
-        recorderRefSpanish.current.stream.getTracks().forEach((track) => track.stop());
-      }
-    };
-
     
     
       }).catch(err => {
@@ -233,18 +194,6 @@ const EditModal = (props) => {
 
   }
   }
-
-
-    const storedLanguage=  localStorage.getItem("selectedLanguage");
-    setToken(storedToken);
-    setLanguage1(storedLanguage);
-
-    getCarddetail();
-
-     
-
-
-  }, []);
 
  
    const completeAudio = (blob,isd) => {
@@ -322,63 +271,7 @@ const EditModal = (props) => {
 
 
 
-  useEffect(() => {
-    const setupWaveSurfer = (audioURL, waveformRef, waveSurferRef, setPlaybackTime, setIsWaveformReady, setIsPlaying) => {
-      if (audioURL && waveformRef.current && !waveSurferRef.current) {
-        waveSurferRef.current = WaveSurfer.create({
-          container: waveformRef.current,
-          waveColor: '#4CAF50',
-          progressColor: '#4CAF50',
-          cursorColor: '#4CAF50',
-          cursorWidth: 2,
-          barWidth: 2,
-          barHeight: 1,
-          barGap: 2,
-          height: 30,
-          responsive: true,
-          scrollParent: true,
-          normalize: true,
-          hideScrollbar: true,
-          partialRender: true,
-          minPxPerSec: 50,
-          pixelRatio: 1,
-          interact: true,
-          splitChannels: false,
-          forceDecode: false,
-          backgroundColor: 'grey',
-          plugins: [],
-        });
-
-        waveSurferRef.current.on('ready', () => {
-          setIsWaveformReady(true);
-        });
-
-        waveSurferRef.current.on('audioprocess', () => {
-          setPlaybackTime(waveSurferRef.current.getCurrentTime());
-        });
-
-        waveSurferRef.current.on('finish', () => {
-          setPlaybackTime(0);
-          setIsPlaying(false);
-        });
-
-        waveSurferRef.current.load(audioURL);
-      }
-    };
-
-    setupWaveSurfer(audioURLEnglish, waveformRefEnglish, waveSurferRefEnglish, setPlaybackTimeEnglish, setIsWaveformReadyEnglish, setIsPlayingEnglish);
-    setupWaveSurfer(audioURLSpanish, waveformRefSpanish, waveSurferRefSpanish, setPlaybackTimeSpanish, setIsWaveformReadySpanish, setIsPlayingSpanish);
-
-
-
- 
-
   
-
-
-
-  }, [audioURLEnglish, audioURLSpanish]);
-
   const toggleMic = (language) => {
     const canRecord = language === 'english' ? canRecordEnglish : canRecordSpanish;
     const setIsRecording = language === 'english' ? setIsRecordingEnglish : setIsRecordingSpanish;
@@ -480,16 +373,6 @@ const EditModal = (props) => {
       setGetSecondItem(event);
   }
 
-  const runWave = (language) => {
-    const waveSurferRef = language === 'english' ? waveSurferRefEnglish : waveSurferRefSpanish;
-    const setIsPlaying = language === 'english' ? setIsPlayingEnglish : setIsPlayingSpanish;
-    const isPlaying = language === 'english' ? isPlayingEnglish : isPlayingSpanish;
-
-    if (waveSurferRef.current) {
-      waveSurferRef.current.playPause();
-      setIsPlaying(!isPlaying);
-    }
-  };
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -574,6 +457,16 @@ const context = useContext(AppContext)
           alert('card updated successfully.')
           setIsLoading(false);
           props.toggle();
+        }else if(res.status==203){
+           Swal.fire({
+            title: 'Unauthorized',
+            text: 'You are not authorized to access this',
+            icon: 'error',
+            didClose: () => {
+              localStorage.setItem('isTeacher',0);
+                 navigate('/');
+            }
+        });
         }
       }).catch(err=>{
         alert(err.response.data.message) 
